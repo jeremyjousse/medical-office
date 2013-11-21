@@ -1,0 +1,23 @@
+%nav.navbar.navbar-default{:role => "navigation"}
+	.navbar-header
+		%a.navbar-brand{:href => "#"} Medical Office
+	.collapse.navbar-collapse
+		%ul.nav.navbar-nav
+			%li.active
+				%a{:href => "#"} Home
+			%li
+				%a{:href => "#"} Patient List
+		%ul.nav.navbar-nav.navbar-right
+			%li.dropdown
+				%a.dropdown-toggle{:href => "#", "data-toggle" => "dropdown"}
+					%i.fa.fa-cog.fa-lg
+					%b.caret
+				%ul.dropdown-menu
+					%li
+						%a{:href => "#"} My Office
+					%li
+						%a{:href => "#"} My Profile
+			%li
+				%a{:href => "#"} Logout
+
+
