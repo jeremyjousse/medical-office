@@ -1,7 +1,10 @@
 MedicalOffice::Application.routes.draw do
+  devise_for :users
   #devise_for :models
 
   root :to => 'passthrough#index'
+
+#  devise_for :users
 
   #root to: redirect("/#{I18n.default_locale}")
 
