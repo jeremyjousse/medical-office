@@ -1,0 +1,14 @@
+= simple_form_for @office, :html => { :class => 'form-horizontal', :multipart => true } do |f|
+  = f.error_notification
+  .form-inputs
+    %fieldset
+      = f.input :name
+      = f.input :address
+      = f.input :city
+      = f.input :postal_code
+      = f.association :country, :collection => Country.find(:all,:order => 'name')
+      %br
+      .form-buttons
+        = f.button :submit, :class => 'btn-info'
+      %br
+      = t(:'simple_form.required.text')
