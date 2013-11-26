@@ -13,10 +13,11 @@
 					%i.fa.fa-cog.fa-lg
 					%b.caret
 				%ul.dropdown-menu
+					-unless current_user.office.nil?
+						%li
+							= link_to 'My Office', edit_office_path(current_user.office, :locale => I18n.locale)
 					%li
-						%a{:href => "#"} My Office
-					%li
-						%a{:href => "#"} My Profile
+						= link_to 'My Profile', edit_user_registration_path(current_user, :locale => I18n.locale)
 			%li
 				%a{:href => "#"} Logout
 
