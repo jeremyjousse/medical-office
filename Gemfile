@@ -32,6 +32,8 @@ gem 'font-awesome-rails'
 
 gem 'haml'
 
+gem 'simple_form'
+
 gem 'devise'
 #gem 'cancan'
 #gem 'rolify'

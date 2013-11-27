@@ -11,7 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131122191712) do
+ActiveRecord::Schema.define(version: 20131125195821) do
+
+  create_table "countries", force: true do |t|
+    t.string "name"
+    t.string "iso"
+  end
 
   create_table "models", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -31,6 +36,19 @@ ActiveRecord::Schema.define(version: 20131122191712) do
   add_index "models", ["email"], name: "index_models_on_email", unique: true
   add_index "models", ["reset_password_token"], name: "index_models_on_reset_password_token", unique: true
 
+  create_table "offices", force: true do |t|
+    t.string   "name"
+    t.string   "address"
+    t.string   "city"
+    t.string   "postal_code"
+    t.integer  "country_id"
+    t.string   "phone"
+    t.string   "website"
+    t.string   "email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -44,6 +62,7 @@ ActiveRecord::Schema.define(version: 20131122191712) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "office_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

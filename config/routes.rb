@@ -1,5 +1,6 @@
 MedicalOffice::Application.routes.draw do
-  devise_for :users
+
+  
   #devise_for :models
 
   root :to => 'passthrough#index'
@@ -13,6 +14,8 @@ MedicalOffice::Application.routes.draw do
 
     #get '/:locale' => 'dashboard#index'
     match '/', :to=>'home#index', via: :get, :as=>:index
+    devise_for :users
+    resources :offices
 
     # namespace :admin do
 
