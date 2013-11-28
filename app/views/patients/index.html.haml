@@ -1,0 +1,12 @@
+= link_to 'New Patient', new_patient_path
+
+%table
+	%tr
+		%th id
+		%th First name
+		%th Last name
+	- @patients.each do |patient|
+		%tr
+			%td #{patient.id}
+			%td #{patient.first_name}
+			%td #{patient.last_name}

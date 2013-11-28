@@ -1,0 +1,9 @@
+= simple_form_for @patient, :html => { :class => 'form-horizontal', :multipart => true } do |f|
+  = f.error_notification
+  .form-inputs
+    %fieldset
+      = f.input :first_name
+      = f.input :last_name
+      %br
+      .form-buttons
+        = f.button :submit, :class => 'btn-info'
