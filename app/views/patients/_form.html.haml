@@ -1,0 +1,31 @@
+= simple_form_for @patient, :html => { :class => 'form-horizontal', :multipart => true } do |f|
+  = f.error_notification
+  .form-inputs
+    %fieldset
+      = f.input :first_name
+      = f.input :last_name
+      = f.input :birthdate, as: :date, start_year: Date.today.year - 100, end_year: Date.today.year, order: [:day, :month, :year]
+      = f.input :profession
+      = f.input :phone
+      = f.input :mobile_phone
+      = f.input :email
+      = f.input :address
+      = f.input :postal_code
+      = f.input :city
+      = f.input :country_id
+      = f.association :country, :collection => Country.find(:all,:order => 'name'), :prompt => t(:'simple_form.prompt.school.country')
+      = f.input :national_insurance_number
+      = f.input :family_doctor_id
+      = f.input :physical_therapists_id
+      = f.input :osteopath_id
+      = f.input :legal_guardian_id
+      = f.input :note
+      = f.input :diabetic
+      = f.input :universal_healthcare_coverage
+      = f.input :long_duration_disease
+      = f.input :diabete_network_id
+
+      
+      %br
+      .form-buttons
+        = f.button :submit, :class => 'btn-info'
