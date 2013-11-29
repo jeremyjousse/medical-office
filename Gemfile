@@ -33,6 +33,7 @@ gem 'font-awesome-rails'
 gem 'haml'
 
 gem 'simple_form'
+gem 'bootstrap-datepicker-rails'
 
 gem 'devise'
 #gem 'cancan'

@@ -5,8 +5,11 @@
 		%th id
 		%th First name
 		%th Last name
+		%th
 	- @patients.each do |patient|
 		%tr
 			%td #{patient.id}
 			%td #{patient.first_name}
 			%td #{patient.last_name}
+			%td
+				=link_to 'Edit', edit_patient_path(patient)
