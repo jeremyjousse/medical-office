@@ -7,7 +7,9 @@
 				= link_to 'Home', root_path(:locale => I18n.locale)
 			-unless current_user.nil?
 				%li
-					= link_to 'My patients', patients_path(:locale => I18n.locale)
+					= link_to 'Patients', patients_path(:locale => I18n.locale)
+				%li
+					= link_to 'Practitioners', practitioners_path(:locale => I18n.locale)
 		-unless current_user.nil?
 			%ul.nav.navbar-nav.navbar-right
 				%li.dropdown

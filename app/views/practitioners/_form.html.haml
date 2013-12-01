@@ -1,0 +1,18 @@
+= simple_form_for @practitioner, :html => { :class => 'form-horizontal', :multipart => true } do |f|
+  = f.error_notification
+  .form-inputs
+    %fieldset
+      = f.input :first_name
+      = f.input :last_name
+      = f.input :phone
+      = f.input :mobile_phone
+      = f.input :email
+      = f.input :address
+      = f.input :postal_code
+      = f.input :city
+      = f.association :country, :collection => Country.find(:all, :order => 'name')
+      = f.input :note
+      = f.input :speciality_id, :collection => Practitioner::SPECIALITY.sort.map {|k,v| [v,k]}
+      %br
+      .form-buttons
+        = f.button :submit, :class => 'btn-info'

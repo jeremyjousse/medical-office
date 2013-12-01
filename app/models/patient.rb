@@ -1,7 +1,6 @@
 class Patient < ActiveRecord::Base
 	belongs_to :country
   belongs_to :user
-	has_many :users
 
 
 	validates :first_name, :presence => true, :length => 2..255

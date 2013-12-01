@@ -12,8 +12,7 @@
       = f.input :address
       = f.input :postal_code
       = f.input :city
-      = f.input :country_id
-      = f.association :country, :collection => Country.find(:all,:order => 'name'), :prompt => t(:'simple_form.prompt.school.country')
+      = f.association :country, :collection => Country.find(:all,:order => 'name')
       = f.input :national_insurance_number
       = f.input :family_doctor_id
       = f.input :physical_therapists_id
@@ -24,8 +23,6 @@
       = f.input :universal_healthcare_coverage
       = f.input :long_duration_disease
       = f.input :diabete_network_id
-
-      
       %br
       .form-buttons
         = f.button :submit, :class => 'btn-info'

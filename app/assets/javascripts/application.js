@@ -15,3 +15,5 @@
 //= require turbolinks
 //= require bootstrap/dropdown
 //= require_tree .
+
+//= require select2
