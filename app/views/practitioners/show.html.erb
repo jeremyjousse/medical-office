@@ -1,0 +1,59 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>First name:</strong>
+  <%= @practitioner.first_name %>
+</p>
+
+<p>
+  <strong>Last name:</strong>
+  <%= @practitioner.last_name %>
+</p>
+
+<p>
+  <strong>Phone:</strong>
+  <%= @practitioner.phone %>
+</p>
+
+<p>
+  <strong>Mobile phone:</strong>
+  <%= @practitioner.mobile_phone %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @practitioner.email %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @practitioner.address %>
+</p>
+
+<p>
+  <strong>Postal code:</strong>
+  <%= @practitioner.postal_code %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @practitioner.city %>
+</p>
+
+<p>
+  <strong>Country:</strong>
+  <%= @practitioner.country_id %>
+</p>
+
+<p>
+  <strong>Note:</strong>
+  <%= @practitioner.note %>
+</p>
+
+<p>
+  <strong>Speciality:</strong>
+  <%= @practitioner.speciality_id %>
+</p>
+
+<%= link_to 'Edit', edit_practitioner_path(@practitioner) %> |
+<%= link_to 'Back', practitioners_path %>

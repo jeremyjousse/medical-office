@@ -1,8 +1,9 @@
 class Patient < ActiveRecord::Base
 	belongs_to :country
   belongs_to :user
-	has_many :users
-
+  belongs_to :family_doctor, class_name: :practitioner
+  belongs_to :physical_therapists, class_name: :practitioner
+  belongs_to :osteopath, class_name: :practitioner
 
 	validates :first_name, :presence => true, :length => 2..255
   validates :last_name, :presence => true, :length => 2..255

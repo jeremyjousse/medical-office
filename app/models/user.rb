@@ -6,5 +6,6 @@ class User < ActiveRecord::Base
 
   belongs_to :office
   has_many :patients
+  has_many :practitoners
 
 end
