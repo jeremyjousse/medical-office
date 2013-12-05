@@ -12,11 +12,11 @@
       = f.input :address
       = f.input :postal_code
       = f.input :city
-      = f.association :country, :collection => Country.find(:all,:order => 'name')
+      = f.association :country, :collection => Country.find(:all, :order => 'name')
       = f.input :national_insurance_number
-      = f.input :family_doctor_id
-      = f.input :physical_therapists_id
-      = f.input :osteopath_id
+      = f.association :family_doctor, :collection => Practitioner.where(:speciality_id => 1).order(:last_name, :first_name), :label_method => lambda { |practitioner| "#{practitioner.last_name} #{practitioner.first_name} (#{practitioner.city})"}
+      = f.association :physical_therapists, :collection => Practitioner.where(:speciality_id => 2).order(:last_name, :first_name), :label_method => lambda { |practitioner| "#{practitioner.last_name} #{practitioner.first_name} (#{practitioner.city})"}
+      = f.association :osteopath, :collection => Practitioner.where(:speciality_id => 3).order(:last_name, :first_name), :label_method => lambda { |practitioner| "#{practitioner.last_name} #{practitioner.first_name} (#{practitioner.city})"}
       = f.input :legal_guardian_id
       = f.input :note
       = f.input :diabetic

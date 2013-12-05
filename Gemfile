@@ -49,20 +49,26 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+group :development do
+  gem "better_errors"
+  gem 'guard-livereload', require: false
+  gem 'terminal-notifier-guard'
+end
+
 group :development, :test do
 	gem 'guard'
-  gem "rspec-rails", "~> 2.13.0"
-  gem "factory_girl_rails", "~> 4.2.1"
+  gem "rspec-rails"
+  gem "factory_girl_rails"
   gem 'guard-rspec'
 end
 
 group :test do
-  gem "faker", "~> 1.1.2"
+  gem "faker"
   gem 'spork'
-  gem "capybara", "~> 2.0.2"
-  gem "database_cleaner", "~> 0.9.1"
+  gem "capybara"
   gem "email_spec"
 	gem "turnip"
+  gem "database_cleaner"
   #gem "launchy", "~> 2.2.0"
 end
 
