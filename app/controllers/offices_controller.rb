@@ -26,6 +26,8 @@ class OfficesController < ApplicationController
   def create
     @office = Office.new(office_params)
 
+    #@office.user = current_user
+
     respond_to do |format|
       if @office.save
         format.html { redirect_to @office, notice: 'Office was successfully created.' }

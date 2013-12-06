@@ -13,3 +13,4 @@
 			%td #{patient.last_name}
 			%td
 				=link_to 'Edit', edit_patient_path(patient)
+				=link_to 'Medical Treatments', medical_treatments_path(:locale => I18n.locale, :patient_id => patient.id)

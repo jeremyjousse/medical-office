@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @medical_treatment.user_id %>
+</p>
+
+<p>
+  <strong>Patient:</strong>
+  <%= @medical_treatment.patient_id %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @medical_treatment.date %>
+</p>
+
+<p>
+  <strong>Location:</strong>
+  <%= @medical_treatment.location_id %>
+</p>
+
+<p>
+  <strong>Treatment type:</strong>
+  <%= @medical_treatment.treatment_type_id %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @medical_treatment.price %>
+</p>
+
+<p>
+  <strong>Note:</strong>
+  <%= @medical_treatment.note %>
+</p>
+
+<%= link_to 'Edit', edit_medical_treatment_path(@medical_treatment) %> |
+<%= link_to 'Back', medical_treatments_path %>

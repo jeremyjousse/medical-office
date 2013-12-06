@@ -11,11 +11,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131201184725) do
+ActiveRecord::Schema.define(version: 20131205193018) do
 
   create_table "countries", force: true do |t|
     t.string "name"
     t.string "iso"
+  end
+
+  create_table "medical_treatment_types", force: true do |t|
+    t.string   "name"
+    t.decimal  "price"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "medical_treatments", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "patient_id"
+    t.date     "date"
+    t.integer  "location_id"
+    t.integer  "treatment_type_id"
+    t.decimal  "price"
+    t.text     "note"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "models", force: true do |t|
@@ -90,6 +110,7 @@ ActiveRecord::Schema.define(version: 20131201184725) do
     t.integer  "speciality_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "users", force: true do |t|

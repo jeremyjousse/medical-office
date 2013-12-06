@@ -1,0 +1,39 @@
+<h1>Listing medical_treatments</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Patient</th>
+      <th>Date</th>
+      <th>Location</th>
+      <th>Treatment type</th>
+      <th>Price</th>
+      <th>Note</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @medical_treatments.each do |medical_treatment| %>
+      <tr>
+        <td><%= medical_treatment.user_id %></td>
+        <td><%= medical_treatment.patient_id %></td>
+        <td><%= medical_treatment.date %></td>
+        <td><%= medical_treatment.location_id %></td>
+        <td><%= medical_treatment.treatment_type_id %></td>
+        <td><%= medical_treatment.price %></td>
+        <td><%= medical_treatment.note %></td>
+        <td><%= link_to 'Show', medical_treatment %></td>
+        <td><%= link_to 'Edit', edit_medical_treatment_path(medical_treatment) %></td>
+        <td><%= link_to 'Destroy', medical_treatment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Medical treatment', new_medical_treatment_path(:locale => I18n.locale, :patient_id => params['patient_id']) %>

@@ -26,6 +26,8 @@ class PractitionersController < ApplicationController
   def create
     @practitioner = Practitioner.new(practitioner_params)
 
+    @practitioner.user = current_user
+
     respond_to do |format|
       if @practitioner.save
         format.html { redirect_to @practitioner, notice: 'Practitioner was successfully created.' }
