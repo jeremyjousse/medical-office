@@ -4,7 +4,8 @@ class MedicalTreatmentTypesController < ApplicationController
   # GET /medical_treatment_types
   # GET /medical_treatment_types.json
   def index
-    @medical_treatment_types = MedicalTreatmentType.all
+    #@medical_treatment_types = MedicalTreatmentType.all
+    @medical_treatment_types = MedicalTreatmentType.order("name").where(user_id: current_user.id)
   end
 
   # GET /medical_treatment_types/1

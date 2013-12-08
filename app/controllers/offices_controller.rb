@@ -3,9 +3,9 @@ class OfficesController < ApplicationController
 
   # GET /offices
   # GET /offices.json
-  def index
-    @offices = Office.all
-  end
+  # def index
+  #   @offices = Office.all
+  # end
 
   # GET /offices/1
   # GET /offices/1.json
@@ -26,7 +26,7 @@ class OfficesController < ApplicationController
   def create
     @office = Office.new(office_params)
 
-    #@office.user = current_user
+    @office.user = current_user
 
     respond_to do |format|
       if @office.save

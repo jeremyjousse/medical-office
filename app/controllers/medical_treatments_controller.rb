@@ -4,7 +4,8 @@ class MedicalTreatmentsController < ApplicationController
   # GET /medical_treatments
   # GET /medical_treatments.json
   def index
-    @medical_treatments = MedicalTreatment.all
+    #@medical_treatments = MedicalTreatment.all
+    @medical_treatments = MedicalTreatment.order("date").where(user_id: current_user.id)
   end
 
   # GET /medical_treatments/1
@@ -25,6 +26,8 @@ class MedicalTreatmentsController < ApplicationController
   # POST /medical_treatments.json
   def create
     @medical_treatment = MedicalTreatment.new(medical_treatment_params)
+
+    @medical_treatment.user = current_user
 
     respond_to do |format|
       if @medical_treatment.save
