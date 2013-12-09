@@ -1,0 +1,25 @@
+.container
+	.row
+		.col-md-12
+			.panel.panel-default
+				.panel-heading
+					%h2 Practitioners
+				.panel-body
+
+					%table.table.table-striped.table-bordered.table-hover.table-condensed
+						%tr
+							%th id
+							%th Speciality
+							%th First name
+							%th Last name
+							%th City
+							%th
+						- @practitioners.each do |practitioner|
+							%tr
+								%td #{practitioner.id}
+								%td #{Practitioner::SPECIALITY[practitioner.speciality_id]}
+								%td #{practitioner.first_name}
+								%td #{practitioner.last_name}
+								%td #{practitioner.city}
+								%td
+									=link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_practitioner_path(practitioner),class: "btn btn-default btn-sm"

@@ -15,7 +15,7 @@ MedicalOffice::Application.routes.draw do
     match '/', :to=>'home#index', via: :get, :as=>:index
     
       devise_for :users
-      resources :offices
+      resources :offices, only: [:new, :create, :show, :edit, :update]
 
       resources :patients
 

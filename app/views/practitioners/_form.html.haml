@@ -2,6 +2,7 @@
   = f.error_notification
   .form-inputs
     %fieldset
+      = f.input :speciality_id, :collection => Practitioner::SPECIALITY.sort.map {|k,v| [v,k]}
       = f.input :first_name
       = f.input :last_name
       = f.input :phone
@@ -12,7 +13,6 @@
       = f.input :city
       = f.association :country, :collection => Country.find(:all, :order => 'name')
       = f.input :note
-      = f.input :speciality_id, :collection => Practitioner::SPECIALITY.sort.map {|k,v| [v,k]}
       %br
       .form-buttons
         = f.button :submit, :class => 'btn-info'

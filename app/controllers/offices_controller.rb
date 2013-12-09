@@ -53,15 +53,6 @@ class OfficesController < ApplicationController
     end
   end
 
-  # DELETE /offices/1
-  # DELETE /offices/1.json
-  def destroy
-    @office.destroy
-    respond_to do |format|
-      format.html { redirect_to offices_url }
-      format.json { head :no_content }
-    end
-  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

@@ -5,7 +5,7 @@ class MedicalTreatmentsController < ApplicationController
   # GET /medical_treatments.json
   def index
     #@medical_treatments = MedicalTreatment.all
-    @medical_treatments = MedicalTreatment.order("date").where(user_id: current_user.id)
+    @medical_treatments = MedicalTreatment.order("date").where(user_id: current_user.id, patient_id: params[:patient_id])
   end
 
   # GET /medical_treatments/1
@@ -16,6 +16,7 @@ class MedicalTreatmentsController < ApplicationController
   # GET /medical_treatments/new
   def new
     @medical_treatment = MedicalTreatment.new
+    @medical_treatment.patient_id = params[:patient_id]
   end
 
   # GET /medical_treatments/1/edit
