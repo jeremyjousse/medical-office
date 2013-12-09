@@ -18,8 +18,8 @@
 							%tr
 								%td #{medical_treatment.id}
 								%td #{medical_treatment.patient.first_name} 
-								%td #{medical_treatment.medical_treatment_type.name}
+								%td #{medical_treatment.treatment_type.name}
 								%td #{medical_treatment.date}
-								%td #{medical_treatment.location}
+								%td #{medical_treatment.location_id}
 								%td
 									=link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_medical_treatment_path(medical_treatment),class: "btn btn-default btn-sm"
