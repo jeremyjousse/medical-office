@@ -1,0 +1,25 @@
+.container
+	.row
+		.col-md-12
+			.panel.panel-default
+				.panel-heading
+					%h2 Medical Treatments
+				.panel-body
+
+					%table.table.table-striped.table-bordered.table-hover.table-condensed
+						%tr
+							%th id
+							%th Patient
+							%th Treatment type
+							%th Date
+							%th Location
+							%th
+						- @medical_treatments.each do |medical_treatment|
+							%tr
+								%td #{medical_treatment.id}
+								%td #{medical_treatment.patient.first_name} 
+								%td #{medical_treatment.medical_treatment_type.name}
+								%td #{medical_treatment.date}
+								%td #{medical_treatment.location}
+								%td
+									=link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_medical_treatment_path(medical_treatment),class: "btn btn-default btn-sm"
