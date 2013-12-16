@@ -4,8 +4,12 @@ class MedicalTreatmentsController < ApplicationController
   # GET /medical_treatments
   # GET /medical_treatments.json
   def index
-    #@medical_treatments = MedicalTreatment.all
-    @medical_treatments = MedicalTreatment.order("date").where(user_id: current_user.id, patient_id: params[:patient_id])
+    if (params[:patient_id].nil?)
+      @medical_treatments = MedicalTreatment.order("date").where(user_id: current_user.id)
+    else  
+      #@medical_treatments = MedicalTreatment.all
+      @medical_treatments = MedicalTreatment.order("date").where(user_id: current_user.id, patient_id: params[:patient_id])
+    end
   end
 
   # GET /medical_treatments/1
@@ -73,6 +77,6 @@ class MedicalTreatmentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def medical_treatment_params
-      params.require(:medical_treatment).permit(:user_id, :patient_id, :date, :location_id, :treatment_type_id, :price, :note)
+      params.require(:medical_treatment).permit(:user_id, :patient_id, :date, :location_id, :medical_treatment_type_id, :price, :note)
     end
 end

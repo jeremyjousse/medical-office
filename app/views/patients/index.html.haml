@@ -5,17 +5,26 @@
 				.panel-heading
 					%h2 My Patients
 				.panel-body
+					.div_action
+						.div_action_left
+						.div_action_right
+							= link_to 'New Patient', new_patient_path, :class=>'btn'
+						.div_action_center
+							-#%span.label= pluralize(@total_items_selected, 'PAtient')+' / '+@total_items.to_s
+							%br
+							-#= will_paginate
 
 					%table.table.table-striped.table-bordered.table-hover.table-condensed
 						%tr
-							%th id
+							%th 
 							%th First name
 							%th Last name
 							%th City
 							%th
 						- @patients.each do |patient|
 							%tr
-								%td #{patient.id}
+								%td
+									=link_to content_tag(:span, "", class: "glyphicon glyphicon-eye-open") + ' Detail', patient_path(patient, :locale => I18n.locale),class: "btn btn-default btn-sm"
 								%td #{patient.first_name}
 								%td #{patient.last_name}
 								%td #{patient.city}

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131205193018) do
+ActiveRecord::Schema.define(version: 20131216192221) do
 
   create_table "countries", force: true do |t|
     t.string "name"
@@ -36,6 +36,8 @@ ActiveRecord::Schema.define(version: 20131205193018) do
     t.text     "note"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "medical_treatment_type_id"
+    t.integer  "status"
   end
 
   create_table "models", force: true do |t|
@@ -95,6 +97,18 @@ ActiveRecord::Schema.define(version: 20131205193018) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "payments", force: true do |t|
+    t.integer  "medical_treatment_id"
+    t.datetime "paid_at"
+    t.integer  "payment_type"
+    t.decimal  "amount"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+  end
+
+  add_index "payments", ["medical_treatment_id"], name: "index_payments_on_medical_treatment_id"
 
   create_table "practitioners", force: true do |t|
     t.string   "first_name"

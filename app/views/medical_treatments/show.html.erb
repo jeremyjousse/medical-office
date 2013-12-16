@@ -21,8 +21,8 @@
 </p>
 
 <p>
-  <strong>Treatment type:</strong>
-  <%= @medical_treatment.treatment_type_id %>
+  <strong>Medical Treatment type:</strong>
+  <%= @medical_treatment.medical_treatment_type_id %>
 </p>
 
 <p>
@@ -35,5 +35,9 @@
   <%= @medical_treatment.note %>
 </p>
 
+Add a paiment
+
+
+<%= link_to 'New payment', new_payment_path(:locale => I18n.locale, :medical_treatment_id => @medical_treatment.id) %> |
 <%= link_to 'Edit', edit_medical_treatment_path(@medical_treatment) %> |
 <%= link_to 'Back', medical_treatments_path %>

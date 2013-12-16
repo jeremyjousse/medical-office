@@ -12,6 +12,8 @@
 					= link_to 'Practitioners', practitioners_path(:locale => I18n.locale)
 				%li
 					= link_to 'Medical Treatments', medical_treatments_path(:locale => I18n.locale)
+				%li
+					= link_to 'Payments', payments_path(:locale => I18n.locale)
 		-unless current_user.nil?
 			%ul.nav.navbar-nav.navbar-right
 				%li.dropdown

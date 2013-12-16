@@ -9,5 +9,6 @@ class User < ActiveRecord::Base
   has_many :practitoners
   has_many :medical_treatments
   has_many :medical_treatment_types
+  has_many :payments
 
 end

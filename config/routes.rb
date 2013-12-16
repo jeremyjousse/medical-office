@@ -1,5 +1,7 @@
 MedicalOffice::Application.routes.draw do
 
+  
+
   #devise_for :models
 
   root :to => 'passthrough#index'
@@ -23,6 +25,7 @@ MedicalOffice::Application.routes.draw do
 
       resources :medical_treatment_types
       resources :medical_treatments
+      resources :payments
     # namespace :admin do
 
     #   resources :users
