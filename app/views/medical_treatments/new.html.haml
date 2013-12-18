@@ -1,0 +1,12 @@
+.container
+	.row
+		.col-md-12
+			.panel.panel-default
+				.panel-heading
+					%h2 New Medical Treatment
+				.panel-body
+					= render 'form'
+					.col-md-12
+						%br
+						.form-buttons
+							= link_to 'Back', medical_treatments_path, :class => 'btn btn-info'

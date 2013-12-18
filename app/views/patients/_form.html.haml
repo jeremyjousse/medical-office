@@ -1,28 +1,32 @@
 = simple_form_for @patient, :html => { :class => 'form-horizontal', :multipart => true } do |f|
   = f.error_notification
   .form-inputs
-    %fieldset
-      = f.input :first_name
-      = f.input :last_name
-      = f.input :birthdate, as: :date, start_year: Date.today.year - 100, end_year: Date.today.year, order: [:day, :month, :year]
-      = f.input :profession
-      = f.input :phone
-      = f.input :mobile_phone
-      = f.input :email
-      = f.input :address
-      = f.input :postal_code
-      = f.input :city
-      = f.association :country, :collection => Country.find(:all, :order => 'name')
-      = f.input :national_insurance_number
-      = f.association :family_doctor, :collection => Practitioner.where(:speciality_id => 1).order(:last_name, :first_name), :label_method => lambda { |practitioner| "#{practitioner.last_name} #{practitioner.first_name} (#{practitioner.city})"}
-      = f.association :physical_therapists, :collection => Practitioner.where(:speciality_id => 2).order(:last_name, :first_name), :label_method => lambda { |practitioner| "#{practitioner.last_name} #{practitioner.first_name} (#{practitioner.city})"}
-      = f.association :osteopath, :collection => Practitioner.where(:speciality_id => 3).order(:last_name, :first_name), :label_method => lambda { |practitioner| "#{practitioner.last_name} #{practitioner.first_name} (#{practitioner.city})"}
-      = f.input :legal_guardian_id
-      = f.input :note
-      = f.input :diabetic
-      = f.input :universal_healthcare_coverage
-      = f.input :long_duration_disease
-      = f.input :diabete_network_id
+    .col-md-6
+      %fieldset
+        = f.input :first_name
+        = f.input :last_name
+        = f.input :birthdate, as: :string, :input_html =>{data: { behavior: "datepicker" }, :class => 'datepicker'}
+        = f.input :profession
+        = f.input :phone
+        = f.input :mobile_phone
+        = f.input :email
+        = f.input :address
+        = f.input :postal_code
+        = f.input :city
+        = f.association :country, :collection => Country.find(:all, :order => 'name')
+    .col-md-6
+      %fieldset
+        = f.input :national_insurance_number
+        = f.association :family_doctor, :collection => Practitioner.where(:speciality_id => 1, :user_id => current_user.id).order(:last_name, :first_name), :label_method => lambda { |practitioner| "#{practitioner.last_name} #{practitioner.first_name} (#{practitioner.city})"}
+        = f.association :physical_therapists, :collection => Practitioner.where(:speciality_id => 2, :user_id => current_user.id).order(:last_name, :first_name), :label_method => lambda { |practitioner| "#{practitioner.last_name} #{practitioner.first_name} (#{practitioner.city})"}
+        = f.association :osteopath, :collection => Practitioner.where(:speciality_id => 3, :user_id => current_user.id).order(:last_name, :first_name), :label_method => lambda { |practitioner| "#{practitioner.last_name} #{practitioner.first_name} (#{practitioner.city})"}
+        = f.input :legal_guardian_id
+        = f.input :note
+        = f.input :diabetic
+        = f.input :universal_healthcare_coverage
+        = f.input :long_duration_disease
+        = f.input :diabete_network_id
+    .col-md-12
       %br
       .form-buttons
         = f.button :submit, :class => 'btn-info'

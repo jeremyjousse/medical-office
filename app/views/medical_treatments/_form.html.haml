@@ -1,0 +1,17 @@
+= simple_form_for(@medical_treatment) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :patient_id, :collection => Patient.where(:user_id => current_user.id).order(:last_name, :first_name), :label_method => lambda { |patient| "#{patient.last_name} #{patient.first_name}"}
+    = f.input :date, as: :string, :input_html =>{data: { behavior: "datepicker" }, :class => 'datepicker'}
+    = f.input :location_id, :collection => MedicalTreatment::LOCATIONS.sort.map {|k,v| [v,k]}
+    = f.input :medical_treatment_type_id, :collection => MedicalTreatmentType.where(:user_id => current_user.id).order(:name), :label_method => lambda { |medical_treatment_type| "#{medical_treatment_type.name}"}
+    = f.input :price
+    = f.input :note
+    .well
+      = link_to_add_fields "Add Payment", f, :payments, 'reload_datepickers'
+
+
+  .form-actions
+    = f.button :submit
+  

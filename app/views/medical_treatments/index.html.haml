@@ -1,0 +1,35 @@
+.container
+	.row
+		.col-md-12
+			.panel.panel-default
+				.panel-heading
+					%h2 Medical Treatments
+				.panel-body
+					.div_action
+						.div_action_left
+						.div_action_right
+							= link_to 'New Treatment', new_medical_treatment_path(:locale => I18n.locale, :patient_id => params['patient_id']), :class=>'btn'
+						.div_action_center
+							-#%span.label= pluralize(@total_items_selected, 'PAtient')+' / '+@total_items.to_s
+							%br
+							-#= will_paginate
+
+					%table.table.table-striped.table-bordered.table-hover.table-condensed
+						%tr
+							%th id
+							%th Patient
+							%th Treatment type
+							%th Date
+							%th Location
+							%th
+						- @medical_treatments.each do |medical_treatment|
+							%tr
+								%td #{medical_treatment.id}
+								%td #{medical_treatment.patient.first_name + ' ' + medical_treatment.patient.last_name} 
+								%td #{medical_treatment.medical_treatment_type.name}
+								%td #{medical_treatment.date}
+								%td #{MedicalTreatment::LOCATIONS[medical_treatment.location_id]}
+								%td
+									=link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_medical_treatment_path(medical_treatment),class: "btn btn-default btn-sm"
+									-unless medical_treatment.status == 1
+										=link_to content_tag(:span, "", class: "glyphicon glyphicon-usd") + ' Pay', new_payment_path(:locale => I18n.locale, :medical_treatment_id => medical_treatment.id),class: "btn btn-default btn-sm"

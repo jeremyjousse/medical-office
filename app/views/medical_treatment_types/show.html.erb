@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @medical_treatment_type.name %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @medical_treatment_type.price %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @medical_treatment_type.user_id %>
+</p>
+
+<%= link_to 'Edit', edit_medical_treatment_type_path(@medical_treatment_type) %> |
+<%= link_to 'Back', medical_treatment_types_path %>

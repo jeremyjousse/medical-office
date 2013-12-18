@@ -1,0 +1,31 @@
+<h1>Listing medical_treatment_types</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Price</th>
+      <th>User</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @medical_treatment_types.each do |medical_treatment_type| %>
+      <tr>
+        <td><%= medical_treatment_type.name %></td>
+        <td><%= medical_treatment_type.price %></td>
+        <td><%= medical_treatment_type.user_id %></td>
+        <td><%= link_to 'Show', medical_treatment_type %></td>
+        <td><%= link_to 'Edit', edit_medical_treatment_type_path(medical_treatment_type) %></td>
+        <td><%= link_to 'Destroy', medical_treatment_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Medical treatment type', new_medical_treatment_type_path %>

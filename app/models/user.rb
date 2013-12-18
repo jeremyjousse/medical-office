@@ -7,5 +7,8 @@ class User < ActiveRecord::Base
   belongs_to :office
   has_many :patients
   has_many :practitoners
+  has_many :medical_treatments
+  has_many :medical_treatment_types
+  has_many :payments
 
 end

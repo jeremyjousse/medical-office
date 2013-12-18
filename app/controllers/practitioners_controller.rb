@@ -4,7 +4,8 @@ class PractitionersController < ApplicationController
   # GET /practitioners
   # GET /practitioners.json
   def index
-    @practitioners = Practitioner.all
+    #@practitioners = Practitioner.all
+    @practitioners = Practitioner.order("last_name","first_name").where(user_id: current_user.id)
   end
 
   # GET /practitioners/1
@@ -25,6 +26,8 @@ class PractitionersController < ApplicationController
   # POST /practitioners.json
   def create
     @practitioner = Practitioner.new(practitioner_params)
+
+    @practitioner.user = current_user
 
     respond_to do |format|
       if @practitioner.save

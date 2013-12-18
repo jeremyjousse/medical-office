@@ -3,9 +3,9 @@ class OfficesController < ApplicationController
 
   # GET /offices
   # GET /offices.json
-  def index
-    @offices = Office.all
-  end
+  # def index
+  #   @offices = Office.all
+  # end
 
   # GET /offices/1
   # GET /offices/1.json
@@ -25,6 +25,8 @@ class OfficesController < ApplicationController
   # POST /offices.json
   def create
     @office = Office.new(office_params)
+
+    @office.user = current_user
 
     respond_to do |format|
       if @office.save
@@ -51,15 +53,6 @@ class OfficesController < ApplicationController
     end
   end
 
-  # DELETE /offices/1
-  # DELETE /offices/1.json
-  def destroy
-    @office.destroy
-    respond_to do |format|
-      format.html { redirect_to offices_url }
-      format.json { head :no_content }
-    end
-  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

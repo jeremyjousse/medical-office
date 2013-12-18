@@ -1,7 +1,6 @@
 MedicalOffice::Application.routes.draw do
 
   
-  
 
   #devise_for :models
 
@@ -16,11 +15,17 @@ MedicalOffice::Application.routes.draw do
 
     #get '/:locale' => 'dashboard#index'
     match '/', :to=>'home#index', via: :get, :as=>:index
-    devise_for :users
-    resources :offices
-    resources :patients
-    resources :practitioners
+    
+      devise_for :users
+      resources :offices, only: [:new, :create, :show, :edit, :update]
 
+      resources :patients
+
+      resources :practitioners
+
+      resources :medical_treatment_types
+      resources :medical_treatments
+      resources :payments
     # namespace :admin do
 
     #   resources :users

@@ -1,15 +1,33 @@
-= link_to 'New Patient', new_patient_path
+.container
+	.row
+		.col-md-12
+			.panel.panel-default
+				.panel-heading
+					%h2 My Patients
+				.panel-body
+					.div_action
+						.div_action_left
+						.div_action_right
+							= link_to 'New Patient', new_patient_path, :class=>'btn'
+						.div_action_center
+							-#%span.label= pluralize(@total_items_selected, 'PAtient')+' / '+@total_items.to_s
+							%br
+							-#= will_paginate
 
-%table
-	%tr
-		%th id
-		%th First name
-		%th Last name
-		%th
-	- @patients.each do |patient|
-		%tr
-			%td #{patient.id}
-			%td #{patient.first_name}
-			%td #{patient.last_name}
-			%td
-				=link_to 'Edit', edit_patient_path(patient)
+					%table.table.table-striped.table-bordered.table-hover.table-condensed
+						%tr
+							%th 
+							%th First name
+							%th Last name
+							%th City
+							%th
+						- @patients.each do |patient|
+							%tr
+								%td
+									=link_to content_tag(:span, "", class: "glyphicon glyphicon-eye-open") + ' Detail', patient_path(patient, :locale => I18n.locale),class: "btn btn-default btn-sm"
+								%td #{patient.first_name}
+								%td #{patient.last_name}
+								%td #{patient.city}
+								%td
+									=link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_patient_path(patient),class: "btn btn-default btn-sm"
+									=link_to content_tag(:span, "", class: "glyphicon glyphicon-asterisk") + ' Medical Treatments', medical_treatments_path(:locale => I18n.locale, :patient_id => patient.id),class: "btn btn-default btn-sm"
