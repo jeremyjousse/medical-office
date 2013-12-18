@@ -1,0 +1,5 @@
+.well
+	Payment
+	= f.input :paid_at, as: :string, :input_html =>{data: { behavior: "datepicker" }, :class => 'datepicker'}
+	= f.input :amount
+	= f.input :payment_type, :collection => Payment::TYPE.sort.map {|k,v| [v,k]}

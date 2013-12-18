@@ -41,6 +41,8 @@ gem 'devise'
 #gem 'cancan'
 #gem 'rolify'
 
+gem 'will_paginate'
+gem "ransack"
 
 gem 'exception_notification'
 

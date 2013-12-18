@@ -34,6 +34,10 @@ class MedicalTreatmentsController < ApplicationController
 
     @medical_treatment.user = current_user
 
+    @medical_treatment.payments.each do |payment|
+      payment.user = current_user
+    end
+
     respond_to do |format|
       if @medical_treatment.save
         format.html { redirect_to @medical_treatment, notice: 'Medical treatment was successfully created.' }
@@ -77,6 +81,6 @@ class MedicalTreatmentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def medical_treatment_params
-      params.require(:medical_treatment).permit(:user_id, :patient_id, :date, :location_id, :medical_treatment_type_id, :price, :note)
+      params.require(:medical_treatment).permit(:user_id, :patient_id, :date, :location_id, :medical_treatment_type_id, :price, :note, payments_attributes: [:amount, :paid_at, :payment_type])
     end
 end
