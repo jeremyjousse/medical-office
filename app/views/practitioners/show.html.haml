@@ -1,0 +1,47 @@
+.container
+	.row
+		.col-md-12
+			.panel.panel-default
+				.panel-heading
+					%h2 Practitioner Detail
+				.panel-body
+					.div_action
+						.col-md-4
+						.col-md-4.text-center
+						.col-md-4.text-right
+							= link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + ' Back', practitioners_path, :class=>'btn btn-default'
+						%table.table.table-bordered.table-hover.table-condensed.detail-table
+							%tr
+								%th Speciality
+								%td #{Practitioner::SPECIALITY[@practitioner.speciality_id]}
+							%tr
+								%th First Name
+								%td #{@practitioner.first_name}
+							%tr
+								%th Last Name
+								%td #{@practitioner.last_name}
+							%tr
+								%th Phone
+								%td #{@practitioner.phone}
+							%tr
+								%th Mobile phone
+								%td #{@practitioner.mobile_phone}
+							%tr
+								%th Email
+								%td #{@practitioner.email}
+							%tr
+								%th Address
+								%td #{@practitioner.address}
+							%tr
+								%th Postal Code
+								%td #{@practitioner.postal_code}
+							%tr
+								%th City
+								%td #{@practitioner.city}
+							%tr
+								%th Country
+								%td #{@practitioner.country.name}
+							%tr
+								%th Note
+								%td #{@practitioner.note}
+

@@ -1,24 +1,34 @@
-%h1 Patient detail
-
-.show-container
-	- generate_show_page_item 'First name:', @patient.first_name
-	- generate_show_page_item 'Last name:', @patient.last_name
-	- generate_show_page_item 'Birthday:', @patient.birthdate
-	- generate_show_page_item 'Profession:', @patient.profession
-	- generate_show_page_item 'Phone:', @patient.phone
-	- generate_show_page_item 'Mobile phone:', @patient.mobile_phone
-	- generate_show_page_item 'Email:', @patient.email
-	- generate_show_page_item 'Address:', @patient.address
-	- generate_show_page_item 'Postal code:', @patient.postal_code
-	- generate_show_page_item 'City:', @patient.city
-	- generate_show_page_item 'Country:', @patient.country.name
-	- generate_show_page_item 'national_insurance_number:', @patient.national_insurance_number
-	- generate_show_page_item 'Family_doctor:', @patient.family_doctor_id
-	- generate_show_page_item 'physical_therapists:', @patient.physical_therapists_id
-	- generate_show_page_item 'osteopath:', @patient.osteopath_id
-	- generate_show_page_item 'Legal guardian:', @patient.legal_guardian_id
-	- generate_show_page_item 'Note:', @patient.note
-	- generate_show_page_item 'diabetic:', @patient.diabetic
-	- generate_show_page_item 'universal_healthcare_coverage:', @patient.universal_healthcare_coverage
-	- generate_show_page_item 'long_duration_disease:', @patient.long_duration_disease
-	- generate_show_page_item 'diabete_network_id:', @patient.diabete_network_id
+.container
+	.row
+		.col-md-12
+			.panel.panel-default
+				.panel-heading
+					%h2 Patient Detail
+				.panel-body
+					.div_action
+						.col-md-4
+						.col-md-4.text-center
+						.col-md-4.text-right
+							= link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + ' Back', practitioners_path, :class=>'btn btn-default'
+						%table.table.table-bordered.table-hover.table-condensed.detail-table
+							- generate_show_page_item 'First name', @patient.first_name
+							- generate_show_page_item 'Last name', @patient.last_name
+							- generate_show_page_item 'Birthday', @patient.birthdate
+							- generate_show_page_item 'Profession', @patient.profession
+							- generate_show_page_item 'Phone', @patient.phone
+							- generate_show_page_item 'Mobile phone', @patient.mobile_phone
+							- generate_show_page_item 'Email', @patient.email
+							- generate_show_page_item 'Address', @patient.address
+							- generate_show_page_item 'Postal code', @patient.postal_code
+							- generate_show_page_item 'City', @patient.city
+							- generate_show_page_item 'Country', @patient.country.name
+							- generate_show_page_item 'national_insurance_number', @patient.national_insurance_number
+							- generate_show_page_item 'Family_doctor', @patient.family_doctor.first_name + ' ' + @patient.family_doctor.last_name + ' (' + @patient.family_doctor.city + ')' unless @patient.family_doctor_id.nil?
+							- generate_show_page_item 'physical_therapists', @patient.physical_therapists.first_name + ' ' + @patient.physical_therapists.last_name + ' (' + @patient.physical_therapists.city + ')' unless @patient.physical_therapists.nil?
+							- generate_show_page_item 'osteopath', @patient.osteopath.first_name + ' ' + @patient.osteopath.last_name + ' (' + @patient.osteopath.city + ')' unless @patient.osteopath.nil?
+							- generate_show_page_item 'Legal guardian', @patient.legal_guardian_id
+							- generate_show_page_item 'Note', @patient.note
+							- generate_show_page_item 'diabetic', @patient.diabetic
+							- generate_show_page_item 'universal_healthcare_coverage', @patient.universal_healthcare_coverage
+							- generate_show_page_item 'long_duration_disease', @patient.long_duration_disease
+							- generate_show_page_item 'diabete_network_id', @patient.diabete_network_id

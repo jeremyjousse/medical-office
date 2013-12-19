@@ -4,12 +4,16 @@ class PractitionersController < ApplicationController
   # GET /practitioners
   # GET /practitioners.json
   def index
-    #@practitioners = Practitioner.all
-    @practitioners = Practitioner.order("last_name","first_name").where(user_id: current_user.id)
+    #@practitioners = Practitioner.paginate(:page => params[:page], :per_page => 2).order("last_name","first_name").where(user_id: current_user.id)
+    @q = Practitioner.paginate(:page => params[:page], :per_page => 8).search(params[:q])
+
+    @practitioners = @q.result(distinct: true)
+
+    @total_items = Practitioner.find(:all).count
+    @total_items_selected = @practitioners.count
   end
 
   # GET /practitioners/1
-  # GET /practitioners/1.json
   def show
   end
 
@@ -23,7 +27,6 @@ class PractitionersController < ApplicationController
   end
 
   # POST /practitioners
-  # POST /practitioners.json
   def create
     @practitioner = Practitioner.new(practitioner_params)
 
@@ -31,11 +34,11 @@ class PractitionersController < ApplicationController
 
     respond_to do |format|
       if @practitioner.save
-        format.html { redirect_to @practitioner, notice: 'Practitioner was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @practitioner }
+        format.html { redirect_to practitioners_path, notice: 'Practitioner was successfully created.' }
+        #format.json { render action: 'show', status: :created, location: @practitioner }
       else
         format.html { render action: 'new' }
-        format.json { render json: @practitioner.errors, status: :unprocessable_entity }
+        #format.json { render json: @practitioner.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -46,10 +49,10 @@ class PractitionersController < ApplicationController
     respond_to do |format|
       if @practitioner.update(practitioner_params)
         format.html { redirect_to @practitioner, notice: 'Practitioner was successfully updated.' }
-        format.json { head :no_content }
+        #format.json { head :no_content }
       else
         format.html { render action: 'edit' }
-        format.json { render json: @practitioner.errors, status: :unprocessable_entity }
+        #format.json { render json: @practitioner.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -60,7 +63,7 @@ class PractitionersController < ApplicationController
     @practitioner.destroy
     respond_to do |format|
       format.html { redirect_to practitioners_url }
-      format.json { head :no_content }
+      #format.json { head :no_content }
     end
   end
 

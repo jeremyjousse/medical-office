@@ -8,7 +8,7 @@
 					.div_action
 						.div_action_left
 						.div_action_right
-							= link_to 'New Treatment', new_medical_treatment_path(:locale => I18n.locale, :patient_id => params['patient_id']), :class=>'btn'
+							= link_to 'New Treatment', new_medical_treatment_path(:locale => I18n.locale, :patient_id => params['patient_id']), :class=>'btn btn-default'
 						.div_action_center
 							-#%span.label= pluralize(@total_items_selected, 'PAtient')+' / '+@total_items.to_s
 							%br
