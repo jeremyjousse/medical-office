@@ -4,11 +4,8 @@ class PractitionersController < ApplicationController
   # GET /practitioners
   # GET /practitioners.json
   def index
-    #@practitioners = Practitioner.paginate(:page => params[:page], :per_page => 2).order("last_name","first_name").where(user_id: current_user.id)
     @q = Practitioner.paginate(:page => params[:page], :per_page => 8).search(params[:q])
-
     @practitioners = @q.result(distinct: true)
-
     @total_items = Practitioner.find(:all).count
     @total_items_selected = @practitioners.count
   end

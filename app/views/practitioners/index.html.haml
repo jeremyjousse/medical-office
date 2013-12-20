@@ -13,7 +13,7 @@
 						.col-md-4.text-right
 							= link_to content_tag(:span, "", class: "glyphicon glyphicon-plus") + ' New Practitioner', new_practitioner_path, :class=>'btn btn-default'
 					.col-md-12.text-center
-						= will_paginate @practitioners
+						= will_paginate @practitioners, class: '', next_label: 'Next', previous_label: 'Previous'
 					= search_form_for @q do |f|
 						%table.table.table-striped.table-bordered.table-hover.table-condensed
 							%tr

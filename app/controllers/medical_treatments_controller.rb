@@ -4,12 +4,17 @@ class MedicalTreatmentsController < ApplicationController
   # GET /medical_treatments
   # GET /medical_treatments.json
   def index
-    if (params[:patient_id].nil?)
-      @medical_treatments = MedicalTreatment.order("date").where(user_id: current_user.id)
-    else  
-      #@medical_treatments = MedicalTreatment.all
-      @medical_treatments = MedicalTreatment.order("date").where(user_id: current_user.id, patient_id: params[:patient_id])
-    end
+    @q = MedicalTreatment.paginate(:page => params[:page], :per_page => 8).search(params[:q])
+    @medical_treatments = @q.result(distinct: true)
+    @total_items = MedicalTreatment.find(:all).count
+    @total_items_selected = @medical_treatments.count
+    
+    # if (params[:patient_id].nil?)
+    #   @medical_treatments = MedicalTreatment.order("date").where(user_id: current_user.id)
+    # else  
+    #   #@medical_treatments = MedicalTreatment.all
+    #   @medical_treatments = MedicalTreatment.order("date").where(user_id: current_user.id, patient_id: params[:patient_id])
+    # end
   end
 
   # GET /medical_treatments/1

@@ -6,7 +6,11 @@ class PatientsController < ApplicationController
 
   def index
     #@patients = Patient.all
-    @patients = Patient.order("last_name","first_name").where(user_id: current_user.id)
+    #@patients = Patient.order("last_name","first_name").where(user_id: current_user.id)
+    @q = Patient.paginate(:page => params[:page], :per_page => 10).search(params[:q])
+    @patients = @q.result(distinct: true)
+    @total_items = Patient.find(:all).count
+    @total_items_selected = @patients.count
   end
 
   

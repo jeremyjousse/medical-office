@@ -9,7 +9,7 @@
 						.col-md-4
 						.col-md-4.text-center
 						.col-md-4.text-right
-							= link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + ' Back', practitioners_path, :class=>'btn btn-default'
+							= link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + ' Back', patients_path, :class=>'btn btn-default'
 						%table.table.table-bordered.table-hover.table-condensed.detail-table
 							- generate_show_page_item 'First name', @patient.first_name
 							- generate_show_page_item 'Last name', @patient.last_name
