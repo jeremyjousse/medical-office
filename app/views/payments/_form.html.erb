@@ -6,6 +6,7 @@
     <%= f.input :paid_at %>
     <%= f.input :payment_type, :collection => Payment::TYPE.sort.map {|k,v| [v,k]} %>
     <%= f.input :amount %>
+
   </div>
 
   <div class="form-actions">

@@ -3,7 +3,7 @@ class Payment < ActiveRecord::Base
   belongs_to :user
 
 
-  validates :medical_treatment_id, :presence => true
+  #validates :medical_treatment_id, :presence => true
   validates :paid_at, :presence => true
   validates :payment_type, :presence => true
   validates :amount, :presence => true
