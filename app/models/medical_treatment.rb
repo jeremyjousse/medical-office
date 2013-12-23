@@ -15,9 +15,10 @@ class MedicalTreatment < ActiveRecord::Base
 	validate :chek_total_payments_do_not_exceed_price
 
 
-  LOCATIONS = {0 => "Undefined", 1 => "Office", 2 => "Home"}
+  LOCATIONS = {1 => "Office", 2 => "Home"}
+  STATUS = {0 => "unpaid" ,1 => "paied"}
 
-  after_commit :change_status_if_paied
+  before_save :change_status_if_paied
 
   private
 
@@ -35,7 +36,6 @@ class MedicalTreatment < ActiveRecord::Base
   end
 
   def change_status_if_paied
-    if self.status.nil?
 	    total_payment = BigDecimal.new("0")
 	    self.payments.each do |payment|
 	        total_payment = total_payment + payment.amount
@@ -43,9 +43,11 @@ class MedicalTreatment < ActiveRecord::Base
 
 	    if total_payment == self.price 
 	      self.status = 1
-	      self.save
+	      #self.save
+	    else
+	      self.status = 0
+	      #self.save
 	    end
-	  end
   end
 
 end

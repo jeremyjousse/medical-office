@@ -5,14 +5,19 @@ class PatientsController < ApplicationController
   before_action :set_patient, only: [:show, :edit, :update, :destroy]
 
   def index
-    #@patients = Patient.all
-    #@patients = Patient.order("last_name","first_name").where(user_id: current_user.id)
-    @q = Patient.paginate(:page => params[:page], :per_page => 10).search(params[:q])
+    @q = current_user.patients.paginate(:page => params[:page], :per_page => 10).search(params[:q])
     @patients = @q.result(distinct: true)
-    @total_items = Patient.find(:all).count
+    @total_items = current_user.patients.find(:all).count
     @total_items_selected = @patients.count
   end
 
+  def finder
+    params[:per] = 10
+    @patients = current_user.patients.order('last_name').finder(params[:q]).page(params[:page])
+    respond_to do |format|
+      format.json { render json: @patients }
+    end
+  end
   
   def show
   end

@@ -1,0 +1,20 @@
+.container
+	.row
+		.col-md-12
+			.panel.panel-default
+				.panel-heading
+					%h2 Medical Treatment Detail
+				.panel-body
+					.div_action
+						.col-md-4
+						.col-md-4.text-center
+						.col-md-4.text-right
+							= link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + ' Back', medical_treatments_path, :class=>'btn btn-default'
+						%table.table.table-bordered.table-hover.table-condensed.detail-table
+							- generate_show_page_item 'Patient', @medical_treatment.patient.first_name + ' ' + @medical_treatment.patient.last_name + ' (' + @medical_treatment.patient.city + ')'
+							- generate_show_page_item 'Medical Treamtement Type', @medical_treatment.medical_treatment_type.name
+							- generate_show_page_item 'Date', @medical_treatment.date
+							- generate_show_page_item 'Location', MedicalTreatment::LOCATIONS[@medical_treatment.location_id]
+							- generate_show_page_item 'Price', @medical_treatment.price
+							- generate_show_page_item 'Note', @medical_treatment.note
+							- generate_show_page_item 'Stauts', MedicalTreatment::STATUS[@medical_treatment.status]

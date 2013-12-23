@@ -20,6 +20,9 @@ class ApplicationController < ActionController::Base
     # end
   end
 
+  def render_404
+    render file: Rails.root.join("public", "404"), layout: false, status: "404"
+  end
 
   private
     def extract_locale_from_url_then_accept_language_header

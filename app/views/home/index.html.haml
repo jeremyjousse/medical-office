@@ -1,7 +1,17 @@
 - if user_signed_in?
-	Welcome #{current_user.email} #{current_user.office.name}
+	.col-md-6
+		.well.well-sm
+			Welcome #{current_user.email} #{current_user.office.name}
+	.col-md-6
+		- if @unpaied_medical_treatments_count != 1
+			.well.well-sm
+				#{@unpaied_medical_treatments_count.to_s} Medical Treatment unpaied
+
+
 - else
-	= link_to 'Login', new_user_session_path
-	%br
-	= link_to 'Register', new_user_registration_path
-	%br
+	.col-md-6
+		.well.well-sm
+			= link_to 'Login', new_user_session_path
+	.col-md-6
+		.well.well-sm
+			= link_to 'Register', new_user_registration_path

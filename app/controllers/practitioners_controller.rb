@@ -1,13 +1,23 @@
 class PractitionersController < ApplicationController
   before_action :set_practitioner, only: [:show, :edit, :update, :destroy]
 
-  # GET /practitioners
-  # GET /practitioners.json
+  before_filter :authorize_modify_practitioner!, only: [:edit, :update]
+
   def index
-    @q = Practitioner.paginate(:page => params[:page], :per_page => 8).search(params[:q])
+    @q = current_user.practitioners.paginate(:page => params[:page], :per_page => 8).search(params[:q], :user_id => current_user.id)
     @practitioners = @q.result(distinct: true)
-    @total_items = Practitioner.find(:all).count
+    @total_items = current_user.practitioners.count
     @total_items_selected = @practitioners.count
+  end
+
+
+  def finder
+    #params[:per] = 10 unless !params[:per].nil?
+    params[:per] = 10
+    @practitioners = Practitioner.order('last_name').finder(params[:q]).page(params[:page])
+    respond_to do |format|
+      format.json { render json: @practitioners }
+    end
   end
 
   # GET /practitioners/1
@@ -43,6 +53,9 @@ class PractitionersController < ApplicationController
   # PATCH/PUT /practitioners/1
   # PATCH/PUT /practitioners/1.json
   def update
+
+
+
     respond_to do |format|
       if @practitioner.update(practitioner_params)
         format.html { redirect_to @practitioner, notice: 'Practitioner was successfully updated.' }
@@ -64,7 +77,7 @@ class PractitionersController < ApplicationController
     end
   end
 
-  private
+  protected
     # Use callbacks to share common setup or constraints between actions.
     def set_practitioner
       @practitioner = Practitioner.find(params[:id])
@@ -73,5 +86,9 @@ class PractitionersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def practitioner_params
       params.require(:practitioner).permit(:first_name, :last_name, :phone, :mobile_phone, :email, :address, :postal_code, :city, :country_id, :note, :speciality_id)
+    end
+
+    def authorize_modify_practitioner!
+      return render_404 unless @practitioner.user_id == current_user.id
     end
 end

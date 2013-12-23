@@ -10,11 +10,16 @@ class Patient < ActiveRecord::Base
 	validates :last_name, :presence => true, :length => 2..255
 	validates :city, :presence => true, :length => 2..255
 	validates :country_id, :presence => true
- # validates :address, :presence => true, :length => 2..255, :on => :update
- #  validates :postal_code, :presence => true, :length => 2..100, :on => :update
- #  validates :city, :presence => true, :length => 2..255, :on => :update
- #  validates :country_id, :presence => true, :on => :update
- #  validates :phone, :presence => true, :length => 5..100, :on => :update
- #  validates :email, :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i } , :length => 5..255
   
+
+	scope :finder, lambda { |q| where("last_name like :q", q: "%#{q}%") }
+
+	def as_json(options)
+    { id: id, text: first_name + ' ' + last_name + '(' + city + ')' }
+  end
+
+  def full_name_for_select
+  	self.first_name + ' ' + self.last_name + ' (' + self.city + ')'
+  end
+
 end

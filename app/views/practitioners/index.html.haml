@@ -25,7 +25,7 @@
 								%th
 							%tr
 								%td 
-								%td #{f.select :speciality_id_eq, options_for_select(Practitioner::SPECIALITY.sort.map {|k,v| [v,k]})  }
+								%td #{f.select :speciality_id_eq, options_for_select(Practitioner::SPECIALITY.sort.map {|k,v| [v,k]}), include_blank: true}
 								%td #{f.text_field :first_name_cont, :class => "form-control input-sm"}
 								%td #{f.text_field :last_name_cont, :class => "form-control input-sm"}
 								%td #{f.text_field :city_cont, :class => "form-control input-sm"}
