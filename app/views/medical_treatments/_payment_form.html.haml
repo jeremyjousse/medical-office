@@ -1,0 +1,6 @@
+.well
+  Payment
+  = p.input :paid_at, as: :string, :input_html =>{data: { behavior: "datepicker" }, :class => 'datepicker'}
+  = p.input :amount
+  = p.input :payment_type, :collection => Payment::TYPE.sort.map {|k,v| [v,k]}
+  = p.hidden_field :id

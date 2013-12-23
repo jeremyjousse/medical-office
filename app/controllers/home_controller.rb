@@ -16,6 +16,9 @@ class HomeController < ApplicationController
     		redirect_to edit_office_path(office, :locale => I18n.locale) and return
 
     	end
+
+        @unpaied_medical_treatments_count = current_user.medical_treatments.where(status: 0).count
+
     end
 
     #logger.debug root_url(:locale => I18n.locale)

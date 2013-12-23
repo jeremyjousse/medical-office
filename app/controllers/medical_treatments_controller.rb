@@ -1,34 +1,30 @@
 class MedicalTreatmentsController < ApplicationController
   before_action :set_medical_treatment, only: [:show, :edit, :update, :destroy]
+  
+  before_filter :authorize_medical_treatment_access!, only: [:show, :edit, :update, :destroy]
 
-  # GET /medical_treatments
-  # GET /medical_treatments.json
   def index
-    if (params[:patient_id].nil?)
-      @medical_treatments = MedicalTreatment.order("date").where(user_id: current_user.id)
-    else  
-      #@medical_treatments = MedicalTreatment.all
-      @medical_treatments = MedicalTreatment.order("date").where(user_id: current_user.id, patient_id: params[:patient_id])
-    end
+    @q = current_user.medical_treatments.paginate(:page => params[:page], :per_page => 8).search(params[:q])
+    @medical_treatments = @q.result(distinct: true)
+    @total_items = current_user.medical_treatments.find(:all).count
+    @total_items_selected = @medical_treatments.count
   end
 
-  # GET /medical_treatments/1
-  # GET /medical_treatments/1.json
+
   def show
   end
 
-  # GET /medical_treatments/new
+
   def new
     @medical_treatment = MedicalTreatment.new
     @medical_treatment.patient_id = params[:patient_id]
   end
 
-  # GET /medical_treatments/1/edit
+
   def edit
   end
 
-  # POST /medical_treatments
-  # POST /medical_treatments.json
+
   def create
     @medical_treatment = MedicalTreatment.new(medical_treatment_params)
 
@@ -49,22 +45,26 @@ class MedicalTreatmentsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /medical_treatments/1
-  # PATCH/PUT /medical_treatments/1.json
+
   def update
     respond_to do |format|
       if @medical_treatment.update(medical_treatment_params)
+
+          @medical_treatment.payments.each do |payment|
+            if payment.user_id.nil?
+              payment.user = current_user
+              payment.save
+            end
+          end
+
         format.html { redirect_to @medical_treatment, notice: 'Medical treatment was successfully updated.' }
-        format.json { head :no_content }
       else
         format.html { render action: 'edit' }
-        format.json { render json: @medical_treatment.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /medical_treatments/1
-  # DELETE /medical_treatments/1.json
+
   def destroy
     @medical_treatment.destroy
     respond_to do |format|
@@ -72,6 +72,7 @@ class MedicalTreatmentsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -81,6 +82,10 @@ class MedicalTreatmentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def medical_treatment_params
-      params.require(:medical_treatment).permit(:user_id, :patient_id, :date, :location_id, :medical_treatment_type_id, :price, :note, payments_attributes: [:amount, :paid_at, :payment_type])
+      params.require(:medical_treatment).permit(:user_id, :patient_id, :date, :location_id, :medical_treatment_type_id, :price, :note, payments_attributes: [:id, :amount, :paid_at, :payment_type])
+    end
+
+    def authorize_medical_treatment_access!
+      return render_404 unless @medical_treatment.user_id == current_user.id
     end
 end

@@ -5,21 +5,37 @@
 				.panel-heading
 					%h2 Practitioners
 				.panel-body
-
-					%table.table.table-striped.table-bordered.table-hover.table-condensed
-						%tr
-							%th id
-							%th Speciality
-							%th First name
-							%th Last name
-							%th City
-							%th
-						- @practitioners.each do |practitioner|
+					.div_action
+						.col-md-4
+						.col-md-4.text-center
+							%span
+								= pluralize(@total_items_selected, 'Practitioner')+' selected / '+@total_items.to_s
+						.col-md-4.text-right
+							= link_to content_tag(:span, "", class: "glyphicon glyphicon-plus") + ' New Practitioner', new_practitioner_path, :class=>'btn btn-default'
+					.col-md-12.text-center
+						= will_paginate @practitioners, class: '', next_label: 'Next', previous_label: 'Previous'
+					= search_form_for @q do |f|
+						%table.table.table-striped.table-bordered.table-hover.table-condensed
 							%tr
-								%td #{practitioner.id}
-								%td #{Practitioner::SPECIALITY[practitioner.speciality_id]}
-								%td #{practitioner.first_name}
-								%td #{practitioner.last_name}
-								%td #{practitioner.city}
-								%td
-									=link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_practitioner_path(practitioner),class: "btn btn-default btn-sm"
+								%th id
+								%th Speciality
+								%th First name
+								%th Last name
+								%th City
+								%th
+							%tr
+								%td 
+								%td #{f.select :speciality_id_eq, options_for_select(Practitioner::SPECIALITY.sort.map {|k,v| [v,k]}), include_blank: true}
+								%td #{f.text_field :first_name_cont, :class => "form-control input-sm"}
+								%td #{f.text_field :last_name_cont, :class => "form-control input-sm"}
+								%td #{f.text_field :city_cont, :class => "form-control input-sm"}
+								%td #{f.submit 'Filter', class: 'btn btn-default btn-xs'} #{link_to  content_tag(:span, "", class: "glyphicon glyphicon-remove") + ' Reset', practitioners_path(:locale => I18n.locale,:filter => 'reset'),  :class => 'btn btn-default btn-xs'}
+							- @practitioners.each do |practitioner|
+								%tr
+									%td #{link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-right") + ' Show', practitioner_path(practitioner),class: "btn btn-default btn-sm"}
+									%td #{Practitioner::SPECIALITY[practitioner.speciality_id]}
+									%td #{practitioner.first_name}
+									%td #{practitioner.last_name}
+									%td #{practitioner.city}
+									%td
+										=link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_practitioner_path(practitioner),class: "btn btn-default btn-sm"

@@ -5,29 +5,36 @@
 				.panel-heading
 					%h2 My Patients
 				.panel-body
-					.div_action
-						.div_action_left
-						.div_action_right
-							= link_to 'New Patient', new_patient_path, :class=>'btn'
-						.div_action_center
-							-#%span.label= pluralize(@total_items_selected, 'PAtient')+' / '+@total_items.to_s
-							%br
-							-#= will_paginate
-
-					%table.table.table-striped.table-bordered.table-hover.table-condensed
-						%tr
-							%th 
-							%th First name
-							%th Last name
-							%th City
-							%th
-						- @patients.each do |patient|
+					.div_action.row
+						.col-md-4
+						.col-md-4.text-center
+							%span
+								= pluralize(@total_items_selected, 'Patient')+' selected / '+@total_items.to_s
+						.col-md-4.text-right
+							= link_to content_tag(:span, "", class: "glyphicon glyphicon-plus") + ' New Patient', new_patient_path, :class=>'btn btn-default'
+					.col-md-12.text-center
+						= will_paginate @patients, class: '', next_label: 'Next', previous_label: 'Previous'
+					= search_form_for @q do |f|
+						%table.table.table-striped.table-bordered.table-hover.table-condensed
 							%tr
-								%td
-									=link_to content_tag(:span, "", class: "glyphicon glyphicon-eye-open") + ' Detail', patient_path(patient, :locale => I18n.locale),class: "btn btn-default btn-sm"
-								%td #{patient.first_name}
-								%td #{patient.last_name}
-								%td #{patient.city}
-								%td
-									=link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_patient_path(patient),class: "btn btn-default btn-sm"
-									=link_to content_tag(:span, "", class: "glyphicon glyphicon-asterisk") + ' Medical Treatments', medical_treatments_path(:locale => I18n.locale, :patient_id => patient.id),class: "btn btn-default btn-sm"
+								%th 
+								%th First name
+								%th Last name
+								%th City
+								%th 
+							%tr
+								%td 
+								%td #{f.text_field :first_name_cont, :class => "form-control input-sm"}
+								%td #{f.text_field :last_name_cont, :class => "form-control input-sm"}
+								%td #{f.text_field :city_cont, :class => "form-control input-sm"}
+								%td #{f.submit 'Filter', class: 'btn btn-default btn-xs'} #{link_to  content_tag(:span, "", class: "glyphicon glyphicon-remove") + ' Reset', patients_path(:locale => I18n.locale,:filter => 'reset'),  :class => 'btn btn-default btn-xs'}
+							- @patients.each do |patient|
+								%tr
+									%td
+										=link_to content_tag(:span, "", class: "glyphicon glyphicon-eye-open") + ' Detail', patient_path(patient, :locale => I18n.locale),class: "btn btn-default btn-sm"
+									%td #{patient.first_name}
+									%td #{patient.last_name}
+									%td #{patient.city}
+									%td
+										=link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_patient_path(patient),class: "btn btn-default btn-sm"
+										=link_to content_tag(:span, "", class: "glyphicon glyphicon-asterisk") + ' Medical Treatments', medical_treatments_path(:locale => I18n.locale, 'q[patient_id_eq]' => patient.id),class: "btn btn-default btn-sm"

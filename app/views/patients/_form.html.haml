@@ -1,6 +1,11 @@
 = simple_form_for @patient, :html => { :class => 'form-horizontal', :multipart => true } do |f|
   = f.error_notification
   .form-inputs
+    .col-md-12.text-right
+      %br
+        .form-buttons
+          = link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + 'Back', patients_path, :class => 'btn btn-default'
+          = f.button :submit, :class => 'btn btn-default'
     .col-md-6
       %fieldset
         = f.input :first_name
@@ -18,6 +23,7 @@
       %fieldset
         = f.input :national_insurance_number
         = f.association :family_doctor, :collection => Practitioner.where(:speciality_id => 1, :user_id => current_user.id).order(:last_name, :first_name), :label_method => lambda { |practitioner| "#{practitioner.last_name} #{practitioner.first_name} (#{practitioner.city})"}
+        -#= f.hidden_field :family_doctor_id, class: 'select2 ajax', data: { source: finder_practitioners_path('q[speciality_id]' => 1) }
         = f.association :physical_therapists, :collection => Practitioner.where(:speciality_id => 2, :user_id => current_user.id).order(:last_name, :first_name), :label_method => lambda { |practitioner| "#{practitioner.last_name} #{practitioner.first_name} (#{practitioner.city})"}
         = f.association :osteopath, :collection => Practitioner.where(:speciality_id => 3, :user_id => current_user.id).order(:last_name, :first_name), :label_method => lambda { |practitioner| "#{practitioner.last_name} #{practitioner.first_name} (#{practitioner.city})"}
         = f.input :legal_guardian_id
@@ -26,7 +32,9 @@
         = f.input :universal_healthcare_coverage
         = f.input :long_duration_disease
         = f.input :diabete_network_id
-    .col-md-12
+    .col-md-12.text-right
       %br
-      .form-buttons
-        = f.button :submit, :class => 'btn-info'
+        .form-buttons
+          = link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + 'Back', patients_path, :class => 'btn btn-default'
+          = f.button :submit, :class => 'btn btn-default'
+          

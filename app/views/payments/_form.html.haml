@@ -1,0 +1,21 @@
+= simple_form_for @payment, :html => { :class => 'form-horizontal', :multipart => true } do |f|
+  = f.error_notification
+  .form-inputs
+    .col-md-12.text-right
+      %br
+        .form-buttons
+          = link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + 'Back', payments_path, :class => 'btn btn-default'
+          = f.button :submit, :class => 'btn btn-default'
+    .col-md-12
+      %fieldset
+        = f.association :medical_treatment, :collection => MedicalTreatment.where(:user_id => current_user.id).order(:created_at), :label_method => lambda { |medical_treatment| "#{medical_treatment.patient.last_name} #{medical_treatment.patient.first_name} #{medical_treatment.medical_treatment_type.name} (#{medical_treatment.date} #{medical_treatment.price})"}
+        = f.input :paid_at, as: :string, :input_html =>{data: { behavior: "datepicker" }, :class => 'datepicker'}
+        = f.input :payment_type, :collection => Payment::TYPE.sort.map {|k,v| [v,k]}
+        = f.input :amount
+
+    .col-md-12.text-right
+      %br
+        .form-buttons
+          = link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + 'Back', payments_path, :class => 'btn btn-default'
+          = f.button :submit, :class => 'btn btn-default'
+          

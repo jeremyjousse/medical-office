@@ -1,6 +1,10 @@
 = simple_form_for @practitioner, :html => { :class => 'form-horizontal', :multipart => true } do |f|
   = f.error_notification
   .form-inputs
+    .col-md-12.text-right      
+      .form-buttons
+        = link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + 'Back', practitioners_path, :class => 'btn btn-default'
+        = f.button :submit, :class => 'btn btn-default'
     %fieldset
       = f.input :speciality_id, :collection => Practitioner::SPECIALITY.sort.map {|k,v| [v,k]}
       = f.input :first_name
@@ -13,6 +17,8 @@
       = f.input :city
       = f.association :country, :collection => Country.find(:all, :order => 'name')
       = f.input :note
+    .col-md-12.text-right
       %br
-      .form-buttons
-        = f.button :submit, :class => 'btn-info'
+        .form-buttons
+          = link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + 'Back', patients_path, :class => 'btn btn-default'
+          = f.button :submit, :class => 'btn btn-default'
