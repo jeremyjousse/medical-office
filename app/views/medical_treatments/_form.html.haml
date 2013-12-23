@@ -16,8 +16,7 @@
     .well
       = f.fields_for :payments do |builder|
         = render 'payment_form', :p => builder
-      = link_to_add_fields "Add Payment", f, :payments, 'reload_datepickers' unless !@medical_treatment.status.nil?
-
+      = link_to_add_fields "Add Payment", f, :payments, 'reload_datepickers' unless @medical_treatment.status == 1
     .col-md-12.text-right      
       .form-buttons
         = link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + 'Back', medical_treatments_path, :class => 'btn btn-default'
