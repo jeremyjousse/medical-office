@@ -1,6 +1,7 @@
 class Payment < ActiveRecord::Base
   belongs_to :medical_treatment
   belongs_to :user
+  has_many :payment_bank_check, :dependent => :restrict_with_error
 
 
   #validates :medical_treatment_id, :presence => true

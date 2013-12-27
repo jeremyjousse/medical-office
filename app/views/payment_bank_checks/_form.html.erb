@@ -1,0 +1,17 @@
+<%= simple_form_for(@payment_bank_check) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :account_owner %>
+    <%= f.input :bank_name %>
+    <%= f.input :check_number %>
+    <%= f.input :amount %>
+    <%= f.input :status %>
+    <%= f.input :check_deposit_id %>
+    <%= f.input :paiment_id %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

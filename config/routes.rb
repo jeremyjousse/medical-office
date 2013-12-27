@@ -1,5 +1,7 @@
 MedicalOffice::Application.routes.draw do
 
+  resources :payment_bank_checks
+
   root :to => 'passthrough#index'
 
   scope "/:locale" do

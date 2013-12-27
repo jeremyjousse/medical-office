@@ -1,0 +1,39 @@
+<h1>Listing payment_bank_checks</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Account owner</th>
+      <th>Bank name</th>
+      <th>Check number</th>
+      <th>Amount</th>
+      <th>Status</th>
+      <th>Check deposit</th>
+      <th>Paiment</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @payment_bank_checks.each do |payment_bank_check| %>
+      <tr>
+        <td><%= payment_bank_check.account_owner %></td>
+        <td><%= payment_bank_check.bank_name %></td>
+        <td><%= payment_bank_check.check_number %></td>
+        <td><%= payment_bank_check.amount %></td>
+        <td><%= payment_bank_check.status %></td>
+        <td><%= payment_bank_check.check_deposit_id %></td>
+        <td><%= payment_bank_check.paiment_id %></td>
+        <td><%= link_to 'Show', payment_bank_check %></td>
+        <td><%= link_to 'Edit', edit_payment_bank_check_path(payment_bank_check) %></td>
+        <td><%= link_to 'Destroy', payment_bank_check, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Payment bank check', new_payment_bank_check_path %>

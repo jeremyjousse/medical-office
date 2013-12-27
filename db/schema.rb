@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131223144223) do
+ActiveRecord::Schema.define(version: 20131227092143) do
 
   create_table "countries", force: true do |t|
     t.string "name"
@@ -94,6 +94,18 @@ ActiveRecord::Schema.define(version: 20131223144223) do
     t.boolean  "long_duration_disease"
     t.integer  "diabete_network_id"
     t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "payment_bank_checks", force: true do |t|
+    t.string   "account_owner"
+    t.string   "bank_name"
+    t.string   "check_number"
+    t.decimal  "amount"
+    t.integer  "status"
+    t.integer  "check_deposit_id"
+    t.integer  "payment_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
