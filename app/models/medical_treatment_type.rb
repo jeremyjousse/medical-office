@@ -7,4 +7,8 @@ class MedicalTreatmentType < ActiveRecord::Base
 	validates :price, :presence => true
 
 
+	def as_json(options)
+    	{ id: id, text: price }
+  	end
+
 end

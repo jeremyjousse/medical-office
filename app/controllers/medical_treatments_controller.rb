@@ -1,4 +1,7 @@
 class MedicalTreatmentsController < ApplicationController
+  
+  before_filter :authenticate_user!
+
   before_action :set_medical_treatment, only: [:show, :edit, :update, :destroy]
   
   before_filter :authorize_medical_treatment_access!, only: [:show, :edit, :update, :destroy]
@@ -13,6 +16,7 @@ class MedicalTreatmentsController < ApplicationController
 
   def show
   end
+
 
 
   def new

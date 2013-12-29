@@ -26,6 +26,11 @@ class PaymentsController < ApplicationController
 
     @payment.amount = medical_treatment.price
 
+    if params[:payment_type].to_i == 1 then
+      @payment.payment_type = 1
+      @payment.build_payment_bank_check
+    end
+
 
   end
 
@@ -46,9 +51,11 @@ class PaymentsController < ApplicationController
       if @payment.save
         format.html { redirect_to @payment, notice: 'Payment was successfully created.' }
         format.json { render action: 'show', status: :created, location: @payment }
+        format.js { render 'new' }
       else
         format.html { render action: 'new' }
         format.json { render json: @payment.errors, status: :unprocessable_entity }
+        format.js { render 'new' }
       end
     end
   end
@@ -85,7 +92,7 @@ class PaymentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def payment_params
-      params.require(:payment).permit(:medical_treatment_id, :paid_at, :payment_type, :amount)
+      params.require(:payment).permit(:medical_treatment_id, :paid_at, :payment_type, :amount, payment_bank_check_attributes: [:id, :bank_name, :account_owner, :check_number])
     end
 
 

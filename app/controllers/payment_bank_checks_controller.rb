@@ -1,4 +1,7 @@
 class PaymentBankChecksController < ApplicationController
+  
+  before_filter :authenticate_user!
+
   before_action :set_payment_bank_check, only: [:show, :edit, :update, :destroy]
 
   # GET /payment_bank_checks
