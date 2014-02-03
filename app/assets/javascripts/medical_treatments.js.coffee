@@ -25,5 +25,3 @@ $ ->
     $.getJSON url, (data) =>
       $("#medical_treatment_price").val(data['text'])
   $("#ajax_modal").modal
-  $('#new_payment_path_js').click ->
-    $.getScript('/fr/payments/new.js?medical_treatment_id=13')

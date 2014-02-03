@@ -45,6 +45,8 @@ class MedicalTreatmentsController < ApplicationController
       else
         format.html { render action: 'new' }
         format.json { render json: @medical_treatment.errors, status: :unprocessable_entity }
+        format.js { render 'new', {patient_id: params[:patient_id]}}
+
       end
     end
   end

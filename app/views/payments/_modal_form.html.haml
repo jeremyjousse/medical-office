@@ -5,11 +5,11 @@
       .col-md-12
         %fieldset
           = f.input :medical_treatment_id, :as => :hidden
-          = f.input :paid_at, as: :string, :input_html =>{data: { behavior: "datepicker" }, :class => 'datepicker'}
           = f.input :payment_type, :collection => Payment::TYPE.sort.map {|k,v| [v,k]}
+          = f.input :paid_at, as: :string, :input_html =>{data: { behavior: "datepicker" }, :class => 'datepicker'}
           = f.input :amount
           -#- hidden_add_association_fields f, :payment_bank_check
-          -##bank_check_well
+          #bank_check_well
           - if @payment.payment_type == 1 then
             = f.fields_for :payment_bank_check do |builder|
               = render 'modal_bank_check_form', :p => builder

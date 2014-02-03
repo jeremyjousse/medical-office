@@ -1,6 +1,7 @@
 class Payment < ActiveRecord::Base
   belongs_to :medical_treatment
   belongs_to :user
+  belongs_to :bank_deposit
   has_one :payment_bank_check, :dependent => :restrict_with_error
 
   accepts_nested_attributes_for :payment_bank_check
@@ -12,7 +13,7 @@ class Payment < ActiveRecord::Base
 
 	#validate :chek_total_payments_do_not_exceed_medical_treatment_amount
 
-  #after_save :change_medical_treatment_id_total_payments_amount_equal_medical_treatment_price
+  after_save :change_medical_treatment_id_total_payments_amount_equal_medical_treatment_price
 
   TYPE = {1 => "Check", 2 => "Credit card", 3 => "Cash"}
 

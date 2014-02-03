@@ -21,3 +21,4 @@ $ ->
 
     options.dropdownCssClass = "bigdrop"
   select.select2 options
+  $("#ajax_modal").modal

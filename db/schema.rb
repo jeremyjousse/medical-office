@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131229191746) do
+ActiveRecord::Schema.define(version: 20140103140714) do
+
+  create_table "bank_deposits", force: true do |t|
+    t.integer  "type"
+    t.integer  "number"
+    t.decimal  "amount"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+  end
 
   create_table "countries", force: true do |t|
     t.string "name"
@@ -119,6 +128,7 @@ ActiveRecord::Schema.define(version: 20131229191746) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.integer  "bank_deposit_id"
   end
 
   add_index "payments", ["medical_treatment_id"], name: "index_payments_on_medical_treatment_id"
