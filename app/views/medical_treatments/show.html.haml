@@ -10,6 +10,7 @@
 						.col-md-4.text-center
 						.col-md-4.text-right
 							= link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + ' Back', medical_treatments_path, :class=>'btn btn-default'
+							= link_to 'Add payment', new_payment_path(medical_treatment_id: @medical_treatment, payment_type: nil),  {id: 'new_payment_path_js', :class=>'btn btn-default', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', 'data-url' => new_payment_path(medical_treatment_id: @medical_treatment)}
 						%table.table.table-bordered.table-hover.table-condensed.detail-table
 							- generate_show_page_item 'Patient', @medical_treatment.patient.first_name + ' ' + @medical_treatment.patient.last_name + ' (' + @medical_treatment.patient.city + ')'
 							- generate_show_page_item 'Medical Treamtement Type', @medical_treatment.medical_treatment_type.name
@@ -18,3 +19,21 @@
 							- generate_show_page_item 'Price', @medical_treatment.price
 							- generate_show_page_item 'Note', @medical_treatment.note
 							- generate_show_page_item 'Stauts', MedicalTreatment::STATUS[@medical_treatment.status]
+
+						-if @medical_treatment.payments.count > 0 then
+							%table.table.table-striped.table-bordered.table-hover.table-condensed
+								%tr
+									%th 
+									%th Paid at
+									%th Type
+									%th Amount
+									%th
+								- @medical_treatment.payments.each do |payment|
+									%tr
+										%td #{link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-right") + ' Show', payment_path(payment),class: "btn btn-default btn-sm"}
+										%td #{payment.paid_at}
+										%td #{Payment::TYPE[payment.payment_type]}
+										%td #{payment.amount}
+										%td
+
+= render 'layouts/modal'

@@ -28,7 +28,7 @@ class MedicalTreatment < ActiveRecord::Base
   			total_payment = total_payment + payment.amount
   	end
 
-  	if total_payment > self.price 
+  	if !self.price.nil? && total_payment > self.price 
   		errors.add(:price, "Max amount exceeded for payments")
   		return false
   	end
@@ -41,7 +41,7 @@ class MedicalTreatment < ActiveRecord::Base
 	        total_payment = total_payment + payment.amount
 	    end
 
-	    if total_payment == self.price 
+	    if !self.price.nil? && total_payment == self.price 
 	      self.status = 1
 	      #self.save
 	    else

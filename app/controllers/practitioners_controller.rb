@@ -1,4 +1,7 @@
 class PractitionersController < ApplicationController
+  
+  before_filter :authenticate_user!
+
   before_action :set_practitioner, only: [:show, :edit, :update, :destroy]
 
   before_filter :authorize_modify_practitioner!, only: [:edit, :update]

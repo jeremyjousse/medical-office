@@ -10,5 +10,7 @@ class User < ActiveRecord::Base
   has_many :medical_treatments
   has_many :medical_treatment_types
   has_many :payments
+  has_many :payment_bank_checks
+  has_many :bank_deposits
 
 end

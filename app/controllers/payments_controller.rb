@@ -20,12 +20,24 @@ class PaymentsController < ApplicationController
   # GET /payments/new
   def new
     @payment = Payment.new
-    @payment.medical_treatment_id = params[:medical_treatment_id]
 
-    medical_treatment = MedicalTreatment.find(params[:medical_treatment_id])
+    if !params[:medical_treatment_id].nil? then
+      @payment.medical_treatment_id = params[:medical_treatment_id]
 
-    @payment.amount = medical_treatment.price
+      @medical_treatment = MedicalTreatment.find(params[:medical_treatment_id])
 
+      @payment.amount = @medical_treatment.price
+    end
+
+    if !params[:payment_type].nil? then
+      @payment.payment_type = params[:payment_type].to_i
+    end
+
+    if @payment.payment_type.to_i == 1 then
+      @payment.build_payment_bank_check
+    end
+
+    @payment.paid_at = Date.today
 
   end
 
@@ -40,15 +52,22 @@ class PaymentsController < ApplicationController
     
     @payment.user = current_user
 
-
+    if !@payment.payment_bank_check.nil? then
+      @payment.payment_bank_check.user = current_user
+      @payment.payment_bank_check.amount = @payment.amount
+      @payment.payment_bank_check.status = 1
+    end
 
     respond_to do |format|
       if @payment.save
         format.html { redirect_to @payment, notice: 'Payment was successfully created.' }
         format.json { render action: 'show', status: :created, location: @payment }
+        #format.js { redirect_to @payment.medical_treatment, notice: 'Payment was successfully created.' }
+        format.js { render 'reload' }
       else
         format.html { render action: 'new' }
         format.json { render json: @payment.errors, status: :unprocessable_entity }
+        format.js { render 'new', {medical_treatment_id: params[:medical_treatment_id], payment_type: params[:payment_payment_type]}}
       end
     end
   end
@@ -85,7 +104,7 @@ class PaymentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def payment_params
-      params.require(:payment).permit(:medical_treatment_id, :paid_at, :payment_type, :amount)
+      params.require(:payment).permit(:medical_treatment_id, :paid_at, :payment_type, :amount, payment_bank_check_attributes: [:id, :bank_name, :account_owner, :check_number])
     end
 
 

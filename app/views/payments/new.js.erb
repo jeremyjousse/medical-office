@@ -1,0 +1,12 @@
+$(".modal-body-content").html("<%= escape_javascript(render 'medical_treatments/modal_show' ) %>");
+$(".modal-body-content").append("<%= escape_javascript(render 'payments/modal_form' ) %>");
+$(".modal-title").html("Add a payment");
+$(".datepicker").datepicker({"format": "yyyy-mm-dd", "weekStart": 1, "autoclose": true});
+$(".modal-footer").html("<%= escape_javascript(render 'payments/modal_form_buttons' ) %>");
+$('#new_payment_form_submiter').bind( "click", function() {
+  $('#new_payment').submit();
+});
+$("#payment_payment_type").change(function(){
+	//$.getScript('/fr/payments/new.js?medical_treatment_id=<%= params[:medical_treatment_id]%>&payment_type='+$("#payment_payment_type").val());
+	$.getScript('/fr/payments/new.js?medical_treatment_id=' + $("#payment_medical_treatment_id").val() + '&payment_type='+$("#payment_payment_type").val());
+});

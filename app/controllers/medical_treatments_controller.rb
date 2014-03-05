@@ -1,4 +1,7 @@
 class MedicalTreatmentsController < ApplicationController
+  
+  before_filter :authenticate_user!
+
   before_action :set_medical_treatment, only: [:show, :edit, :update, :destroy]
   
   before_filter :authorize_medical_treatment_access!, only: [:show, :edit, :update, :destroy]
@@ -15,9 +18,12 @@ class MedicalTreatmentsController < ApplicationController
   end
 
 
+
   def new
     @medical_treatment = MedicalTreatment.new
     @medical_treatment.patient_id = params[:patient_id]
+    @medical_treatment.date = Date.today
+
   end
 
 
@@ -34,13 +40,22 @@ class MedicalTreatmentsController < ApplicationController
       payment.user = current_user
     end
 
+
+#logger.info "------" + request.format.inspect
+
     respond_to do |format|
       if @medical_treatment.save
         format.html { redirect_to @medical_treatment, notice: 'Medical treatment was successfully created.' }
         format.json { render action: 'show', status: :created, location: @medical_treatment }
+        #format.js { redirect_to 'payments/new', {medical_treatment_id: @medical_treatment.id}}
+        
+        #format.js { redirect_to(:format => :js, :params => {medical_treatment_id: @medical_treatment.id})}
+        format.js { redirect_to(new_payment_path(medical_treatment_id: @medical_treatment.id), format: :js)}
       else
         format.html { render action: 'new' }
         format.json { render json: @medical_treatment.errors, status: :unprocessable_entity }
+        format.js { render 'new', {patient_id: params[:patient_id]}}
+
       end
     end
   end

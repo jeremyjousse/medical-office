@@ -1,5 +1,7 @@
 class MedicalTreatmentTypesController < ApplicationController
 
+  before_filter :authenticate_user!
+
   before_action :set_medical_treatment_type, only: [:show, :edit, :update, :destroy]
 
   before_filter :authorize_medical_treatment_type_access!, only: [:show, :edit, :update, :destroy]
@@ -13,6 +15,14 @@ class MedicalTreatmentTypesController < ApplicationController
   end
 
   
+  def price_finder
+    @medical_treatment_type = current_user.medical_treatment_types.find(params[:id])
+    respond_to do |format|
+      format.json { render json: @medical_treatment_type }
+    end
+  end
+
+
   def show
   end
 

@@ -3,7 +3,7 @@
 		.well.well-sm
 			Welcome #{current_user.email} #{current_user.office.name}
 	.col-md-6
-		- if @unpaied_medical_treatments_count != 1
+		- if @unpaied_medical_treatments_count > 0
 			.well.well-sm
 				#{@unpaied_medical_treatments_count.to_s} Medical Treatment unpaied
 

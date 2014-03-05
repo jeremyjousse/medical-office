@@ -10,8 +10,8 @@ class PassthroughController < ApplicationController
     # else
       path = index_path(:locale => I18n.locale)
 
-      logger.info '+++++++++++++++++' + I18n.locale.to_s
-      logger.info '+++++++++++++++++' + path.to_s
+      # logger.info '+++++++++++++++++' + I18n.locale.to_s
+      # logger.info '+++++++++++++++++' + path.to_s
     # end
 
     redirect_to path     
