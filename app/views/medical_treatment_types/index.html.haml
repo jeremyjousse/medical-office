@@ -1,0 +1,36 @@
+.container
+	.row
+		.col-md-12
+			.panel.panel-default
+				.panel-heading
+					%h2 Medical Treatment Types
+				.panel-body
+					.div_action
+						.col-md-4
+						.col-md-4.text-center
+							%span
+								= pluralize(@total_items_selected, 'Medical Treatment Type')+' selected / '+@total_items.to_s
+						.col-md-4.text-right
+							= link_to content_tag(:span, "", class: "glyphicon glyphicon-plus") + ' New Medical Treatment Types', new_medical_treatment_type_path, :class=>'btn btn-default'
+					.col-md-12.text-center
+						= will_paginate @medical_treatment_types, class: '', next_label: 'Next', previous_label: 'Previous'
+					= search_form_for @q do |f|
+						%table.table.table-striped.table-bordered.table-hover.table-condensed
+							%tr
+								%th 
+								%th Name
+								%th Price
+								%th
+							%tr
+								%td 
+								%td #{f.text_field :name_cont, :class => "form-control input-sm"}
+								%td 
+								%td #{f.submit 'Filter', class: 'btn btn-default btn-xs'} #{link_to  content_tag(:span, "", class: "glyphicon glyphicon-remove") + ' Reset', medical_treatment_types_path(:locale => I18n.locale,:filter => 'reset'),  :class => 'btn btn-default btn-xs'}
+							- @medical_treatment_types.each do |medical_treatment_type|
+								%tr
+									%td #{link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-right") + ' Show', medical_treatment_type_path(medical_treatment_type),class: "btn btn-default btn-sm"}
+									%td #{medical_treatment_type.name}
+									%td #{medical_treatment_type.price}
+									%td
+										=link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_medical_treatment_type_path(medical_treatment_type),class: "btn btn-default btn-sm"
+										=link_to content_tag(:span, "", class: "glyphicon glyphicon-trash") + ' Destroy', medical_treatment_type , method: :delete, data: { confirm: 'Are you sure?' },class: "btn btn-danger btn-sm"

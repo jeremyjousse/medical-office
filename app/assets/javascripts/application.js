@@ -13,4 +13,28 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require_tree .
+//= require bootstrap/dropdown
+//= require bootstrap/modal
+
+
+//= require select2
+//= require bootstrap-datepicker
+
+
+function add_fields(link, association, content, callback) {
+  var new_id = new Date().getTime();
+  var regexp = new RegExp("new_" + association, "g")
+  $(link).parent().before(content.replace(regexp, new_id));
+
+  if (callback != '')
+  {
+
+  	var fn = window[callback];
+
+  	if (typeof fn === "function") fn();
+  }
+}
+
+function reload_datepickers(){
+	$(".datepicker").datepicker({"format": "yyyy-mm-dd", "weekStart": 1, "autoclose": true});
+}

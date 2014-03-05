@@ -1,0 +1,26 @@
+.container
+	.row
+		.col-md-12
+			.panel.panel-default
+				.panel-heading
+					%h2 Payments
+				.panel-body
+
+					%table.table.table-striped.table-bordered.table-hover.table-condensed
+						%tr
+							%th 
+							%th Medical treatment
+							%th Paid at
+							%th Type
+							%th Amount
+							%th
+						- @payments.each do |payment|
+							%tr
+								%td #{link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-right") + ' Show', payment_path(payment),class: "btn btn-default btn-sm"}
+								%td #{payment.medical_treatment.patient.last_name + ' ' + payment.medical_treatment.patient.first_name + ' (' + payment.medical_treatment.medical_treatment_type.name + ' ' + payment.medical_treatment.date.to_s +  ')'}
+								%td #{payment.paid_at}
+								%td #{Payment::TYPE[payment.payment_type]}
+								%td #{payment.amount}
+								%td
+									=link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_payment_path(payment),class: "btn btn-default btn-sm"
+									=link_to content_tag(:span, "", class: "glyphicon glyphicon-trash") + ' Destroy', payment , method: :delete, data: { confirm: 'Are you sure?' },class: "btn btn-danger btn-sm"

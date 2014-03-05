@@ -1,0 +1,15 @@
+= simple_form_for @office, :html => { :class => 'form-horizontal', :multipart => true } do |f|
+  = f.error_notification
+  .form-inputs
+    %fieldset
+      = f.input :name
+      = f.input :address
+      = f.input :postal_code
+      = f.input :city
+      = f.association :country, :collection => Country.find(:all,:order => 'name')
+      = f.input :phone
+      = f.input :website
+      = f.input :email
+      %br
+      .form-buttons
+        = f.button :submit, :class => 'btn-info'

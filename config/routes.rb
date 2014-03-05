@@ -1,29 +1,37 @@
 MedicalOffice::Application.routes.draw do
-  #devise_for :models
+
+  resources :bank_deposits
+
+  resources :payment_bank_checks
 
   root :to => 'passthrough#index'
 
-  #root to: redirect("/#{I18n.default_locale}")
-
   scope "/:locale" do
-    # match '/', :to=>'home#index', :as=>:root
-
-    #get '/:locale' => 'dashboard#index'
     match '/', :to=>'home#index', via: :get, :as=>:index
+    
+      devise_for :users
+      resources :offices, only: [:new, :create, :show, :edit, :update]
 
-    # namespace :admin do
+      resources :patients do
+        get 'finder', on: :collection
+      end
 
-    #   resources :users
+      resources :practitioners do
+        get 'finder', on: :collection
+      end
 
-    #   #get "home" => "statistics#home", :as=> :home
+      resources :medical_treatment_types do
+        member do
+          get 'price_finder'
+        end
+      end
+      resources :medical_treatments do
+        get "new_payment" => 'medical_treatment_type#new_payment', :as => :new_payment
+      end
+      
+      resources :payments
 
-
-
-
-
-
-    #   #root :to => ':locale/statistics#home'
-    # end
+      resources :payment_bank_checks
 
   end
 end

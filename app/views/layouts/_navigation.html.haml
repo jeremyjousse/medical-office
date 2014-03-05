@@ -1,0 +1,36 @@
+%nav.navbar.navbar-default{:role => "navigation"}
+	.navbar-header
+		%a.navbar-brand{:href => "#"} Medical Office
+	.collapse.navbar-collapse
+		%ul.nav.navbar-nav
+			%li
+				= link_to 'Home', root_path(:locale => I18n.locale)
+			-unless current_user.nil?
+				%li
+					= link_to 'Patients', patients_path(:locale => I18n.locale)
+				%li
+					= link_to 'Practitioners', practitioners_path(:locale => I18n.locale)
+				%li
+					= link_to 'Medical Treatments', medical_treatments_path(:locale => I18n.locale)
+				%li
+					= link_to 'Payments', payments_path(:locale => I18n.locale)
+				%li
+					= link_to 'Bank Deposit', bank_deposits_path(:locale => I18n.locale)
+		-unless current_user.nil?
+			%ul.nav.navbar-nav.navbar-right
+				%li.dropdown
+					%a.dropdown-toggle{:href => "#", "data-toggle" => "dropdown"}
+						%i.fa.fa-cog.fa-lg
+						%b.caret
+					%ul.dropdown-menu
+						-unless current_user.office.nil?
+							%li
+								= link_to 'My Office', edit_office_path(current_user.office, :locale => I18n.locale)
+						%li
+							= link_to 'My Profile', edit_user_registration_path(current_user, :locale => I18n.locale)
+						%li
+							= link_to 'Medical Treatment Types', medical_treatment_types_path(:locale => I18n.locale)
+				%li
+					= link_to 'Sign out', destroy_user_session_path(:locale => I18n.locale), :method => :delete
+
+

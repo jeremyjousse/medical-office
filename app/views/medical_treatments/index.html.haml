@@ -1,0 +1,52 @@
+.container
+	.row
+		.col-md-12
+			.panel.panel-default
+				.panel-heading
+					%h2 Medical Treatments
+				.panel-body
+					.div_action.row
+						.col-md-4
+						.col-md-4.text-center
+							%span
+								= pluralize(@total_items_selected, 'Medical Treatments')+' selected / '+@total_items.to_s
+						.col-md-4.text-right
+							= link_to content_tag(:span, "", class: "glyphicon glyphicon-plus") + ' New Medical Treatment', new_medical_treatment_path, :class=>'btn btn-default'
+					.col-md-12.text-center
+						= will_paginate @medical_treatments, class: '', next_label: 'Next', previous_label: 'Previous'
+					= search_form_for @q do |f|
+						%table.table.table-striped.table-bordered.table-hover.table-condensed
+							%tr
+								%th
+								%th Patient
+								%th Treatment type
+								%th Date
+								%th Location
+								%th Status
+								%th
+							%tr
+								%td 
+									-#{f.select :patient_id_eq, options_from_collection_for_select(current_user.patients.all, "id", :full_name_for_select, @q.patient_id_eq), include_blank: true}
+								%td #{f.hidden_field :patient_id_eq, class: 'select2 ajax', data: { source: finder_patients_path }}
+								%td #{f.select :medical_treatment_type_id_eq, options_from_collection_for_select(current_user.medical_treatment_types.all, :id, :name, @q.medical_treatment_type_id_eq), include_blank: true}
+								%td
+									.col-xs-3
+										#{f.text_field :date_gteq, :class => "form-control input-sm datepicker"}
+									.col-xs-1
+										to
+									.col-xs-3
+										#{f.text_field :date_lteq, :class => "form-control input-sm datepicker"}
+								%td #{f.select :location_id_eq, options_for_select(MedicalTreatment::LOCATIONS.sort.map {|k,v| [v,k]}, @q.location_id_eq), include_blank: true}
+								%td #{f.select :status_eq, options_for_select(MedicalTreatment::STATUS.sort.map {|k,v| [v,k]}, @q.status_eq), include_blank: true}
+								%td #{f.submit 'Filter', class: 'btn btn-default btn-xs'} #{link_to  content_tag(:span, "", class: "glyphicon glyphicon-remove") + ' Reset', medical_treatments_path(:locale => I18n.locale,:filter => 'reset'),  :class => 'btn btn-default btn-xs'}
+							- @medical_treatments.each do |medical_treatment|
+								%tr
+									%td
+										=link_to content_tag(:span, "", class: "glyphicon glyphicon-eye-open") + ' Detail', medical_treatment_path(medical_treatment, :locale => I18n.locale),class: "btn btn-default btn-sm"
+									%td #{medical_treatment.patient.first_name + ' ' + medical_treatment.patient.last_name} 
+									%td #{medical_treatment.medical_treatment_type.name}
+									%td #{medical_treatment.date}
+									%td #{MedicalTreatment::LOCATIONS[medical_treatment.location_id]}
+									%td #{MedicalTreatment::STATUS[medical_treatment.status]}
+									%td
+										=link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_medical_treatment_path(medical_treatment),class: "btn btn-default btn-sm"
