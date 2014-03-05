@@ -2,9 +2,7 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :type %>
-    <%= f.input :number %>
-    <%= f.input :amount %>
+    <%= f.input :type, :collection => BankDeposit::TYPES.sort.map {|k,v| [v,k]}%>
   </div>
 
   <div class="form-actions">

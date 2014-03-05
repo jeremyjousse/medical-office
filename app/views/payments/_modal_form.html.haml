@@ -1,15 +1,24 @@
 .row
   = simple_form_for @payment, :html => { :class => 'form-horizontal', :multipart => true }, :remote => true do |f|
     = f.error_notification
+    = f.input :medical_treatment_id, :as => :hidden
     .form-inputs
       .col-md-12
         %fieldset
-          = f.input :medical_treatment_id, :as => :hidden
-          = f.input :payment_type, :collection => Payment::TYPE.sort.map {|k,v| [v,k]}
-          = f.input :paid_at, as: :string, :input_html =>{data: { behavior: "datepicker" }, :class => 'datepicker'}
-          = f.input :amount
+          %div
+            .col-md-4
+              %fieldset
+                = f.input :payment_type, :collection => Payment::TYPE.sort.map {|k,v| [v,k]}
+            .col-md-4
+              %fieldset
+                = f.input :paid_at, as: :string, :input_html =>{data: { behavior: "datepicker" }, :class => 'datepicker'}
+            .col-md-4
+              %fieldset
+                = f.input :amount
           -#- hidden_add_association_fields f, :payment_bank_check
-          #bank_check_well
-          - if @payment.payment_type == 1 then
+      .col-md-12
+        #bank_check_well
+        - if @payment.payment_type == 1 then
+          %div
             = f.fields_for :payment_bank_check do |builder|
               = render 'modal_bank_check_form', :p => builder

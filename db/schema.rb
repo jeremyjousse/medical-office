@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140103140714) do
+ActiveRecord::Schema.define(version: 20140305125900) do
 
   create_table "bank_deposits", force: true do |t|
     t.integer  "type"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20140103140714) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.date     "deposit_date"
   end
 
   create_table "countries", force: true do |t|

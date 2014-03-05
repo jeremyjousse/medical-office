@@ -24,9 +24,9 @@ class PaymentsController < ApplicationController
     if !params[:medical_treatment_id].nil? then
       @payment.medical_treatment_id = params[:medical_treatment_id]
 
-      medical_treatment = MedicalTreatment.find(params[:medical_treatment_id])
+      @medical_treatment = MedicalTreatment.find(params[:medical_treatment_id])
 
-      @payment.amount = medical_treatment.price
+      @payment.amount = @medical_treatment.price
     end
 
     if !params[:payment_type].nil? then
@@ -37,6 +37,7 @@ class PaymentsController < ApplicationController
       @payment.build_payment_bank_check
     end
 
+    @payment.paid_at = Date.today
 
   end
 

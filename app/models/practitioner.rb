@@ -4,7 +4,7 @@ class Practitioner < ActiveRecord::Base
 	belongs_to :user
 	has_many :patients
   
-  validates :first_name, :presence => true, :length => 2..255
+	validates :first_name, :presence => true, :length => 2..255
 	validates :last_name, :presence => true, :length => 2..255
 	validates :speciality_id, :presence => true
 	validates :address, :presence => true, :length => 2..255

@@ -1,0 +1,41 @@
+.container
+	.row
+		.col-md-12
+			.panel.panel-default
+				.panel-heading
+					%h2 My Bank Deposits
+				.panel-body
+					.div_action.row
+						.col-md-4
+						.col-md-4.text-center
+							%span
+								= pluralize(@total_items_selected, 'Bank Deposit')+' selected / '+@total_items.to_s
+						.col-md-4.text-right
+							= link_to content_tag(:span, "", class: "glyphicon glyphicon-plus") + ' New Bank Deposit', new_bank_deposit_path, :class=>'btn btn-default'
+					.col-md-12.text-center
+						= will_paginate @bank_deposits, class: '', next_label: 'Next', previous_label: 'Previous'
+					= search_form_for @q do |f|
+						%table.table.table-striped.table-bordered.table-hover.table-condensed
+							%tr
+								%th 
+								%th Date
+								%th Type
+								%th Number
+								%th Amount
+								%th 
+							%tr
+								%td 
+								%td 
+								%td #{f.text_field :type_eq, :class => "form-control input-sm"}
+								%td #{f.text_field :number_eq, :class => "form-control input-sm"}
+								%td
+								%td #{f.submit 'Filter', class: 'btn btn-default btn-xs'} #{link_to  content_tag(:span, "", class: "glyphicon glyphicon-remove") + ' Reset', patients_path(:locale => I18n.locale,:filter => 'reset'),  :class => 'btn btn-default btn-xs'}
+							- @bank_deposits.each do |patient|
+								%tr
+									%td
+										=link_to content_tag(:span, "", class: "glyphicon glyphicon-eye-open") + ' Detail', patient_path(patient, :locale => I18n.locale),class: "btn btn-default btn-sm"
+									%td #{patient.deposit_date}
+									%td #{patient.type}
+									%td #{patient.number}
+									%td #{patient.amount}
+									%td

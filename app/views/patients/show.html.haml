@@ -63,7 +63,7 @@
 								- @medical_treatments.each do |medical_treatment|
 									%tr
 										%td
-											=link_to content_tag(:span, "", class: "glyphicon glyphicon-eye-open") + ' Detail', medical_treatment_path(medical_treatment, :locale => I18n.locale),class: "btn btn-default btn-sm"
+											= link_to content_tag(:span, "", class: "glyphicon glyphicon-eye-open") + ' Detail', medical_treatment_path(medical_treatment, :locale => I18n.locale),  {id: 'new_payment_path_js', :class=>'btn btn-default btn-sm', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', 'data-url' => new_medical_treatment_path(patient_id: @patient)}
 										%td #{medical_treatment.medical_treatment_type.name}
 										%td #{medical_treatment.date}
 										%td #{MedicalTreatment::LOCATIONS[medical_treatment.location_id]}

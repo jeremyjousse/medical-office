@@ -1,14 +1,16 @@
 class BankDepositsController < ApplicationController
   before_action :set_bank_deposit, only: [:show, :edit, :update, :destroy]
 
-  # GET /bank_deposits
-  # GET /bank_deposits.json
+
   def index
-    @bank_deposits = BankDeposit.all
+    #@bank_deposits = BankDeposit.all
+    @q = current_user.bank_deposits.paginate(:page => params[:page], :per_page => 10).search(params[:q])
+    @bank_deposits = @q.result(distinct: true)
+    @total_items = current_user.bank_deposits.find(:all).count
+    @total_items_selected = @bank_deposits.count
   end
 
-  # GET /bank_deposits/1
-  # GET /bank_deposits/1.json
+
   def show
   end
 

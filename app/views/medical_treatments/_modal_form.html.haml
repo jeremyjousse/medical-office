@@ -6,9 +6,16 @@
         %fieldset
           = f.input :patient_id, :as => :hidden
           %div
-            Patient : XXX
-          = f.input :date, as: :string, :input_html =>{data: { behavior: "datepicker" }, :class => 'datepicker'}
-          = f.input :location_id, :collection => MedicalTreatment::LOCATIONS.sort.map {|k,v| [v,k]}
-          = f.input :medical_treatment_type_id, :collection => MedicalTreatmentType.where(:user_id => current_user.id).order(:name), :label_method => lambda { |medical_treatment_type| "#{medical_treatment_type.name}"}
-          = f.input :price
-          = f.input :note
+            Patient : #{@medical_treatment.patient.first_name} #{@medical_treatment.patient.last_name}
+          %div
+            .col-md-6
+              %fieldset
+                = f.input :date, as: :string, :input_html =>{data: { behavior: "datepicker" }, :class => 'datepicker'}
+                = f.input :medical_treatment_type_id, :collection => MedicalTreatmentType.where(:user_id => current_user.id).order(:name), :label_method => lambda { |medical_treatment_type| "#{medical_treatment_type.name}"}
+            .col-md-6
+              %fieldset
+                = f.input :location_id, :collection => MedicalTreatment::LOCATIONS.sort.map {|k,v| [v,k]}
+                = f.input :price
+          .col-md-12
+            %fieldset
+              = f.input :note

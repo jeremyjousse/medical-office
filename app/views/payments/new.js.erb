@@ -1,4 +1,5 @@
-$(".modal-body-content").html("<%= escape_javascript(render 'payments/modal_form' ) %>");
+$(".modal-body-content").html("<%= escape_javascript(render 'medical_treatments/modal_show' ) %>");
+$(".modal-body-content").append("<%= escape_javascript(render 'payments/modal_form' ) %>");
 $(".modal-title").html("Add a payment");
 $(".datepicker").datepicker({"format": "yyyy-mm-dd", "weekStart": 1, "autoclose": true});
 $(".modal-footer").html("<%= escape_javascript(render 'payments/modal_form_buttons' ) %>");
