@@ -20,6 +20,10 @@ MedicalOffice::Application.routes.draw do
         get 'finder', on: :collection
       end
 
+      resources :payment_bank_checks do
+        get 'pending', on: :collection
+      end      
+
       resources :medical_treatment_types do
         member do
           get 'price_finder'

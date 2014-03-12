@@ -1,0 +1,16 @@
+= simple_form_for @bank_deposit, :html => { :class => 'form-horizontal' } do |f|
+	= f.error_notification
+	.form-inputs
+		.col-md-12.text-right
+			%br
+			.form-buttons
+				= link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + 'Back', bank_deposits_path, :class => 'btn btn-default'
+				= f.button :submit, :class => 'btn btn-default'
+		.col-md-12
+			%fieldset
+				=BankDeposit::TYPES[@bank_deposit.type]
+				= f.input :type , :as => :hidden
+		.col-md-12
+			%fieldset
+				-unless @pending_bank_checks.nil?
+					= f.association :payment_bank_checks, collection: @pending_bank_checks, prompt: "Select the pending bank checks",   as: :check_boxes,label_method: lambda { |pbc| "#{pbc.account_owner} #{pbc.bank_name} #{pbc.amount} #{pbc.check_number}" }, value_method: :id

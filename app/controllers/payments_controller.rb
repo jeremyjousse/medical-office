@@ -55,7 +55,7 @@ class PaymentsController < ApplicationController
     if !@payment.payment_bank_check.nil? then
       @payment.payment_bank_check.user = current_user
       @payment.payment_bank_check.amount = @payment.amount
-      @payment.payment_bank_check.status = 1
+      @payment.payment_bank_check.status = 0
     end
 
     respond_to do |format|
