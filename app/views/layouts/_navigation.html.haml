@@ -29,6 +29,8 @@
 						%li
 							= link_to 'My Profile', edit_user_registration_path(current_user, :locale => I18n.locale)
 						%li
+							= link_to 'Bank Accounts', bank_accounts_path(:locale => I18n.locale)
+						%li
 							= link_to 'Medical Treatment Types', medical_treatment_types_path(:locale => I18n.locale)
 				%li
 					= link_to 'Sign out', destroy_user_session_path(:locale => I18n.locale), :method => :delete

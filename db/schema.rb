@@ -11,7 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140305125900) do
+ActiveRecord::Schema.define(version: 20140316193645) do
+
+  create_table "bank_accounts", force: true do |t|
+    t.string   "bank_name"
+    t.integer  "bank_check_deposit_number"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "bank_deposits", force: true do |t|
     t.integer  "type"
@@ -21,6 +29,7 @@ ActiveRecord::Schema.define(version: 20140305125900) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.date     "deposit_date"
+    t.integer  "bank_account_id"
   end
 
   create_table "countries", force: true do |t|

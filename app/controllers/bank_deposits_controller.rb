@@ -37,15 +37,6 @@ class BankDepositsController < ApplicationController
   # POST /bank_deposits
   # POST /bank_deposits.json
   def create
-
-    #logger.info "-- -- -- -- " +new_bank_deposit_params.inspect
-
-    #logger.info "------" + params.inspect
-
-    # logger.info "--+ +----" + params[:bank_deposit][:payment_bank_check_ids].inspect
-    # logger.info "--+ +----" + params[:bank_deposit][:payment_bank_check_ids].kind_of?(Array).inspect
-
-    #@bank_deposit = BankDeposit.new(new_bank_deposit_params)
     @bank_deposit = BankDeposit.new
 
     @bank_deposit.user = current_user
@@ -56,10 +47,25 @@ class BankDepositsController < ApplicationController
     redirect_to bank_deposits_path, notice: 'select a type.' and return unless !params[:bank_deposit][:type].nil? && params[:bank_deposit][:type] != 1
 
     if params[:bank_deposit][:payment_bank_check_ids].kind_of?(Array) != true
-      logger.info '...............pas array'
       redirect_to bank_deposits_path, notice: 'Select bank check.' and return
     end
     
+    
+    bank_account = current_user.bank_accounts.find(params[:bank_deposit][:bank_account_id])
+
+
+    if bank_account.bank_check_deposit_number.nil?
+      redirect_to bank_deposits_path, notice: 'Select bank.' and return
+    end
+
+    
+    @bank_deposit.number = bank_account.bank_check_deposit_number + 1
+    
+
+
+
+
+
     params[:bank_deposit][:payment_bank_check_ids].each do |payment_bank_check_id|
 
       next if payment_bank_check_id.to_i < 1
@@ -92,7 +98,8 @@ class BankDepositsController < ApplicationController
 
         end
 
-
+        bank_account.bank_check_deposit_number = bank_account.bank_check_deposit_number + 1
+        bank_account.save
 
         format.html { redirect_to @bank_deposit, notice: 'Bank deposit was successfully created.' }
         format.json { render action: 'show', status: :created, location: @bank_deposit }
@@ -135,7 +142,7 @@ class BankDepositsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def bank_deposit_params
-      params.require(:bank_deposit).permit(:type, :number, :amount)
+      params.require(:bank_deposit).permit(:type, :bank_account_id, :amount)
     end
 
     def new_bank_deposit_params
