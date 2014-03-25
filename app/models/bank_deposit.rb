@@ -5,6 +5,6 @@ class BankDeposit < ActiveRecord::Base
   belongs_to :user
   belongs_to :bank_account
 
-  TYPES = {1 => "Check", 2 => "Cash"}
+  DEPOSIT_TYPES = {1 => "Check", 2 => "Cash"}
 
 end

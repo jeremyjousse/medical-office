@@ -40,11 +40,16 @@ class BankDepositsController < ApplicationController
     @bank_deposit = BankDeposit.new
 
     @bank_deposit.user = current_user
+    @bank_deposit.deposit_date = Date.today
+    
 
 
     payment_bank_checks = {}
 
     redirect_to bank_deposits_path, notice: 'select a type.' and return unless !params[:bank_deposit][:type].nil? && params[:bank_deposit][:type] != 1
+
+    @bank_deposit.deposit_type = params[:bank_deposit][:type]
+
 
     if params[:bank_deposit][:payment_bank_check_ids].kind_of?(Array) != true
       redirect_to bank_deposits_path, notice: 'Select bank check.' and return

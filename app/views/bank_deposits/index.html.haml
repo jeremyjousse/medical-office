@@ -26,16 +26,16 @@
 							%tr
 								%td 
 								%td 
-								%td #{f.text_field :type_eq, :class => "form-control input-sm"}
+								%td #{f.text_field :deposit_type_eq, :class => "form-control input-sm"}
 								%td #{f.text_field :number_eq, :class => "form-control input-sm"}
 								%td
-								%td #{f.submit 'Filter', class: 'btn btn-default btn-xs'} #{link_to  content_tag(:span, "", class: "glyphicon glyphicon-remove") + ' Reset', patients_path(:locale => I18n.locale,:filter => 'reset'),  :class => 'btn btn-default btn-xs'}
-							- @bank_deposits.each do |patient|
+								%td #{f.submit 'Filter', class: 'btn btn-default btn-xs'} #{link_to  content_tag(:span, "", class: "glyphicon glyphicon-remove") + ' Reset', bank_deposits_path(:locale => I18n.locale,:filter => 'reset'),  :class => 'btn btn-default btn-xs'}
+							- @bank_deposits.each do |bank_deposit|
 								%tr
 									%td
-										=link_to content_tag(:span, "", class: "glyphicon glyphicon-eye-open") + ' Detail', patient_path(patient, :locale => I18n.locale),class: "btn btn-default btn-sm"
-									%td #{patient.deposit_date}
-									%td #{patient.type}
-									%td #{patient.number}
-									%td #{patient.amount}
+										=link_to content_tag(:span, "", class: "glyphicon glyphicon-eye-open") + ' Detail', bank_deposit_path(bank_deposit, :locale => I18n.locale),class: "btn btn-default btn-sm"
+									%td #{bank_deposit.deposit_date}
+									%td  #{BankDeposit::DEPOSIT_TYPES[bank_deposit.deposit_type]}
+									%td #{bank_deposit.number}
+									%td #{bank_deposit.amount}
 									%td
