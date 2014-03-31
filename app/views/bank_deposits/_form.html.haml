@@ -8,8 +8,8 @@
 				= f.button :submit, :class => 'btn btn-default'
 		.col-md-12
 			%fieldset
-				= BankDeposit::TYPES[@bank_deposit.type]
-				= f.input :type , :as => :hidden
+				= BankDeposit::DEPOSIT_TYPES[@bank_deposit.deposit_type]
+				= f.input :deposit_type , :as => :hidden
 				= f.input :bank_account_id, :collection => current_user.bank_accounts.order(:bank_name), :label_method => lambda { |bank_account| "#{bank_account.bank_name}"}
 		.col-md-12
 			%fieldset

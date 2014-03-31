@@ -17,13 +17,13 @@ class BankDepositsController < ApplicationController
   # GET /bank_deposits/new
   def new
 
-    redirect_to bank_deposits_path, notice: 'You must chose a bank deposit type.' unless BankDeposit::TYPES.has_key?(params[:type].to_i)
+    redirect_to bank_deposits_path, notice: 'You must chose a bank deposit type.' unless BankDeposit::DEPOSIT_TYPES.has_key?(params[:type].to_i)
 
     @bank_deposit = BankDeposit.new
 
-    @bank_deposit.type = params[:type].to_i
+    @bank_deposit.deposit_type = params[:deposit_type].to_i
 
-    if @bank_deposit.type == 1
+    if @bank_deposit.deposit_type == 1
       @pending_bank_checks = PaymentBankCheck.pending
     end
 
