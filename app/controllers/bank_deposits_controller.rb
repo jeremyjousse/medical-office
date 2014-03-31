@@ -94,7 +94,7 @@ class BankDepositsController < ApplicationController
         payment_bank_checks.each do |payment_bank_check_id, payment_bank_check|
 
           payment_bank_check.status = 1
-          payment_bank_check.check_deposit_id = @bank_deposit.id
+          payment_bank_check.bank_deposit_id = @bank_deposit.id
           payment_bank_check.save
 
           payment = current_user.payments.find(payment_bank_check.payment_id)
