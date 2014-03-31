@@ -1,0 +1,16 @@
+.container
+	.row
+		.col-md-12
+			.panel.panel-default
+				.panel-heading
+					%h2 Bank Account
+				.panel-body
+					.div_action
+						.col-md-4
+						.col-md-4.text-center
+						.col-md-4.text-right
+							= link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + ' Back', bank_accounts_path, :class=>'btn btn-default'
+						%table.table.table-bordered.table-hover.table-condensed.detail-table
+							- generate_show_page_item 'Bank Name', @bank_account.bank_name
+							- generate_show_page_item 'Account number', @bank_account.account_number
+							- generate_show_page_item 'Last Deposit Number', @bank_account.bank_check_deposit_number

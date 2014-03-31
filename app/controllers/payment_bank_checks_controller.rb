@@ -4,6 +4,18 @@ class PaymentBankChecksController < ApplicationController
 
   before_action :set_payment_bank_check, only: [:show, :edit, :update, :destroy]
 
+
+
+  def pending
+
+    @payment_bank_checks = PaymentBankCheck.pending
+
+
+    respond_to do |format|
+      format.html { render action: '_ajax_pending', layout: "_ajax"  }
+    end
+  end
+
   # # GET /payment_bank_checks
   # # GET /payment_bank_checks.json
   # def index

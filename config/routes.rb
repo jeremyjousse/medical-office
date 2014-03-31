@@ -1,9 +1,5 @@
 MedicalOffice::Application.routes.draw do
-
-  resources :bank_deposits
-
-  resources :payment_bank_checks
-
+  
   root :to => 'passthrough#index'
 
   scope "/:locale" do
@@ -20,6 +16,10 @@ MedicalOffice::Application.routes.draw do
         get 'finder', on: :collection
       end
 
+      resources :payment_bank_checks do
+        get 'pending', on: :collection
+      end      
+
       resources :medical_treatment_types do
         member do
           get 'price_finder'
@@ -29,6 +29,10 @@ MedicalOffice::Application.routes.draw do
         get "new_payment" => 'medical_treatment_type#new_payment', :as => :new_payment
       end
       
+      resources :bank_accounts
+
+      resources :bank_deposits
+
       resources :payments
 
       resources :payment_bank_checks

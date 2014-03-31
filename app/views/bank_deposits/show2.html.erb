@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<a title="Print Receipt" href="#" onclick="window.print(); return false;"><i class="glyphicon glyphicon-print
+glyphicon "></i></a>
+
+
+<div>
+<%= @bank_deposit.number %>
+
+
+
+<p>
+  <strong>Number:</strong>
+  <%= @bank_deposit.number %>
+</p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= @bank_deposit.amount %>
+</p>
+
+<% @bank_deposit.payment_bank_checks.each do |payment_bank_check|%>
+	<%=payment_bank_check.account_owner%> - <%=payment_bank_check.bank_name%> <br>
+<% end %>
+
+<%= link_to 'Edit', edit_bank_deposit_path(@bank_deposit) %> |
+<%= link_to 'Back', bank_deposits_path %>

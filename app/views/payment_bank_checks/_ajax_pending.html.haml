@@ -1,0 +1,4 @@
+-@payment_bank_checks.each do |payment_bank_check|
+	-logger.info '------'+ payment_bank_check.inspect
+	#{payment_bank_check.account_owner} #{payment_bank_check.bank_name} #{payment_bank_check.check_number}
+	%br

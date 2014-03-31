@@ -1,0 +1,36 @@
+.container
+	.row
+		.col-md-12
+			.panel.panel-default
+				.panel-heading
+					%h2 Bank Accounts
+				.panel-body
+					.div_action.row
+						.col-md-4
+						.col-md-4.text-center
+							%span
+								= pluralize(@total_items_selected, 'Bank Accounts')+' selected / '+@total_items.to_s
+						.col-md-4.text-right
+							= link_to content_tag(:span, "", class: "glyphicon glyphicon-plus") + ' New Bank Account', new_bank_account_path, :class=>'btn btn-default'
+					.col-md-12.text-center
+						= will_paginate @bank_accounts, class: '', next_label: 'Next', previous_label: 'Previous'
+					= search_form_for @q do |f|
+						%table.table.table-striped.table-bordered.table-hover.table-condensed
+							%tr
+								%th
+								%th Location
+								%th Status
+								%th
+							%tr
+								%td 
+								%td 
+								%td 
+								%td #{f.submit 'Filter', class: 'btn btn-default btn-xs'} #{link_to  content_tag(:span, "", class: "glyphicon glyphicon-remove") + ' Reset', bank_accounts_path(:locale => I18n.locale,:filter => 'reset'),  :class => 'btn btn-default btn-xs'}
+							- @bank_accounts.each do |bank_account|
+								%tr
+									%td
+										=link_to content_tag(:span, "", class: "glyphicon glyphicon-eye-open") + ' Detail', bank_account_path(bank_account, :locale => I18n.locale),class: "btn btn-default btn-sm"
+									%td #{bank_account.bank_name}
+									%td #{bank_account.bank_check_deposit_number}
+									%td
+										=link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_bank_account_path(bank_account),class: "btn btn-default btn-sm"

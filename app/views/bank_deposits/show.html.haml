@@ -1,0 +1,35 @@
+.hidden-print
+  = link_to content_tag(:span, "", class: "glyphicon glyphicon-print"), '#', onclick: 'window.print(); return false;'
+= @bank_deposit.user.office.name
+%br
+= @bank_deposit.user.office.address
+%br
+#{@bank_deposit.user.office.postal_code} #{@bank_deposit.user.office.city}
+%br
+%br
+#{@bank_deposit.bank_account.bank_name}
+%br
+Compte n° : #{@bank_deposit.bank_account.account_number}
+
+
+%br
+%br
+#{@bank_deposit.user.office.city} le #{@bank_deposit.created_at.strftime("%d %b. %Y")}
+%br
+%br
+Remise de chèque n° #{@bank_deposit.number}
+%br
+%br
+%table.table
+  - @bank_deposit.payment_bank_checks.each do |payment_bank_check|
+    %tr
+      %td
+        = payment_bank_check.created_at.strftime("%d %b. %Y")
+      %td
+        = payment_bank_check.account_owner
+      %td
+        = payment_bank_check.bank_name
+      %td
+        = payment_bank_check.check_number
+      %td
+        = payment_bank_check.amount
