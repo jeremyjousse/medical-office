@@ -17,7 +17,7 @@ class BankDepositsController < ApplicationController
   # GET /bank_deposits/new
   def new
 
-    redirect_to bank_deposits_path, notice: 'You must chose a bank deposit type.' unless BankDeposit::DEPOSIT_TYPES.has_key?(params[:type].to_i)
+    redirect_to bank_deposits_path, notice: 'You must chose a bank deposit type.' unless BankDeposit::DEPOSIT_TYPES.has_key?(params[:deposit_type].to_i)
 
     @bank_deposit = BankDeposit.new
 
@@ -46,9 +46,9 @@ class BankDepositsController < ApplicationController
 
     payment_bank_checks = {}
 
-    redirect_to bank_deposits_path, notice: 'select a type.' and return unless !params[:bank_deposit][:type].nil? && params[:bank_deposit][:type] != 1
+    redirect_to bank_deposits_path, notice: 'select a type.' and return unless !params[:bank_deposit][:deposit_type].nil? && params[:bank_deposit][:type] != 1
 
-    @bank_deposit.deposit_type = params[:bank_deposit][:type]
+    @bank_deposit.deposit_type = params[:bank_deposit][:deposit_type]
 
 
     if params[:bank_deposit][:payment_bank_check_ids].kind_of?(Array) != true
@@ -147,10 +147,10 @@ class BankDepositsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def bank_deposit_params
-      params.require(:bank_deposit).permit(:type, :bank_account_id, :amount)
+      params.require(:bank_deposit).permit(:deposit_type, :bank_account_id, :amount)
     end
 
     def new_bank_deposit_params
-      params.require(:bank_deposit).permit(:type)
+      params.require(:bank_deposit).permit(:deposit_type)
     end
 end

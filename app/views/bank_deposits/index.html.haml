@@ -11,7 +11,7 @@
 							%span
 								= pluralize(@total_items_selected, 'Bank Deposit')+' selected / '+@total_items.to_s
 						.col-md-4.text-right
-							= link_to content_tag(:span, "", class: "glyphicon glyphicon-plus") + ' New Bank Deposit', new_bank_deposit_path(params: {type: 1}), :class=>'btn btn-default'
+							= link_to content_tag(:span, "", class: "glyphicon glyphicon-plus") + ' New Bank Deposit', new_bank_deposit_path(params: {deposit_type: 1}), :class=>'btn btn-default'
 					.col-md-12.text-center
 						= will_paginate @bank_deposits, class: '', next_label: 'Next', previous_label: 'Previous'
 					= search_form_for @q do |f|
