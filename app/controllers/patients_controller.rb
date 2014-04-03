@@ -77,11 +77,31 @@ class PatientsController < ApplicationController
     end
   end
 
+  def new_import
+
+  end
+
+  def import
+
+    Patient::import_from_google_contacts(params[:file], current_user.id)
+
+    respond_to do |format|
+      
+        format.html { redirect_to patients_path(:locale => I18n.locale), notice: 'Patients were successfully imported.' and return }
+    end
+
+
+  end
+
   private
     def set_patient
       @patient = Patient.find(params[:id])
     end
 
+
+    def import_patients_params
+      @patient = Patient.find(params[:file])
+    end
     
     def patient_params
       params.require(:patient).permit(:first_name, :last_name, :birthdate, :profession, :phone, :mobile_phone, :email, :address, :postal_code, :city, :country_id, :national_insurance_number, :family_doctor_id, :physical_therapists_id, :physical_therapists_id, :osteopath_id, :legal_guardian_id, :note, :diabetic, :universal_healthcare_coverage, :long_duration_disease, :diabete_network_id)

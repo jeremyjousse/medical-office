@@ -11,6 +11,7 @@
 							%span
 								= pluralize(@total_items_selected, 'Patient')+' selected / '+@total_items.to_s
 						.col-md-4.text-right
+							= link_to content_tag(:span, "", class: "glyphicon glyphicon-import") + ' Import Patients', new_import_patients_path, :class=>'btn btn-default'
 							= link_to content_tag(:span, "", class: "glyphicon glyphicon-plus") + ' New Patient', new_patient_path, :class=>'btn btn-default'
 					.col-md-12.text-center
 						= will_paginate @patients, class: '', next_label: 'Next', previous_label: 'Previous'

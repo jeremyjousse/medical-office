@@ -10,7 +10,11 @@ MedicalOffice::Application.routes.draw do
 
       resources :patients do
         get 'finder', on: :collection
+        get 'new_import', to: 'patients#new_import', as: 'new_import', on: :collection
+        # post 'import', to: 'patients#import', as: 'import', on: :collection
+        collection { post :import }
       end
+
 
       resources :practitioners do
         get 'finder', on: :collection
