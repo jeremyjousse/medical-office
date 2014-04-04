@@ -25,6 +25,13 @@ class BankDepositsController < ApplicationController
 
     if @bank_deposit.deposit_type == 1
       @pending_bank_checks = PaymentBankCheck.pending
+
+      @checked_bank_checks = []
+      @pending_bank_checks.each do |pbc|
+        @checked_bank_checks << pbc.id
+      end
+
+
     end
 
 
@@ -56,6 +63,8 @@ class BankDepositsController < ApplicationController
     end
     
     
+
+
     bank_account = current_user.bank_accounts.find(params[:bank_deposit][:bank_account_id])
 
 
@@ -65,6 +74,7 @@ class BankDepositsController < ApplicationController
 
     
     @bank_deposit.number = bank_account.bank_check_deposit_number + 1
+    @bank_deposit.bank_account_id = bank_account.id
     
 
 

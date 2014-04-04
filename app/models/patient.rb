@@ -6,7 +6,7 @@ class Patient < ActiveRecord::Base
 	belongs_to :osteopath, class_name: :Practitioner
 	has_many :medical_treatments
 
-	validates :first_name, :presence => true, :length => 2..255
+	#validates :first_name, :presence => true, :length => 2..255
 	validates :last_name, :presence => true, :length => 2..255
 	validates :city, :presence => true, :length => 2..255
 	validates :country_id, :presence => true
@@ -23,10 +23,16 @@ class Patient < ActiveRecord::Base
   	end
 
 
-  	def self.import_from_google_contacts(file, user)
+  	def self.import_from_google_contacts(file, user_id)
 		require 'CSV'
+		require 'CGI'
 
-		imported_lines = nil
+		imported_patients = nil
+
+		# Check user exists
+		if User.find(user_id) == nil
+			return false
+		end
 
 		
 
@@ -34,49 +40,38 @@ class Patient < ActiveRecord::Base
 
 			if !row["Family Name"].nil?
 				patient_exists = Patient.where("user_id = :user_id AND last_name LIKE :last_name AND first_name LIKE :first_name AND phone LIKE :phone",
-  {user_id: user, last_name: row["Family Name"], first_name: row["Given Name"], phone: row["Phone 1 - Value"]})
+  {user_id: user_id, last_name: row["Family Name"], first_name: row["Given Name"], phone: row["Phone 1 - Value"]})
 
 				if patient_exists.count == 0
 					
 
 					patient = Patient.new
-					patient.user_id = user
-					patient.first_name = row["Given Name"]
-					patient.last_name = row["Family Name"]
-					patient.birthdate = row["Birthday"]
-					patient.profession = row["Occupation"]
-					patient.email = row["E-mail 1 - Value"]
-					patient.phone = row["Phone 1 - Value"]
-					patient.mobile_phone = row["Phone 2 - Value"]
-					patient.address = row["Address 1 - Street"]
-					patient.postal_code = row["Address 1 - Postal Code"]
-					patient.city = row["Address 1 - City"]
-					patient.note = row["Notes"]
-					#patient.mobile_phone = row["Address 1 - Postal Country"]
-
-					patient.save(validate: false)
-
+					patient.user_id = user_id
+					patient.first_name = CGI::escapeHTML(row["Given Name"])
+					patient.last_name = CGI::escapeHTML(row["Family Name"])
+					patient.birthdate = CGI::escapeHTML(row["Birthday"])
+					patient.profession = CGI::escapeHTML(row["Occupation"])
+					patient.email = CGI::escapeHTML(row["E-mail 1 - Value"])
+					patient.phone = CGI::escapeHTML(row["Phone 1 - Value"])
+					patient.mobile_phone = CGI::escapeHTML(row["Phone 2 - Value"])
+					patient.address = CGI::escapeHTML(row["Address 1 - Street"])
+					patient.postal_code = CGI::escapeHTML(row["Address 1 - Postal Code"])
+					patient.city = CGI::escapeHTML(row["Address 1 - City"])
+					#patient.country_id = CGI::escapeHTML(row["Address 1 - Country"])
+					patient.note = CGI::escapeHTML(row["Notes"])
 					
 
-					
+					if patient.save(validate: false)
+						imported_patients = imported_patients + 1
+					end
+
 
 				end
 			end
-# Given Name
-# Family Name
-# E-mail 1 - Value
-# Phone 1 - Value
-# Phone 2 - Value
-# Address 1 - Street
-# Address 1 - City
-# Address 1 - Postal Code
-# Address 1 - Country
-
-
-			#logger.info '-------' + row.inspect
 
 		end
 
+		return imported_patients
 
   	end
 

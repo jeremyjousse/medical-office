@@ -14,4 +14,4 @@
 		.col-md-12
 			%fieldset
 				-unless @pending_bank_checks.nil?
-					= f.association :payment_bank_checks, collection: @pending_bank_checks, prompt: "Select the pending bank checks",   as: :check_boxes,label_method: lambda { |pbc| "#{pbc.account_owner} #{pbc.bank_name} #{pbc.amount} #{pbc.check_number}" }, value_method: :id
+					= f.association :payment_bank_checks, collection: @pending_bank_checks, prompt: "Select the pending bank checks", as: :check_boxes, :checked => @checked_bank_checks, label_method: lambda { |pbc| "#{pbc.account_owner} - #{pbc.bank_name} - #{pbc.amount}€ - #{pbc.check_number}" }, value_method: lambda { |pbc| "#{pbc.id}" }
