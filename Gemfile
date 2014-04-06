@@ -44,7 +44,6 @@ gem 'devise'
 gem 'will_paginate'
 gem "ransack"
 
-gem 'exception_notification'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -54,7 +53,6 @@ end
 group :development do
   gem "better_errors"
   gem 'guard-livereload', require: false
-  gem 'terminal-notifier-guard'
 end
 
 group :development, :test do
@@ -62,6 +60,7 @@ group :development, :test do
   gem "rspec-rails"
   gem "factory_girl_rails"
   gem 'guard-rspec'
+  gem 'rails-erd', github: 'paulwittmann/rails-erd', branch: 'mavericks'
 end
 
 group :test do
