@@ -21,7 +21,9 @@ Remise de chèque n° #{@bank_deposit.number}
 %br
 %br
 %table.table
+  -total = 0
   - @bank_deposit.payment_bank_checks.each do |payment_bank_check|
+    -total = total + payment_bank_check.amount
     %tr
       %td
         = payment_bank_check.created_at.strftime("%d %b. %Y")
@@ -33,3 +35,5 @@ Remise de chèque n° #{@bank_deposit.number}
         = payment_bank_check.check_number
       %td
         = payment_bank_check.amount
+%h2
+  Total #{total} €
