@@ -37,5 +37,14 @@
 									%td #{patient.last_name}
 									%td #{patient.city}
 									%td
-										=link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_patient_path(patient),class: "btn btn-default btn-sm"
-										=link_to content_tag(:span, "", class: "glyphicon glyphicon-asterisk") + ' Medical Treatments', medical_treatments_path(:locale => I18n.locale, 'q[patient_id_eq]' => patient.id),class: "btn btn-default btn-sm"
+										.btn-group
+											=link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_patient_path(patient),class: "btn btn-default btn-sm"
+											%button.btn.btn-default.btn-sm.dropdown-toggle{"data-toggle" => "dropdown", type: "button"}
+												%span.caret
+												%span.sr-only
+													Toggle Dropdown
+											%ul.dropdown-menu{role: "menu"}
+												%li
+													=link_to content_tag(:span, "", class: "glyphicon glyphicon-asterisk") + ' Medical Treatments', medical_treatments_path(:locale => I18n.locale, 'q[patient_id_eq]' => patient.id)
+												%li
+													=link_to content_tag(:span, "", class: "glyphicon glyphicon-trash") + ' Destroy', patient , method: :delete, data: { confirm: 'Are you sure?' }
