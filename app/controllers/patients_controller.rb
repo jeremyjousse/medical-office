@@ -4,8 +4,17 @@ class PatientsController < ApplicationController
 
   before_action :set_patient, only: [:show, :edit, :update, :destroy]
 
+  include ListingHelper
+
   def index
-    @q = current_user.patients.paginate(:page => params[:page], :per_page => 10).search(params[:q])
+
+    if params[:per_page].nil?
+      params[:per_page] = 10
+    end
+
+    search_params = put_and_get_search_params_in_session('patients',{search: params[:q], page: params[:page], per_page: params[:per_page]},params[:filter])
+
+    @q = current_user.patients.paginate(:page => search_params[:page], :per_page => search_params[:per_page]).search(search_params[:search])
     @patients = @q.result(distinct: true)
     @total_items = current_user.patients.find(:all).count
     @total_items_selected = @patients.count

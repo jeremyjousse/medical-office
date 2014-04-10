@@ -1,5 +1,5 @@
 = simple_form_for @patient, :html => { :class => 'form-horizontal', :multipart => true } do |f|
-  = f.error_notification
+  - simple_form_notification_message f.error_notification
   .form-inputs
     .col-md-12.text-right
       %br

@@ -15,6 +15,7 @@
 //= require turbolinks
 //= require bootstrap/dropdown
 //= require bootstrap/modal
+//= require bootstrap/alert
 
 
 //= require select2
@@ -38,3 +39,7 @@ function add_fields(link, association, content, callback) {
 function reload_datepickers(){
 	$(".datepicker").datepicker({"format": "yyyy-mm-dd", "weekStart": 1, "autoclose": true});
 }
+
+$(function() {
+	$(".alert").alert();
+});

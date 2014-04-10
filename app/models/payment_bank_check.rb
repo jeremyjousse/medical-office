@@ -1,5 +1,5 @@
 class PaymentBankCheck < ActiveRecord::Base
-	has_one :payment
+	belongs_to :payment
 	belongs_to :user
 	belongs_to :bank_deposit
 

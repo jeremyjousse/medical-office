@@ -26,7 +26,7 @@ Remise de chèque n° #{@bank_deposit.number}
     -total = total + payment_bank_check.amount
     %tr
       %td
-        = payment_bank_check.created_at.strftime("%d %b. %Y")
+        = payment_bank_check.payment.paid_at.strftime("%d %b. %Y")
       %td
         = payment_bank_check.account_owner
       %td

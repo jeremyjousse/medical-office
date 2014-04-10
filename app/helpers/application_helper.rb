@@ -18,4 +18,26 @@ module ApplicationHelper
 		end
   end
 
+  def simple_form_notification_message(message)
+
+    if !message.nil?
+      haml_tag :div, :class => "alert alert-danger alert-dismissable" do
+        haml_tag :button, type: :button , class: "close", data: {dismiss: "alert"}, aria: {hidden: "true"} do
+          haml_concat "&times;"
+        end
+        haml_concat message
+      end
+    end
+
+  end
+
+
+  def flash_class(level)
+    case level
+      when :notice then "info"
+      when :error then "danger"
+      when :alert then "warning"
+    end
+  end
+
 end

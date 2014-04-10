@@ -12,6 +12,9 @@ class BankDepositsController < ApplicationController
 
 
   def show
+    #@bank_deposit = current_user.bank_deposits.where('bank_deposits.id = ?',params[:id]).includes(:payments, :user, :bank_account ).includes('JOIN payment_bank_checks ON payments.id = payment_bank_checks.payment_id').select("users.*, bank_accounts.*, payment_bank_checks.*, payments.paid_at, bank_deposits.*").first 
+    @bank_deposit = current_user.bank_deposits.where('bank_deposits.id = ?',params[:id]).eager_load(:payments, :user, :bank_account ).first
+    
   end
 
   # GET /bank_deposits/new
