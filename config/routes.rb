@@ -37,7 +37,9 @@ MedicalOffice::Application.routes.draw do
 
       resources :bank_deposits
 
-      resources :payments
+      resources :payments do
+        get 'listing', on: :collection
+      end
 
       resources :payment_bank_checks
 

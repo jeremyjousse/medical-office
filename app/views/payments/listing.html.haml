@@ -15,10 +15,9 @@
 							-#= link_to content_tag(:span, "", class: "glyphicon glyphicon-plus") + ' New Patient', new_patient_path, :class=>'btn btn-default'
 					.col-md-12.text-center
 						= will_paginate @payments, class: '', next_label: 'Next', previous_label: 'Previous'
-					= search_form_for @q do |f|
+					= search_form_for @q, url: listing_payments_path do |f|
 						%table.table.table-striped.table-bordered.table-hover.table-condensed
 							%tr
-								%th 
 								%th Medical treatment
 								%th Paid at
 								%th Type
@@ -26,18 +25,37 @@
 								%th
 							%tr
 								%td 
-								%td 
-								%td #{f.text_field :paid_at_eq, :class => "form-control input-sm"}
+								%td
+									.col-xs-3
+										#{f.text_field :paid_at_gteq, :class => "form-control input-sm datepicker"}
+									.col-xs-1
+										to
+									.col-xs-3
+										#{f.text_field :paid_at_lteq, :class => "form-control input-sm datepicker"}
+
 								%td #{f.text_field :payment_type_cont, :class => "form-control input-sm"}
 								%td
 								%td #{f.submit 'Filter', class: 'btn btn-default btn-xs'} #{link_to  content_tag(:span, "", class: "glyphicon glyphicon-remove") + ' Reset', payments_path(:locale => I18n.locale,:filter => 'reset'),  :class => 'btn btn-default btn-xs'}
+							- total = 0
+							- total_day = 0
+							- day = nil
 							- @payments.each do |payment|
+								- total = total + payment.amount
+								- if day != payment.paid_at
+									- if total_day != 0
+										%tr
+											%td
+											%td
+											%td
+											%td
+											%td #{total_day.to_s}
+									- total_day = payment.amount
+									- day = payment.paid_at
+								- else
+									- total_day = total_day + payment.amount
 								%tr
-									%td #{link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-right") + ' Show', payment_path(payment),class: "btn btn-default btn-sm"}
 									%td #{payment.medical_treatment.patient.last_name + ' ' + payment.medical_treatment.patient.first_name + ' (' + payment.medical_treatment.medical_treatment_type.name + ' ' + payment.medical_treatment.date.to_s +  ')'}
 									%td #{payment.paid_at}
 									%td #{Payment::TYPE[payment.payment_type]}
 									%td #{payment.amount}
 									%td
-										=link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_payment_path(payment),class: "btn btn-default btn-sm"
-										=link_to content_tag(:span, "", class: "glyphicon glyphicon-trash") + ' Destroy', payment , method: :delete, data: { confirm: 'Are you sure?' },class: "btn btn-danger btn-sm"
