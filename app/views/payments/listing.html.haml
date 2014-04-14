@@ -3,7 +3,7 @@
 		.col-md-12
 			.panel.panel-default
 				.panel-heading
-					%h2 Payments
+					%h2 Payment listing
 				.panel-body
 					.div_action.row
 						.col-md-4
@@ -11,8 +11,8 @@
 							%span
 								= pluralize(@total_items_selected, 'Payment')+' selected / '+@total_items.to_s
 						.col-md-4.text-right
-							= link_to content_tag(:span, "", class: "glyphicon glyphicon-list-alt") + ' Print listing', listing_payments_path, :class=>'btn btn-default'
-							-#= link_to content_tag(:span, "", class: "glyphicon glyphicon-plus") + ' New Patient', new_patient_path, :class=>'btn btn-default'
+							= link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + ' Back', payments_path, :class=>'btn btn-default'
+							= link_to content_tag(:span, "", class: "glyphicon glyphicon-print") + ' Print','#', onclick: 'window.print(); return false;', :class=>'btn btn-default'
 					.col-md-12.text-center
 						= will_paginate @payments, class: '', next_label: 'Next', previous_label: 'Previous'
 					= search_form_for @q, url: listing_payments_path do |f|
@@ -43,7 +43,7 @@
 								- if day != payment.paid_at
 									- if total_day[:all] != 0
 										%tr
-											%td{:colspan => 5}
+											%td{colspan: 5, align: 'center'}
 												%b
 													- total_day.each do |total_day_type_sym, total_day_type|
 														Total #{total_day_type_sym.to_s} : #{total_day[total_day_type_sym].to_s} -
@@ -65,3 +65,15 @@
 									%td #{Payment::TYPE[payment.payment_type]}
 									%td #{payment.amount}
 									%td
+							- if total_day[:all] != 0
+								%tr
+									%td{colspan: 5, align: 'center'}
+										%b
+											- total_day.each do |total_day_type_sym, total_day_type|
+												Total #{total_day_type_sym.to_s} : #{total_day[total_day_type_sym].to_s} -
+							- if total[:all] != 0
+								%tr
+									%td{colspan: 5, align: 'right'}
+										%b
+											- total.each do |total_type_sym, total_type|
+												Total #{total_type_sym.to_s} : #{total[total_type_sym].to_s} -
