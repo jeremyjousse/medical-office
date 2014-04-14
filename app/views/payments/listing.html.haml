@@ -36,23 +36,29 @@
 								%td #{f.text_field :payment_type_cont, :class => "form-control input-sm"}
 								%td
 								%td #{f.submit 'Filter', class: 'btn btn-default btn-xs'} #{link_to  content_tag(:span, "", class: "glyphicon glyphicon-remove") + ' Reset', payments_path(:locale => I18n.locale,:filter => 'reset'),  :class => 'btn btn-default btn-xs'}
-							- total = 0
-							- total_day = 0
+							- total = {all: 0}
+							- total_day = {all: 0}
 							- day = nil
 							- @payments.each do |payment|
-								- total = total + payment.amount
 								- if day != payment.paid_at
-									- if total_day != 0
+									- if total_day[:all] != 0
 										%tr
-											%td
-											%td
-											%td
-											%td
-											%td #{total_day.to_s}
-									- total_day = payment.amount
-									- day = payment.paid_at
+											%td{:colspan => 5}
+												%b
+													- total_day.each do |total_day_type_sym, total_day_type|
+														Total #{total_day_type_sym.to_s} : #{total_day[total_day_type_sym].to_s} -
+									- total_day = {all: 0}
+									- total_day[Payment::TYPE[payment.payment_type].to_sym] = payment.amount
+									- total_day[:all] = payment.amount
+
 								- else
-									- total_day = total_day + payment.amount
+									- total_day[:all] = total_day[:all] + payment.amount
+									- total_day[Payment::TYPE[payment.payment_type].to_sym] = total_day[Payment::TYPE[payment.payment_type].to_sym].to_i + payment.amount
+								
+								
+								- day = payment.paid_at
+								- total[Payment::TYPE[payment.payment_type].to_sym] = total[Payment::TYPE[payment.payment_type].to_sym].to_i + payment.amount
+								- total[:all] = total[:all] + payment.amount
 								%tr
 									%td #{payment.medical_treatment.patient.last_name + ' ' + payment.medical_treatment.patient.first_name + ' (' + payment.medical_treatment.medical_treatment_type.name + ' ' + payment.medical_treatment.date.to_s +  ')'}
 									%td #{payment.paid_at}
