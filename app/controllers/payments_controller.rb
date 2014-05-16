@@ -19,7 +19,7 @@ class PaymentsController < ApplicationController
 
     search_params = put_and_get_search_params_in_session('payments',{search: params[:q], page: params[:page], per_page: params[:per_page]},params[:filter])
 
-    @q = current_user.payments.paginate(:page => search_params[:page], :per_page => search_params[:per_page]).search(search_params[:search])
+    @q = current_user.payments.order(paid_at: :desc).paginate(:page => search_params[:page], :per_page => search_params[:per_page]).search(search_params[:search])
     @payments = @q.result(distinct: true)
     @total_items = current_user.payments.find(:all).count
     @total_items_selected = @payments.count
@@ -81,7 +81,7 @@ class PaymentsController < ApplicationController
   # POST /payments.json
   def create
     @payment = Payment.new(payment_params)
-    
+
     @payment.user = current_user
 
     if !@payment.payment_bank_check.nil? then
