@@ -1,5 +1,5 @@
 class PatientsController < ApplicationController
-  
+
   before_filter :authenticate_user!
 
   before_action :set_patient, only: [:show, :edit, :update, :destroy]
@@ -27,7 +27,7 @@ class PatientsController < ApplicationController
       format.json { render json: @patients }
     end
   end
-  
+
   def show
     if params[:q].nil? then params[:q] = {} end
     params[:q][:patient_id_eq] = @patient.id
@@ -38,16 +38,16 @@ class PatientsController < ApplicationController
 
   end
 
-  
+
   def new
     @patient = Patient.new
   end
 
-  
+
   def edit
   end
 
-  
+
   def create
     @patient = Patient.new(patient_params)
 
@@ -64,7 +64,7 @@ class PatientsController < ApplicationController
     end
   end
 
-  
+
   def update
     respond_to do |format|
       if @patient.update(patient_params)
@@ -77,7 +77,7 @@ class PatientsController < ApplicationController
     end
   end
 
-  
+
   def destroy
     @patient.destroy
     respond_to do |format|
@@ -95,7 +95,7 @@ class PatientsController < ApplicationController
     Patient::import_from_google_contacts(params[:file], current_user.id)
 
     respond_to do |format|
-      
+
         format.html { redirect_to patients_path(:locale => I18n.locale), notice: 'Patients were successfully imported.' and return }
     end
 
@@ -111,7 +111,7 @@ class PatientsController < ApplicationController
     def import_patients_params
       @patient = Patient.find(params[:file])
     end
-    
+
     def patient_params
       params.require(:patient).permit(:first_name, :last_name, :birthdate, :profession, :phone, :mobile_phone, :email, :address, :postal_code, :city, :country_id, :national_insurance_number, :family_doctor_id, :physical_therapists_id, :physical_therapists_id, :osteopath_id, :legal_guardian_id, :note, :diabetic, :universal_healthcare_coverage, :long_duration_disease, :diabete_network_id)
     end

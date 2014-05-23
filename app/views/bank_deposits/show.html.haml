@@ -33,7 +33,7 @@ Remise de chèque n° #{@bank_deposit.number}
         = payment_bank_check.bank_name
       %td
         = payment_bank_check.check_number
-      %td
-        = payment_bank_check.amount
-%h2
-  Total #{total} €
+      %td.text-right
+        = number_to_currency(payment_bank_check.amount, locale: :fr)
+%h2.text-right
+  Total #{number_to_currency(total, locale: :fr)}

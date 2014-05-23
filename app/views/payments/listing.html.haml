@@ -24,7 +24,7 @@
 								%th Amount
 								%th
 							%tr
-								%td 
+								%td
 								%td
 									.col-xs-3
 										#{f.text_field :paid_at_gteq, :class => "form-control input-sm datepicker"}
@@ -34,7 +34,7 @@
 										#{f.text_field :paid_at_lteq, :class => "form-control input-sm datepicker"}
 
 								%td #{f.text_field :payment_type_cont, :class => "form-control input-sm"}
-								%td
+								%td.col-md-1
 								%td #{f.submit 'Filter', class: 'btn btn-default btn-xs'} #{link_to  content_tag(:span, "", class: "glyphicon glyphicon-remove") + ' Reset', payments_path(:locale => I18n.locale,:filter => 'reset'),  :class => 'btn btn-default btn-xs'}
 							- total = {all: 0}
 							- total_day = {all: 0}
@@ -43,10 +43,10 @@
 								- if day != payment.paid_at
 									- if total_day[:all] != 0
 										%tr
-											%td{colspan: 5, align: 'center'}
+											%td{colspan: 5, align: 'right'}
 												%b
 													- total_day.each do |total_day_type_sym, total_day_type|
-														Total #{total_day_type_sym.to_s} : #{total_day[total_day_type_sym].to_s} -
+														Total #{total_day_type_sym.to_s} : #{number_to_currency(total_day[total_day_type_sym], locale: :fr)} -
 									- total_day = {all: 0}
 									- total_day[Payment::TYPE[payment.payment_type].to_sym] = payment.amount
 									- total_day[:all] = payment.amount
@@ -54,8 +54,8 @@
 								- else
 									- total_day[:all] = total_day[:all] + payment.amount
 									- total_day[Payment::TYPE[payment.payment_type].to_sym] = total_day[Payment::TYPE[payment.payment_type].to_sym].to_i + payment.amount
-								
-								
+
+
 								- day = payment.paid_at
 								- total[Payment::TYPE[payment.payment_type].to_sym] = total[Payment::TYPE[payment.payment_type].to_sym].to_i + payment.amount
 								- total[:all] = total[:all] + payment.amount
@@ -63,17 +63,17 @@
 									%td #{payment.medical_treatment.patient.last_name + ' ' + payment.medical_treatment.patient.first_name + ' (' + payment.medical_treatment.medical_treatment_type.name + ' ' + payment.medical_treatment.date.to_s +  ')'}
 									%td #{payment.paid_at}
 									%td #{Payment::TYPE[payment.payment_type]}
-									%td #{payment.amount}
+									%td.text-right #{number_to_currency(payment.amount, locale: :fr)}
 									%td
 							- if total_day[:all] != 0
 								%tr
-									%td{colspan: 5, align: 'center'}
+									%td{colspan: 5, align: 'right'}
 										%b
 											- total_day.each do |total_day_type_sym, total_day_type|
-												Total #{total_day_type_sym.to_s} : #{total_day[total_day_type_sym].to_s} -
+												Total #{total_day_type_sym.to_s} : #{number_to_currency(total_day[total_day_type_sym], locale: :fr)} -
 							- if total[:all] != 0
 								%tr
 									%td{colspan: 5, align: 'right'}
 										%b
 											- total.each do |total_type_sym, total_type|
-												Total #{total_type_sym.to_s} : #{total[total_type_sym].to_s} -
+												Total #{total_type_sym.to_s} : #{number_to_currency(total[total_type_sym], locale: :fr)} -
