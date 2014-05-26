@@ -10,7 +10,10 @@ class Patient < ActiveRecord::Base
 	validates :last_name, :presence => true, :length => 2..255
 	validates :city, :presence => true, :length => 2..255
 	validates :country_id, :presence => true
-  
+
+	before_save :set_first_name_and_last_name_uppercase
+
+
 
 	scope :finder, lambda { |q| where("last_name like :q", q: "%#{q}%") }
 
@@ -34,7 +37,7 @@ class Patient < ActiveRecord::Base
 			return false
 		end
 
-		
+
 
 		CSV.foreach(file.path, {:encoding => 'bom|utf-16le', headers: true}) do |row|
 
@@ -43,7 +46,7 @@ class Patient < ActiveRecord::Base
   {user_id: user_id, last_name: row["Family Name"], first_name: row["Given Name"], phone: row["Phone 1 - Value"]})
 
 				if patient_exists.count == 0
-					
+
 
 					patient = Patient.new
 					patient.user_id = user_id
@@ -59,7 +62,7 @@ class Patient < ActiveRecord::Base
 					patient.city = CGI::escapeHTML(row["Address 1 - City"])
 					#patient.country_id = CGI::escapeHTML(row["Address 1 - Country"])
 					patient.note = CGI::escapeHTML(row["Notes"])
-					
+
 
 					if patient.save(validate: false)
 						imported_patients = imported_patients + 1
@@ -74,5 +77,14 @@ class Patient < ActiveRecord::Base
 		return imported_patients
 
   	end
+
+		def set_first_name_and_last_name_uppercase
+
+			self.first_name = self.first_name.gsub(/\b(\w)/){|m| m.capitalize}
+			self.last_name = self.last_name.gsub(/\b(\w)/){|m| m.capitalize}
+			self.address = self.address.gsub(/\b(\w)/){|m| m.capitalize}
+			self.city = self.city.gsub(/\b(\w)/){|m| m.capitalize}
+
+		end
 
 end

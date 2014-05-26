@@ -67,6 +67,7 @@ class PaymentsController < ApplicationController
 
     if @payment.payment_type.to_i == 1 then
       @payment.build_payment_bank_check
+      @payment.payment_bank_check.account_owner = @medical_treatment.patient.last_name
     end
 
     @payment.paid_at = Date.today

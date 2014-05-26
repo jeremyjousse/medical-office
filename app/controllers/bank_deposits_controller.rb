@@ -12,9 +12,11 @@ class BankDepositsController < ApplicationController
 
 
   def show
-    #@bank_deposit = current_user.bank_deposits.where('bank_deposits.id = ?',params[:id]).includes(:payments, :user, :bank_account ).includes('JOIN payment_bank_checks ON payments.id = payment_bank_checks.payment_id').select("users.*, bank_accounts.*, payment_bank_checks.*, payments.paid_at, bank_deposits.*").first 
-    @bank_deposit = current_user.bank_deposits.where('bank_deposits.id = ?',params[:id]).eager_load(:payments, :user, :bank_account ).first
-    
+    #@bank_deposit = current_user.bank_deposits.where('bank_deposits.id = ?',params[:id]).includes(:payments, :user, :bank_account ).includes('JOIN payment_bank_checks ON payments.id = payment_bank_checks.payment_id').select("users.*, bank_accounts.*, payment_bank_checks.*, payments.paid_at, bank_deposits.*").first
+    @bank_deposit = current_user.bank_deposits.where('bank_deposits.id = ?',params[:id]).eager_load( :user, :bank_account ).first
+
+    @payment_bank_checks = @bank_deposit.payment_bank_checks.joins('INNER JOIN payments ON payments.id = payment_bank_checks.payment_id').order("payments.paid_at ASC")
+
   end
 
   # GET /bank_deposits/new
@@ -51,7 +53,7 @@ class BankDepositsController < ApplicationController
 
     @bank_deposit.user = current_user
     @bank_deposit.deposit_date = Date.today
-    
+
 
 
     payment_bank_checks = {}
@@ -64,8 +66,8 @@ class BankDepositsController < ApplicationController
     if params[:bank_deposit][:payment_bank_check_ids].kind_of?(Array) != true
       redirect_to bank_deposits_path, notice: 'Select bank check.' and return
     end
-    
-    
+
+
 
 
     bank_account = current_user.bank_accounts.find(params[:bank_deposit][:bank_account_id])
@@ -75,10 +77,10 @@ class BankDepositsController < ApplicationController
       redirect_to bank_deposits_path, notice: 'Select bank.' and return
     end
 
-    
+
     @bank_deposit.number = bank_account.bank_check_deposit_number + 1
     @bank_deposit.bank_account_id = bank_account.id
-    
+
 
 
 
@@ -93,7 +95,7 @@ class BankDepositsController < ApplicationController
       if !payment_bank_check.nil?
 
         payment_bank_checks[payment_bank_check_id] = payment_bank_check
-        
+
         @bank_deposit.amount = @bank_deposit.amount.to_i + payment_bank_check.amount
 
       end

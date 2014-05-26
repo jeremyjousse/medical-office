@@ -22,7 +22,7 @@ Remise de chèque n° #{@bank_deposit.number}
 %br
 %table.table
   -total = 0
-  - @bank_deposit.payment_bank_checks.each do |payment_bank_check|
+  - @payment_bank_checks.each do |payment_bank_check|
     -total = total + payment_bank_check.amount
     %tr
       %td
