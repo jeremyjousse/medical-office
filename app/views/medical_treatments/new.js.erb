@@ -5,13 +5,6 @@ $(".modal-footer").html("<%= escape_javascript(render 'medical_treatments/modal_
 $('#new_medical_treatment_form_submiter').bind( "click", function() {
   $('#new_medical_treatment').submit();
 });
-
-$(document).keypress(function(e){
-    if (e.which == 13){
-        $('#new_medical_treatment').submit();
-    }
-});
-
 $( "#medical_treatment_medical_treatment_type_id" ).change(function() {
   id = $("#medical_treatment_medical_treatment_type_id").val();
   url = "/fr/medical_treatment_types/:id/price_finder.json";

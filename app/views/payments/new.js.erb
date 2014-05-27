@@ -6,17 +6,6 @@ $(".modal-footer").html("<%= escape_javascript(render 'payments/modal_form_butto
 $('#new_payment_form_submiter').bind( "click", function() {
   $('#new_payment').submit();
 });
-
-
-
-
-$(document).keypress(function(e){
-    if (e.which == 13){
-        $('#new_payment').submit();
-    }
-});
-
-
 $("#payment_payment_type").change(function(){
 	//$.getScript('/fr/payments/new.js?medical_treatment_id=<%= params[:medical_treatment_id]%>&payment_type='+$("#payment_payment_type").val());
 	$.getScript('/fr/payments/new.js?medical_treatment_id=' + $("#payment_medical_treatment_id").val() + '&payment_type='+$("#payment_payment_type").val());
