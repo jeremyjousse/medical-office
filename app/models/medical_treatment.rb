@@ -6,7 +6,7 @@ class MedicalTreatment < ActiveRecord::Base
 	has_many :payments, :dependent => :destroy
 
 	accepts_nested_attributes_for :payments
-  
+
 	validates :patient_id, :presence => true
 	validates :date, :presence => true
 	validates :location_id, :presence => true
@@ -28,7 +28,7 @@ class MedicalTreatment < ActiveRecord::Base
   			total_payment = total_payment + payment.amount
   	end
 
-  	if !self.price.nil? && total_payment > self.price 
+  	if !self.price.nil? && total_payment > self.price
   		errors.add(:price, "Max amount exceeded for payments")
   		return false
   	end
@@ -36,12 +36,13 @@ class MedicalTreatment < ActiveRecord::Base
   end
 
   def change_status_if_paied
+		Rails.logger.info '-----------change_status_if_paied'
 	    total_payment = BigDecimal.new("0")
 	    self.payments.each do |payment|
 	        total_payment = total_payment + payment.amount
 	    end
 
-	    if !self.price.nil? && total_payment == self.price 
+	    if !self.price.nil? && total_payment == self.price
 	      self.status = 1
 	      #self.save
 	    else

@@ -18,7 +18,7 @@ class Patient < ActiveRecord::Base
 	scope :finder, lambda { |q| where("last_name like :q", q: "%#{q}%") }
 
 	def as_json(options)
-    	{ id: id, text: first_name + ' ' + last_name + '(' + city + ')' }
+    	{ id: id.to_s, text: first_name.to_s + ' ' + last_name.to_s + '(' + city.to_s + ')' }
   	end
 
 	def full_name_for_select

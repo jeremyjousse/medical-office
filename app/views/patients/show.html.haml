@@ -48,7 +48,7 @@
 									%th Status
 									%th
 								%tr
-									%td 
+									%td
 									%td #{f.select :medical_treatment_type_id_eq, options_from_collection_for_select(current_user.medical_treatment_types.all, :id, :name, @q.medical_treatment_type_id_eq), include_blank: true}
 									%td
 										.col-xs-3

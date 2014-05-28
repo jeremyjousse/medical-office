@@ -18,15 +18,15 @@
 					= search_form_for @q do |f|
 						%table.table.table-striped.table-bordered.table-hover.table-condensed
 							%tr
-								%th 
+								%th
 								%th Medical treatment
 								%th Paid at
 								%th Type
 								%th Amount
 								%th
 							%tr
-								%td 
-								%td 
+								%td
+								%td
 								%td #{f.text_field :paid_at_eq, :class => "form-control input-sm"}
 								%td #{f.text_field :payment_type_cont, :class => "form-control input-sm"}
 								%td
@@ -40,4 +40,5 @@
 									%td #{payment.amount}
 									%td
 										=link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_payment_path(payment),class: "btn btn-default btn-sm"
-										=link_to content_tag(:span, "", class: "glyphicon glyphicon-trash") + ' Destroy', payment , method: :delete, data: { confirm: 'Are you sure?' },class: "btn btn-danger btn-sm"
+										- if payment.bank_deposit_id.nil?
+											=link_to content_tag(:span, "", class: "glyphicon glyphicon-trash") + ' Destroy', payment , method: :delete, data: { confirm: 'Are you sure?' },class: "btn btn-danger btn-sm"
