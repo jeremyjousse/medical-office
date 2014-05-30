@@ -17,7 +17,7 @@ class AddNewFieldsToPosturalAnalyses < ActiveRecord::Migration
     add_column :postural_analyses, :podoscope, :string
     add_column :postural_analyses, :stork_balance_test, :string
     add_column :postural_analyses, :left_right_handed, :integer
-    add_column :postural_analyses, :barre_vertical_test, :integer
+    add_column :postural_analyses, :barre_vertical_test, :string
     add_column :postural_analyses, :ilium, :string
     add_column :postural_analyses, :scapulum, :string
     add_column :postural_analyses, :plumb_line, :string

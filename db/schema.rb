@@ -169,7 +169,7 @@ ActiveRecord::Schema.define(version: 20140530095421) do
     t.string   "podoscope"
     t.string   "stork_balance_test"
     t.integer  "left_right_handed"
-    t.integer  "barre_vertical_test"
+    t.string   "barre_vertical_test"
     t.string   "ilium"
     t.string   "scapulum"
     t.string   "plumb_line"

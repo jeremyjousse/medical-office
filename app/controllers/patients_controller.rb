@@ -16,7 +16,7 @@ class PatientsController < ApplicationController
 
     @q = current_user.patients.paginate(:page => search_params[:page], :per_page => search_params[:per_page]).search(search_params[:search])
     @patients = @q.result(distinct: true)
-    @total_items = current_user.patients.find().count
+    @total_items = current_user.patients.all().count
     @total_items_selected = @patients.count
   end
 
@@ -37,7 +37,7 @@ class PatientsController < ApplicationController
     @total_items_selected = @medical_treatments.count
 
     @postural_analyses = @patient.postural_analyses
-    
+
   end
 
 
