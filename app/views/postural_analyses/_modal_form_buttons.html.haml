@@ -1,0 +1,5 @@
+%button.btn{"data-dismiss" => "modal", :type => "button"} Close
+- if action == 'edit'
+  %button.btn{type: "submit", :type => "button", id: "postural_analysis_form_submiter" } Edit
+- else
+  %button.btn{type: "submit", :type => "button", id: "postural_analysis_form_submiter" } Add

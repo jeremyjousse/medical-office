@@ -6,11 +6,13 @@
 					%h2 Patient Detail
 				.panel-body
 					.div_action
-						.col-md-4
-						.col-md-4.text-center
-						.col-md-4.text-right
-							= link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + ' Back', patients_path, :class=>'btn btn-default'
-							= link_to 'Add Medical Treatment', new_medical_treatment_path(patient_id: @patient, payment_type: nil),  {id: 'new_payment_path_js', :class=>'btn btn-default', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', 'data-url' => new_medical_treatment_path(patient_id: @patient)}
+						.col-md-5
+						.col-md-2.text-center
+						.col-md-5.text-right
+							= link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + ' Back', patients_path, :class=>'btn btn-default btn-sm'
+							= link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_patient_path(@patient),class: "btn btn-default btn-sm"
+							= link_to 'Add Medical Treatment', new_medical_treatment_path(patient_id: @patient, payment_type: nil),  {id: 'new_payment_path_js', :class=>'btn btn-default btn-sm', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', 'data-url' => new_medical_treatment_path(patient_id: @patient)}
+							= link_to 'Add Postural Analyse', new_postural_analysis_path(patient_id: @patient),  {id: 'new_postural_analysis_path_js', :class=>'btn btn-default btn-sm', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', 'data-url' => new_postural_analysis_path(patient_id: @patient)}
 						.col-md-6
 							%table.table.table-bordered.table-hover.table-condensed.detail-table
 								- generate_show_page_item 'First name', @patient.first_name
@@ -36,37 +38,50 @@
 								- generate_show_page_item 'universal_healthcare_coverage', @patient.universal_healthcare_coverage
 								- generate_show_page_item 'long_duration_disease', @patient.long_duration_disease
 								- generate_show_page_item 'diabete_network_id', @patient.diabete_network_id
-						.col-md-12.text-center
-							= will_paginate @medical_treatments, class: '', next_label: 'Next', previous_label: 'Previous'
-						= search_form_for @q do |f|
+						- if @medical_treatments.count > 0
+							.col-md-12.text-center
+								= will_paginate @medical_treatments, class: '', next_label: 'Next', previous_label: 'Previous'
+							= search_form_for @q do |f|
+								%table.table.table-striped.table-bordered.table-hover.table-condensed
+									%tr
+										%th
+										%th Treatment type
+										%th Date
+										%th Location
+										%th Status
+										%th
+									%tr
+										%td
+										%td #{f.select :medical_treatment_type_id_eq, options_from_collection_for_select(current_user.medical_treatment_types.all, :id, :name, @q.medical_treatment_type_id_eq), include_blank: true}
+										%td
+											.col-xs-3
+												#{f.text_field :date_gteq, :class => "form-control input-sm datepicker"}
+											.col-xs-1
+												to
+											.col-xs-3
+												#{f.text_field :date_lteq, :class => "form-control input-sm datepicker"}
+										%td #{f.select :location_id_eq, options_for_select(MedicalTreatment::LOCATIONS.sort.map {|k,v| [v,k]}, @q.location_id_eq), include_blank: true}
+										%td #{f.select :status_eq, options_for_select(MedicalTreatment::STATUS.sort.map {|k,v| [v,k]}, @q.status_eq), include_blank: true}
+										%td #{f.submit 'Filter', class: 'btn btn-default btn-xs'} #{link_to  content_tag(:span, "", class: "glyphicon glyphicon-remove") + ' Reset', medical_treatments_path(:locale => I18n.locale,:filter => 'reset'),  :class => 'btn btn-default btn-xs'}
+									- @medical_treatments.each do |medical_treatment|
+										%tr
+											%td
+												= link_to content_tag(:span, "", class: "glyphicon glyphicon-eye-open") + ' Detail', medical_treatment_path(medical_treatment, :locale => I18n.locale),  {id: 'new_payment_path_js', :class=>'btn btn-default btn-sm', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', 'data-url' => new_medical_treatment_path(medical_treatment, patient_id: @patient)}
+											%td #{medical_treatment.medical_treatment_type.name}
+											%td #{medical_treatment.date}
+											%td #{MedicalTreatment::LOCATIONS[medical_treatment.location_id]}
+											%td #{MedicalTreatment::STATUS[medical_treatment.status]}
+											%td
+						- if @postural_analyses.count > 0
 							%table.table.table-striped.table-bordered.table-hover.table-condensed
 								%tr
 									%th
-									%th Treatment type
+									%th Postural Analysis
 									%th Date
-									%th Location
-									%th Status
-									%th
-								%tr
-									%td
-									%td #{f.select :medical_treatment_type_id_eq, options_from_collection_for_select(current_user.medical_treatment_types.all, :id, :name, @q.medical_treatment_type_id_eq), include_blank: true}
-									%td
-										.col-xs-3
-											#{f.text_field :date_gteq, :class => "form-control input-sm datepicker"}
-										.col-xs-1
-											to
-										.col-xs-3
-											#{f.text_field :date_lteq, :class => "form-control input-sm datepicker"}
-									%td #{f.select :location_id_eq, options_for_select(MedicalTreatment::LOCATIONS.sort.map {|k,v| [v,k]}, @q.location_id_eq), include_blank: true}
-									%td #{f.select :status_eq, options_for_select(MedicalTreatment::STATUS.sort.map {|k,v| [v,k]}, @q.status_eq), include_blank: true}
-									%td #{f.submit 'Filter', class: 'btn btn-default btn-xs'} #{link_to  content_tag(:span, "", class: "glyphicon glyphicon-remove") + ' Reset', medical_treatments_path(:locale => I18n.locale,:filter => 'reset'),  :class => 'btn btn-default btn-xs'}
-								- @medical_treatments.each do |medical_treatment|
+								- @postural_analyses.each do |postural_analysis|
 									%tr
 										%td
-											= link_to content_tag(:span, "", class: "glyphicon glyphicon-eye-open") + ' Detail', medical_treatment_path(medical_treatment, :locale => I18n.locale),  {id: 'new_payment_path_js', :class=>'btn btn-default btn-sm', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', 'data-url' => new_medical_treatment_path(patient_id: @patient)}
-										%td #{medical_treatment.medical_treatment_type.name}
-										%td #{medical_treatment.date}
-										%td #{MedicalTreatment::LOCATIONS[medical_treatment.location_id]}
-										%td #{MedicalTreatment::STATUS[medical_treatment.status]}
+											= link_to content_tag(:span, "", class: "glyphicon glyphicon-eye-open") + ' Detail', edit_postural_analysis_path(postural_analysis, :locale => I18n.locale),  {id: 'postural_analysis_path_js', :class=>'btn btn-default btn-sm', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', 'data-url' => edit_postural_analysis_path(postural_analysis, patient_id: @patient)}
+										%td
 										%td
 = render 'layouts/modal'

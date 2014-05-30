@@ -1,0 +1,41 @@
+fr:
+  simple_form:
+    labels:
+      postural_analysis:
+        shoe_size: Pointure
+        sole_pattern: Gabarit
+        pain: Douleur
+        medical_history: Antécédents médicaux
+        radiologic_examinations: Radiographies
+        headache: Maux de tête
+        giddiness: "Vertiges, Etourdissements"
+        falls: "Chutes, chocs"
+        lying_down_eo_mo: Allongé Y.O. B.O.
+        lying_down_ec_mo: Allongé Y.F. B.O.
+        lying_down_eo_mc: Allongé Y.O. B.F.
+        jaw_centring: Centrage machoire
+        tooth_fillings: Amalgames dentaire
+        popping_jaw: Carquement de machoire
+        jaw_opening: Ouverture de machoire
+        temporal_muscles: Temporaux
+        micro_current: Micro Cour.
+        podoscope: Podoscope
+        stork_balance_test: Position unipodale
+        left_right_handed: Gaucher / Droitier
+        barre_vertical_test: Verticale de Barré
+        ilium: Ilium
+        scapulum: Scapulum
+        plumb_line: Fil à plomb
+        walking: Marche
+        cervical_rotation: Rotation des cervicales
+        thumb_test: Test des pouces
+        dynamic_posture_test: Test posturo dyn.
+        romberg_test: Test de Romberg
+        trampling: Pietinement
+        extensors_test: Test des extenseurs
+        eye_convergence: Convergence des yeux
+        master_eye: Oeil directeur
+        maddox_test: Test de Maddox
+        visual_correction: Correction visuelle
+        atlas: Atlas
+        jammed: Blocages

@@ -1,0 +1,7 @@
+$(".modal-body-content").html("<%= escape_javascript(render 'postural_analyses/modal_form' ) %>");
+$(".modal-title").html("Edit a postural analyse");
+$(".modal-footer").html("<%= escape_javascript(render 'postural_analyses/modal_form_buttons', action: 'edit' ) %>");
+$('#postural_analysis_form_submiter').bind( "click", function() {
+  
+  $('#edit_postural_analysis_<%= @postural_analysis.id%>').submit();
+});

@@ -40,9 +40,6 @@ class Payment < ActiveRecord::Base
   end
 
   def change_medical_treatment_id_total_payments_amount_equal_medical_treatment_price
-
-    Rails.logger.info '--------- payment.destroy'
-
     mt = self.medical_treatment
     total_payment = BigDecimal.new("0")
     mt.payments.each do |payment|

@@ -19,7 +19,8 @@
 
 
 //= require select2
-//= require bootstrap-datepicker
+//= require bootstrap-datepicker/core
+//= require bootstrap-datepicker/locales/bootstrap-datepicker.fr.js
 
 
 function add_fields(link, association, content, callback) {

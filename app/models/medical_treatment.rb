@@ -36,7 +36,6 @@ class MedicalTreatment < ActiveRecord::Base
   end
 
   def change_status_if_paied
-		Rails.logger.info '-----------change_status_if_paied'
 	    total_payment = BigDecimal.new("0")
 	    self.payments.each do |payment|
 	        total_payment = total_payment + payment.amount

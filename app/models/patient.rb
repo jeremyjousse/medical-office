@@ -5,6 +5,7 @@ class Patient < ActiveRecord::Base
 	belongs_to :physical_therapists, class_name: :Practitioner
 	belongs_to :osteopath, class_name: :Practitioner
 	has_many :medical_treatments
+	has_many :postural_analyses
 
 	#validates :first_name, :presence => true, :length => 2..255
 	validates :last_name, :presence => true, :length => 2..255

@@ -16,7 +16,7 @@ class PatientsController < ApplicationController
 
     @q = current_user.patients.paginate(:page => search_params[:page], :per_page => search_params[:per_page]).search(search_params[:search])
     @patients = @q.result(distinct: true)
-    @total_items = current_user.patients.find(:all).count
+    @total_items = current_user.patients.find().count
     @total_items_selected = @patients.count
   end
 
@@ -33,9 +33,11 @@ class PatientsController < ApplicationController
     params[:q][:patient_id_eq] = @patient.id
     @q = current_user.medical_treatments.paginate(:page => params[:page], :per_page => 8).search(params[:q])
     @medical_treatments = @q.result(distinct: true)
-    @total_items = current_user.medical_treatments.find(:all).count
+    @total_items = current_user.medical_treatments.all.count
     @total_items_selected = @medical_treatments.count
 
+    @postural_analyses = @patient.postural_analyses
+    
   end
 
 
@@ -79,7 +81,7 @@ class PatientsController < ApplicationController
 
 
   def destroy
-    
+
     @patient.destroy
     respond_to do |format|
       format.html { redirect_to patients_url }

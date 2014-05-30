@@ -1,10 +1,10 @@
 MedicalOffice::Application.routes.draw do
-  
+
   root :to => 'passthrough#index'
 
   scope "/:locale" do
     match '/', :to=>'home#index', via: :get, :as=>:index
-    
+
       devise_for :users
       resources :offices, only: [:new, :create, :show, :edit, :update]
 
@@ -22,7 +22,7 @@ MedicalOffice::Application.routes.draw do
 
       resources :payment_bank_checks do
         get 'pending', on: :collection
-      end      
+      end
 
       resources :medical_treatment_types do
         member do
@@ -32,10 +32,12 @@ MedicalOffice::Application.routes.draw do
       resources :medical_treatments do
         get "new_payment" => 'medical_treatment_type#new_payment', :as => :new_payment
       end
-      
+
       resources :bank_accounts
 
       resources :bank_deposits
+
+      resources :postural_analyses
 
       resources :payments do
         get 'listing', on: :collection

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140407202037) do
+ActiveRecord::Schema.define(version: 20140530095421) do
 
   create_table "bank_accounts", force: true do |t|
     t.string   "bank_name"
@@ -143,6 +143,50 @@ ActiveRecord::Schema.define(version: 20140407202037) do
   end
 
   add_index "payments", ["medical_treatment_id"], name: "index_payments_on_medical_treatment_id"
+
+  create_table "postural_analyses", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "patient_id"
+    t.integer  "shoe_size"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "sole_pattern"
+    t.text     "pain"
+    t.text     "medical_history"
+    t.text     "radiologic_examinations"
+    t.string   "headache"
+    t.string   "giddiness"
+    t.string   "falls"
+    t.string   "lying_down_eo_mo"
+    t.string   "lying_down_ec_mo"
+    t.string   "lying_down_eo_mc"
+    t.string   "jaw_centring"
+    t.string   "tooth_fillings"
+    t.string   "popping_jaw"
+    t.string   "jaw_opening"
+    t.string   "temporal_muscles"
+    t.string   "micro_current"
+    t.string   "podoscope"
+    t.string   "stork_balance_test"
+    t.integer  "left_right_handed"
+    t.integer  "barre_vertical_test"
+    t.string   "ilium"
+    t.string   "scapulum"
+    t.string   "plumb_line"
+    t.text     "walking"
+    t.string   "cervical_rotation"
+    t.string   "thumb_test"
+    t.string   "dynamic_posture_test"
+    t.string   "romberg_test"
+    t.string   "trampling"
+    t.string   "extensors_test"
+    t.string   "eye_convergence"
+    t.string   "master_eye"
+    t.string   "maddox_test"
+    t.string   "visual_correction"
+    t.string   "atlas"
+    t.string   "jammed"
+  end
 
   create_table "practitioners", force: true do |t|
     t.string   "first_name"
