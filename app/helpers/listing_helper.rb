@@ -24,9 +24,13 @@ module ListingHelper
 
 
 
-if search_params_hash[:search].diff(ActiveSupport::JSON.decode(session[:listing_filter_params][:search])) != {}
-	params_hash[:page] = 1
-end
+				if !(search_params_hash[:search].to_a - ActiveSupport::JSON.decode(session[:listing_filter_params][:search]).to_a ).empty?
+					params_hash[:page] = 1
+				end
+				#
+				# if search_params_hash[:search].diff(ActiveSupport::JSON.decode(session[:listing_filter_params][:search])) != {}
+				# 	params_hash[:page] = 1
+				# end
 
 
 			else
