@@ -6,7 +6,7 @@ class BankDepositsController < ApplicationController
     #@bank_deposits = BankDeposit.all
     @q = current_user.bank_deposits.paginate(:page => params[:page], :per_page => 10).search(params[:q])
     @bank_deposits = @q.result(distinct: true)
-    @total_items = current_user.bank_deposits.find(:all).count
+    @total_items = current_user.bank_deposits.all().count
     @total_items_selected = @bank_deposits.count
   end
 

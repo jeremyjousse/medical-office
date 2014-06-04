@@ -21,7 +21,7 @@ class PaymentsController < ApplicationController
 
     @q = current_user.payments.order(paid_at: :desc).paginate(:page => search_params[:page], :per_page => search_params[:per_page]).search(search_params[:search])
     @payments = @q.result(distinct: true)
-    @total_items = current_user.payments.find(:all).count
+    @total_items = current_user.payments.all().count
     @total_items_selected = @payments.count
 
 
