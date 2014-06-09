@@ -20,6 +20,9 @@ Compte n° : #{@bank_deposit.bank_account.account_number}
 Remise de chèque n° #{@bank_deposit.number}
 %br
 %br
+Nb. chèques #{@payment_bank_checks.count}
+%br
+%br
 %table.table
   -total = 0
   - @payment_bank_checks.each do |payment_bank_check|
