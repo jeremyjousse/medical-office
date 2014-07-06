@@ -28,9 +28,11 @@ MedicalOffice::Application.routes.draw do
         member do
           get 'price_finder'
         end
+
       end
       resources :medical_treatments do
         get "new_payment" => 'medical_treatment_type#new_payment', :as => :new_payment
+
       end
 
       resources :bank_accounts

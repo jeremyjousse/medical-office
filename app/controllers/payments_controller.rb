@@ -74,6 +74,7 @@ class PaymentsController < ApplicationController
 
   end
 
+
   # GET /payments/1/edit
   def edit
   end
