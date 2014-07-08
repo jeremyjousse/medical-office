@@ -87,3 +87,19 @@
             %fieldset
               = f.input :atlas
               = f.input :jammed
+
+
+  = simple_form_for [@postural_analysis, @postural_analysis_scan], :html => { :multipart => true, :id => "fileupload"  } do |f|
+    .row
+      .fileupload-buttonbar
+        .progressbar.fileupload-progressbar.nofade
+          %div{style: "width:0%"}
+          %span.btn.btn-default.btn-xs.fileinput-button
+            %span.glyphicon.glyphicon-star
+            add a picture
+            = f.file_field :scan, :multiple => true
+    .row
+      %ul.thumbnails.files
+        - @postural_analysis_scans.each do |scan|
+          %li.span3{id: "scan_#{scan.id}"}
+            = image_tag scan.scan.thumb.url

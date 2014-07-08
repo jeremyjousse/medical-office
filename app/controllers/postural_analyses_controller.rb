@@ -26,16 +26,16 @@ class PosturalAnalysesController < ApplicationController
 
   def edit
     @postural_analysis = current_user.postural_analyses.find(params[:id])
+
+    @postural_analysis_scan = @postural_analysis.postural_analysis_scans.build
+
+    @postural_analysis_scans = @postural_analysis.postural_analysis_scans.all
+
+
   end
 
   def update
-
-logger.info  '-------- ++++ ' + params.inspect
-
-
     @postural_analysis = current_user.postural_analyses.find(params[:id])
-
-logger.info  '-------- ++++ ' + @postural_analysis.inspect
 
     if @postural_analysis.user_id != current_user.id
       exit()

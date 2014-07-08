@@ -39,7 +39,9 @@ MedicalOffice::Application.routes.draw do
 
       resources :bank_deposits
 
-      resources :postural_analyses
+      resources :postural_analyses do
+        resources :postural_analysis_scans
+      end
 
       resources :payments do
         get 'listing', on: :collection

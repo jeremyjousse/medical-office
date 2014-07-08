@@ -38,12 +38,19 @@ gem 'bootstrap-datepicker-rails'
 
 
 gem 'devise'
-#gem 'cancan'
-#gem 'rolify'
+# add turnip
 
 gem 'will_paginate'
 gem "ransack"
 
+# upload file gem
+gem 'carrierwave'
+
+# ImageMagick ruby wraper
+gem "mini_magick"
+
+# jQuery-File-Upload
+gem 'jquery.fileupload-rails'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

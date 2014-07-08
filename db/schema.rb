@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140530095421) do
+ActiveRecord::Schema.define(version: 20140707114710) do
 
   create_table "bank_accounts", force: true do |t|
     t.string   "bank_name"
@@ -187,6 +187,15 @@ ActiveRecord::Schema.define(version: 20140530095421) do
     t.string   "atlas"
     t.string   "jammed"
   end
+
+  create_table "postural_analysis_scans", force: true do |t|
+    t.integer "postural_analysis_id"
+    t.string  "scan"
+    t.integer "user_id"
+  end
+
+  add_index "postural_analysis_scans", ["postural_analysis_id"], name: "index_postural_analysis_scans_on_postural_analysis_id"
+  add_index "postural_analysis_scans", ["user_id"], name: "index_postural_analysis_scans_on_user_id"
 
   create_table "practitioners", force: true do |t|
     t.string   "first_name"

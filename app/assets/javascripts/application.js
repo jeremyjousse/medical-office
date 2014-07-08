@@ -16,7 +16,7 @@
 //= require bootstrap/dropdown
 //= require bootstrap/modal
 //= require bootstrap/alert
-
+//= require jquery.fileupload
 
 //= require select2
 //= require bootstrap-datepicker/core

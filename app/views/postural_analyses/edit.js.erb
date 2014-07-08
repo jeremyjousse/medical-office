@@ -2,6 +2,74 @@ $(".modal-body-content").html("<%= escape_javascript(render 'postural_analyses/m
 $(".modal-title").html("Edit a postural analyse");
 $(".modal-footer").html("<%= escape_javascript(render 'postural_analyses/modal_form_buttons', action: 'edit' ) %>");
 $('#postural_analysis_form_submiter').bind( "click", function() {
-  
+
   $('#edit_postural_analysis_<%= @postural_analysis.id%>').submit();
 });
+
+$('#fileupload').fileupload({
+      autoUpload: true,
+      uploadTemplate: function (o) {
+        var rows = $();
+        $.each(o.files, function (index, file) {
+          console.log(file);
+            var row = $('<li class="span3">' +
+                '<div class="thumbnail">' +
+                  '<div class="preview" style="text-align: center;"></div>' +
+                  '<div class="progress progress-success progress-striped active">' +
+                    '<div class="bar" style="width:0%;"></div>' +
+                  '</div>' +
+                '</div>');
+            rows = rows.add(row);
+        });
+        return rows;
+    },
+
+    completed: function(e, data) {
+      console.log(data.result[0].url);
+      $('a[href^="' + data.result[0].url + '"]').slimbox();
+    },
+    downloadTemplate: function (o) {
+        var rows = $();
+        $.each(o.files, function (index, file) {
+            var row = $('<li class="span3" id="picture_' + file.picture_id + '">' +
+                (file.error ? '<div class="name"></div>' +
+                    '<div class="size"></div><div class="error" ></div>' :
+                      '<div class="thumbnail">' +
+                        '<a href="' + file.url +'" rel="lightbox-pictures" class="picture_' + file.id + '" title="">' +
+                          '<img src="" alt="">') +
+                        '</a>' +
+                        '<div class="caption">' +
+                          '<p style="text-align: center;">' +
+                            '<a href="" class="btn btn-mini btn-show" style="margin-right: 4px;">' +
+                              '<i class="icon-edit "></i>' +
+                              'Edit' +
+                            '</a>' +
+                            '<a class="btn btn-mini btn-delete" confirm="Вы уверены?" data-remote=true data-method="delete" href="" >' +
+                              '<i class="icon-trash"></i>' +
+                              'Delete' +
+                            '</a>' +
+                          '</p>' +
+                        '</div>' +
+                      '</div>');
+
+
+            if (file.error) {
+                row.find('.name').text(file.name);
+                row.find('.error').text(
+                    locale.fileupload.errors[file.error] || file.error
+                );
+            } else {
+                if (file.thumbnail_url) {
+                    row.find('img').prop('src', file.thumbnail_url);
+                }
+                row.find('.btn-delete')
+                    .attr('href', '/galleries/' + $("#galleryID").val() + '/pictures/' + file.picture_id);
+                row.find('.btn-show')
+                    .attr('href', '/galleries/' + $("#galleryID").val() + '/pictures/' + file.picture_id + '/edit');
+            }
+            rows = rows.add(row);
+        });
+        return rows;
+    }
+
+  });
