@@ -7,6 +7,9 @@
 				.panel-body
 					.div_action.row
 						.col-md-4
+							Show
+							= select_tag(:per_page, options_for_select([[2, 2], [10, 10], [20, 20], [50, 50], [100, 100], ['all', 10000000]], @search_params['per_page']), {class: "per_page"})
+							per page
 						.col-md-4.text-center
 							%span
 								= pluralize(@total_items_selected, 'Patient')+' selected / '+@total_items.to_s

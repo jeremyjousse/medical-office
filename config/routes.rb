@@ -13,6 +13,9 @@ MedicalOffice::Application.routes.draw do
         get 'new_import', to: 'patients#new_import', as: 'new_import', on: :collection
         # post 'import', to: 'patients#import', as: 'import', on: :collection
         collection { post :import }
+        resources :medical_treatments, controller: 'patients/medical_treatments' do
+
+        end
       end
 
 

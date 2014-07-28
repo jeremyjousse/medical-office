@@ -41,6 +41,19 @@ function reload_datepickers(){
 	$(".datepicker").datepicker({"format": "yyyy-mm-dd", "weekStart": 1, "autoclose": true});
 }
 
+function ready() {
+  $(".alert").alert();
+  $('#apply_filter').click(function(){
+    $('#filter_form').submit();
+  });
+  $('.per_page').change(function(){
+    window.location = window.location.pathname + '?per_page=' + $(this).val();
+  });
+  window.setInterval(function(){$("#flash-display .fade").addClass("in");},200);
+}
+
 $(function() {
-	$(".alert").alert();
+	ready();
 });
+
+$(document).on("page:change", ready());

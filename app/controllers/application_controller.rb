@@ -16,12 +16,68 @@ class ApplicationController < ActionController::Base
       #I18n.default_locale = :fr
 
     # if I18n.locale == 'fr'
-      
+
     # end
   end
 
   def render_404
     render file: Rails.root.join("public", "404"), layout: false, status: "404"
+  end
+
+  def put_and_get_search_params_in_session(controller_name, params_hash , filter)
+    session[:listing_filter_params]  ||= Hash.new
+
+    search_params_hash = {'search' => {}, 'page' => 1, 'per_page' => 10, 'reseted' => nil}
+
+    if filter == 'reset'
+       search_params_hash['reseted'] = true
+    elsif session[:listing_filter_controller_name] == controller_name
+
+      if !params_hash['search'].nil?
+        params_hash['search'].each do |search_param_key,search_param_value|
+          search_params_hash['search'][search_param_key] = search_param_value
+        end
+      else
+        search_params_hash['search'] = session[:listing_filter_params]['search']
+      end
+
+			if !(search_params_hash['search'].to_a - session[:listing_filter_params]['search'].to_a ).empty?
+        logger.info "----- --- -- -- - reset page : search"
+        logger.info '----' + search_params_hash['search'].to_a.to_s
+        logger.info '----' + session[:listing_filter_params]['search'].to_a.to_s
+        params_hash['page'] = 1
+			end
+
+      if !params_hash['per_page'].nil?
+        search_params_hash['per_page'] = params_hash['per_page']
+      else
+        search_params_hash['per_page'] = session[:listing_filter_params]['per_page']
+      end
+
+      if !params_hash['page'].nil?
+        search_params_hash['page'] = params_hash['page']
+      else
+        search_params_hash['page'] = session[:listing_filter_params]['page']
+      end
+
+    end
+
+    if search_params_hash['per_page'].to_i != session[:listing_filter_params]['per_page'].to_i
+      logger.info "----- --- -- -- - reset page : per_page"
+      logger.info "---- - - -session[:listing_filter_params]['per_page']" + session[:listing_filter_params]['per_page'].to_s + "--- --- search_params_hash[per_page] " + search_params_hash['per_page'].to_s
+      search_params_hash['page'] = 1
+    end
+
+
+    session[:listing_filter_controller_name] = controller_name
+    session[:listing_filter_params] = search_params_hash
+
+    if search_params_hash['reseted'] == true
+      #redirect_via_turbolinks_to request.env['PATH_INFO']
+      redirect_to   request.env['PATH_INFO']
+    end
+
+    search_params_hash
   end
 
   private
