@@ -61,6 +61,8 @@ group :development do
   gem "better_errors"
   gem 'guard-livereload', require: false
   gem 'quiet_assets'
+  gem 'railroady'
+  #gem 'rails-erd', github: 'paulwittmann/rails-erd', branch: 'mavericks'
 end
 
 group :development, :test do
@@ -68,7 +70,6 @@ group :development, :test do
   gem "rspec-rails"
   gem "factory_girl_rails"
   gem 'guard-rspec'
-  gem 'rails-erd', github: 'paulwittmann/rails-erd', branch: 'mavericks'
 end
 
 group :test do
