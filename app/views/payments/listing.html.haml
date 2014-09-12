@@ -14,7 +14,6 @@
 							= link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + ' Back', payments_path, :class=>'btn btn-default'
 							= link_to content_tag(:span, "", class: "glyphicon glyphicon-print") + ' Print','#', onclick: 'window.print(); return false;', :class=>'btn btn-default'
 					.col-md-12.text-center
-						= will_paginate @payments, class: '', next_label: 'Next', previous_label: 'Previous'
 					= search_form_for @q, url: listing_payments_path do |f|
 						%table.table.table-striped.table-bordered.table-hover.table-condensed
 							%tr
@@ -35,7 +34,7 @@
 
 								%td #{f.text_field :payment_type_cont, :class => "form-control input-sm"}
 								%td.col-md-1
-								%td #{f.submit 'Filter', class: 'btn btn-default btn-xs'} #{link_to  content_tag(:span, "", class: "glyphicon glyphicon-remove") + ' Reset', payments_path(:locale => I18n.locale,:filter => 'reset'),  :class => 'btn btn-default btn-xs'}
+								%td #{f.submit 'Filter', class: 'btn btn-default btn-xs'} #{link_to  content_tag(:span, "", class: "glyphicon glyphicon-remove") + ' Reset', listing_payments_path(:locale => I18n.locale,:filter => 'reset'),  :class => 'btn btn-default btn-xs'}
 							- total = {all: 0}
 							- total_day = {all: 0}
 							- day = nil
@@ -53,11 +52,11 @@
 
 								- else
 									- total_day[:all] = total_day[:all] + payment.amount
-									- total_day[Payment::TYPE[payment.payment_type].to_sym] = total_day[Payment::TYPE[payment.payment_type].to_sym].to_i + payment.amount
+									- total_day[Payment::TYPE[payment.payment_type].to_sym] = total_day[Payment::TYPE[payment.payment_type].to_sym].to_f + payment.amount
 
 
 								- day = payment.paid_at
-								- total[Payment::TYPE[payment.payment_type].to_sym] = total[Payment::TYPE[payment.payment_type].to_sym].to_i + payment.amount
+								- total[Payment::TYPE[payment.payment_type].to_sym] = total[Payment::TYPE[payment.payment_type].to_sym].to_f + payment.amount
 								- total[:all] = total[:all] + payment.amount
 								%tr
 									%td #{payment.medical_treatment.patient.last_name + ' ' + payment.medical_treatment.patient.first_name + ' (' + payment.medical_treatment.medical_treatment_type.name + ' ' + payment.medical_treatment.date.to_s +  ')'}

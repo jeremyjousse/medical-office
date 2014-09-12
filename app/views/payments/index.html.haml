@@ -27,8 +27,8 @@
 							%tr
 								%td
 								%td
-								%td #{f.text_field :paid_at_eq, :class => "form-control input-sm"}
-								%td #{f.text_field :payment_type_cont, :class => "form-control input-sm"}
+								%td #{f.text_field :paid_at_eq, :class => "form-control input-sm datepicker"}
+								%td #{f.text_field :payment_type_cont, :class => "form-control input-sm "}
 								%td
 								%td #{f.submit 'Filter', class: 'btn btn-default btn-xs'} #{link_to  content_tag(:span, "", class: "glyphicon glyphicon-remove") + ' Reset', payments_path(:locale => I18n.locale,:filter => 'reset'),  :class => 'btn btn-default btn-xs'}
 							- @payments.each do |payment|

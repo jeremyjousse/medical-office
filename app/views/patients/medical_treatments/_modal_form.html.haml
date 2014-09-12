@@ -10,7 +10,7 @@
           %div
             .col-md-6
               %fieldset
-                = f.input :date, as: :string, :input_html =>{data: { behavior: "datepicker" }, :class => 'datepicker'}
+                = f.input :date, as: :string, :input_html =>{data: { behavior: "datepicker" }, :class => 'datepicker', style: "z-index: 10000"}
                 = f.input :medical_treatment_type_id, :collection => MedicalTreatmentType.where(:user_id => current_user.id).order(:name), :label_method => lambda { |medical_treatment_type| "#{medical_treatment_type.name}"}
             .col-md-6
               %fieldset

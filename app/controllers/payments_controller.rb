@@ -11,15 +11,15 @@ class PaymentsController < ApplicationController
   # GET /payments.json
   def index
     #@payments = Payment.order("created_at").where(user_id: current_user.id)
-
-
     if params[:per_page].nil?
       params[:per_page] = 10
     end
 
-    search_params = put_and_get_search_params_in_session('payments',{search: params[:q], page: params[:page], per_page: params[:per_page]},params[:filter])
 
-    @q = current_user.payments.order(paid_at: :desc).paginate(:page => search_params[:page], :per_page => search_params[:per_page]).search(search_params[:search])
+    @search_params = put_and_get_search_params_in_session('payments',{'search' => params[:q], 'page' => params[:page], 'per_page' => params[:per_page]},params[:filter])
+
+
+    @q = current_user.payments.order(paid_at: :desc).paginate(:page => @search_params['page'], :per_page => @search_params['per_page']).search(@search_params['search'])
     @payments = @q.result(distinct: true)
     @total_items = current_user.payments.all().count
     @total_items_selected = @payments.count
@@ -29,16 +29,16 @@ class PaymentsController < ApplicationController
 
   def listing
 #UPDATE payments Set paid_at = substr(paid_at,1,10) where LENGTH(paid_at) > 10;
-    if params[:per_page].nil?
-      params[:per_page] = 1000000
-    end
+    params[:per_page] = 1000000
+    params[:page] = 1
 
     #if params[]
 
-    search_params = put_and_get_search_params_in_session('payments',{search: params[:q], page: params[:page], per_page: params[:per_page]},params[:filter])
+    @search_params = put_and_get_search_params_in_session('listing_payments',{'search' => params[:q], 'page' => params[:page], 'per_page' => params[:per_page]},params[:filter])
 
-    @q = current_user.payments.paginate(:page => search_params[:page], :per_page => search_params[:per_page]).search(search_params[:search])
-    @payments = @q.result(distinct: true).order(:paid_at, :payment_type)
+    #@q = current_user.payments.includes(:medical_treatment, medical_treatment: :patient, medical_treatment: :medical_treatment_type).search(search_params[:search])
+    @q = current_user.payments.includes(:medical_treatment, medical_treatment: :patient, medical_treatment: :medical_treatment_type).search(@search_params['search'])
+    @payments = current_user.payments.search(@search_params['search']).result(distinct: true).order(:paid_at, :payment_type)
     @total_items = current_user.payments.all().count
     @total_items_selected = @payments.count
 

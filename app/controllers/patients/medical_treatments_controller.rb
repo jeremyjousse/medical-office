@@ -30,6 +30,8 @@ class Patients::MedicalTreatmentsController < ApplicationController
     @medical_treatment.patient_id = params[:patient_id]
     @medical_treatment.date = Date.today
 
+    
+
   end
 
 

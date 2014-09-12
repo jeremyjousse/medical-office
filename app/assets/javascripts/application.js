@@ -50,6 +50,7 @@ function ready() {
     window.location = window.location.pathname + '?per_page=' + $(this).val();
   });
   window.setInterval(function(){$("#flash-display .fade").addClass("in");},200);
+  
 }
 
 $(function() {

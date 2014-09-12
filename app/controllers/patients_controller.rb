@@ -13,7 +13,7 @@ class PatientsController < ApplicationController
     end
 
     @search_params = put_and_get_search_params_in_session('patients',{'search' => params[:q], 'page' => params[:page], 'per_page' => params[:per_page]},params[:filter])
-logger.info '------search_params ' +  @search_params.inspect
+
     @q = current_user.patients.paginate(:page => @search_params['page'], :per_page => @search_params['per_page']).search(@search_params['search'])
     @patients = @q.result(distinct: true)
     @total_items = current_user.patients.all().count

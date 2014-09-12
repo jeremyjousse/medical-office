@@ -1,6 +1,5 @@
 $(".modal-body-content").html("<%= escape_javascript(render 'patients/medical_treatments/modal_form' ) %>");
 $(".modal-title").html("Add a medical treatment");
-$(".datepicker").datepicker({"format": "yyyy-mm-dd", "weekStart": 1, "autoclose": true});
 $(".modal-footer").html("<%= escape_javascript(render 'patients/medical_treatments/modal_form_buttons' ) %>");
 $('#new_medical_treatment_form_submiter').bind( "click", function() {
   $('#new_medical_treatment_form_submiter').html($('#new_medical_treatment_form_submiter').attr('data-disable-with'));
@@ -16,3 +15,4 @@ $( "#medical_treatment_medical_treatment_type_id" ).change(function() {
     $("#medical_treatment_price").val(data['text']);
   });
 });
+$(".datepicker").datepicker({"format": "yyyy-mm-dd", "weekStart": 1, "autoclose": true});
