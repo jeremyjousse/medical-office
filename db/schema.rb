@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140707114710) do
+ActiveRecord::Schema.define(version: 20140921114101) do
 
   create_table "bank_accounts", force: true do |t|
     t.string   "bank_name"
@@ -37,6 +37,17 @@ ActiveRecord::Schema.define(version: 20140707114710) do
     t.string "name"
     t.string "iso"
   end
+
+  create_table "document_scans", force: true do |t|
+    t.integer  "patient_id"
+    t.integer  "user_id"
+    t.string   "file"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "document_scans", ["patient_id"], name: "index_document_scans_on_patient_id"
+  add_index "document_scans", ["user_id"], name: "index_document_scans_on_user_id"
 
   create_table "medical_treatment_types", force: true do |t|
     t.string   "name"

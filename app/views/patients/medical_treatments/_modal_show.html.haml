@@ -1,0 +1,20 @@
+.row
+  .col-md-12
+    %ul.list-group
+      %li.list-group-item
+        Patient : #{@medical_treatment.patient.first_name} #{@medical_treatment.patient.last_name}
+      %li.list-group-item
+        Treatment : #{@medical_treatment.medical_treatment_type.name}
+      %li.list-group-item
+        Date : #{@medical_treatment.date.to_s}
+      %li.list-group-item
+        Location : #{MedicalTreatment::LOCATIONS[@medical_treatment.location_id]}
+      -if @medical_treatment.payments.count > 0
+        %li.list-group-item
+          -@medical_treatment.payments.each do |payment|
+            Payment : #{payment.paid_at.to_s} - #{Payment::TYPE[payment.payment_type]} - #{payment.amount}
+            -if !payment.payment_bank_check.nil?
+              (#{payment.bank_deposit_id.nil? ? "Uncached" : "Cached"} #{payment.payment_bank_check.bank_name})
+    -if @medical_treatment.status != 1
+      = link_to 'Add payment', new_payment_path(medical_treatment_id: @medical_treatment),  {id: 'new_payment_path_js', :class=>'btn btn-default btn-sm', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', 'data-url' => new_payment_path(medical_treatment_id: @medical_treatment)}
+      %br

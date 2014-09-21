@@ -25,12 +25,11 @@ class Patients::MedicalTreatmentsController < ApplicationController
 
 
   def new
-    logger.info "---------------- NEW"
     @medical_treatment = MedicalTreatment.new
     @medical_treatment.patient_id = params[:patient_id]
     @medical_treatment.date = Date.today
 
-    
+
 
   end
 
