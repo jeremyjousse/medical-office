@@ -13,7 +13,7 @@
 							= link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_patient_path(@patient),class: "btn btn-default btn-sm"
 							= link_to 'Add Medical Treatment', new_patient_medical_treatment_path(patient_id: @patient, payment_type: nil),  {id: 'new_payment_path_js', :class=>'btn btn-default btn-sm', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', 'data-url' => new_medical_treatment_path(patient_id: @patient)}
 							-#= link_to 'Add Postural Analyse', new_patient_postural_analysis_path(patient_id: @patient),  {id: 'new_postural_analysis_path_js', :class=>'btn btn-default btn-sm', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', 'data-url' => new_patient_postural_analysis_path(patient_id: @patient)}
-							= link_to 'Add Document Scan', new_patient_document_scan_path(patient_id: @patient),  {id: 'new_patient_document_scan_path_js', :class=>'btn btn-default btn-sm', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', 'data-url' => new_patient_document_scan_path(patient_id: @patient)}
+							= link_to 'Add Document Scan', new_patient_document_scan_path(patient_id: @patient.id),  {id: 'new_patient_document_scan_path_js', :class=>'btn btn-default btn-sm', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', 'data-url' => new_patient_document_scan_path(patient_id: @patient)}
 					%br
 					%br
 					%div
@@ -76,17 +76,18 @@
 											%td #{MedicalTreatment::LOCATIONS[medical_treatment.location_id]}
 											%td #{MedicalTreatment::STATUS[medical_treatment.status]}
 											%td
-						- if true == false
-							- if @postural_analyses.count > 0
-								%table.table.table-striped.table-bordered.table-hover.table-condensed
+
+						- if !@document_scans.nil? && @document_scans.count > 0
+							%table.table.table-striped.table-bordered.table-hover.table-condensed
+								%tr
+									%th
+									%th Document Scans
+									%th Date
+								- @document_scans.each do |document_scan|
 									%tr
-										%th
-										%th Postural Analysis
-										%th Date
-									- @postural_analyses.each do |postural_analysis|
-										%tr
-											%td
-												= link_to content_tag(:span, "", class: "glyphicon glyphicon-eye-open") + ' Detail', edit_postural_analysis_path(postural_analysis, :locale => I18n.locale),  {id: 'postural_analysis_path_js', :class=>'btn btn-default btn-sm', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', 'data-url' => edit_postural_analysis_path(postural_analysis, patient_id: @patient)}
-											%td
-											%td
+										%td
+											- # = link_to content_tag(:span, "", class: "glyphicon glyphicon-eye-open") + ' Detail', patient_document_scan_path(document_scan, locale: I18n.locale, patient_id: @patient),  {id: 'postural_analysis_path_js', :class=>'btn btn-default btn-sm', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', 'data-url' => patient_document_scan_path(document_scan, patient_id: @patient, locale: I18n.locale)}
+											= link_to content_tag(:span, "", class: "glyphicon glyphicon-eye-open") + ' Detail', document_scan.file_url
+										%td
+										%td
 = render 'layouts/modal'

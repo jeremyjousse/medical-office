@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.5'
+gem 'rails', '4.1.7'
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
@@ -39,7 +39,6 @@ gem 'bootstrap-datepicker-rails'
 
 
 gem 'devise'
-# add turnip
 
 gem 'will_paginate'
 gem "ransack"
@@ -54,7 +53,6 @@ gem "mini_magick"
 gem 'jquery.fileupload-rails'
 
 group :doc do
-  # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
 end
 
@@ -63,7 +61,8 @@ group :development do
   gem 'guard-livereload', require: false
   gem 'quiet_assets'
   gem 'railroady'
-  #gem 'rails-erd', github: 'paulwittmann/rails-erd', branch: 'mavericks'
+  gem 'rubocop', require: false
+  gem 'brakeman', require: false
 end
 
 group :development, :test do
@@ -80,19 +79,5 @@ group :test do
   gem "email_spec"
 	gem "turnip"
   gem "database_cleaner"
-  #gem "launchy", "~> 2.2.0"
+  gem 'simplecov', require: false
 end
-
-
-
-# Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.1.2'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano', group: :development
-
-# Use debugger
-# gem 'debugger', group: [:development, :test]

@@ -4,7 +4,7 @@
     .col-md-12.text-right
       %br
         .form-buttons
-          = link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + 'Back', patients_path, :class => 'btn btn-default'
+          = link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + 'Back', patient_path(@patient), :class => 'btn btn-default'
           = f.button :submit, :class => 'btn btn-default'
     .col-md-6
       %fieldset

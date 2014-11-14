@@ -1,0 +1,8 @@
+$(".modal-title").html("Add a document scan");
+$(".modal-body-content").html("<%= escape_javascript(render 'patients/document_scans/modal_form' ) %>");
+$(".modal-footer").html("<%= escape_javascript(render 'patients/document_scans/modal_form_buttons' ) %>");
+$('#new_document_scan_form_submiter').bind( "click", function() {
+  $('#new_document_scan_form_submiter').html($('#new_document_scan_form_submiter').attr('data-disable-with'));
+  $('#new_document_scan_form_submiter').attr("disabled", "disabled");
+  $('#new_document_scan').submit();
+});

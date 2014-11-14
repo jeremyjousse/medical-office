@@ -1,0 +1,14 @@
+.row
+  = simple_form_for [@patient, @document_scan] , :html => { class: 'form-horizontal', multipart: true }, :remote => true, authenticity_token: true do |f|
+    = f.error_notification
+    .form-inputs
+      .col-md-12
+        %fieldset
+          = f.input :patient_id, :as => :hidden
+          %div
+            Patient : #{@document_scan.patient.first_name} #{@document_scan.patient.last_name}
+          %div
+          .col-md-12
+            %fieldset
+              add a picture
+              = f.file_field :scan, :multiple => false

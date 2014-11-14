@@ -9,7 +9,6 @@ class Patients::MedicalTreatmentsController < ApplicationController
   include ListingHelper
 
   def index
-
     search_params = put_and_get_search_params_in_session('medical_treatments',{search: params[:q], page: params[:page], per_page: params[:per_page]},params[:filter])
 
     @q = current_user.medical_treatments.order(date: :desc).paginate(:page => search_params[:page], :per_page => search_params[:per_page]).search(search_params[:search])
@@ -20,23 +19,15 @@ class Patients::MedicalTreatmentsController < ApplicationController
 
 
   def show
+    @patient = current_user.patients.find(params[:patient_id])
+    @medical_treatment = @patient.medical_treatments.find(params[:id])
   end
-
-
 
   def new
     @medical_treatment = MedicalTreatment.new
     @medical_treatment.patient_id = params[:patient_id]
     @medical_treatment.date = Date.today
-
-
-
   end
-
-
-  def edit
-  end
-
 
   def create
     @medical_treatment = MedicalTreatment.new(medical_treatment_params)
@@ -46,10 +37,6 @@ class Patients::MedicalTreatmentsController < ApplicationController
     @medical_treatment.payments.each do |payment|
       payment.user = current_user
     end
-
-
-#logger.info "------" + request.format.inspect
-
     respond_to do |format|
       if @medical_treatment.save
         format.html { redirect_to @medical_treatment, notice: 'Medical treatment was successfully created.' }
@@ -67,6 +54,9 @@ class Patients::MedicalTreatmentsController < ApplicationController
     end
   end
 
+  def edit
+    @medical_treatment = current_user.medical_treatments.find(params[:id])
+  end
 
   def update
     respond_to do |format|
@@ -104,7 +94,7 @@ class Patients::MedicalTreatmentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def medical_treatment_params
-      params.require(:medical_treatment).permit(:user_id, :patient_id, :date, :location_id, :medical_treatment_type_id, :price, :note, payments_attributes: [:id, :amount, :paid_at, :payment_type])
+      params.require(:medical_treatment).permit(:date, :location_id, :medical_treatment_type_id, :price, :note)
     end
 
     def authorize_medical_treatment_access!

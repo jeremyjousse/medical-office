@@ -1,5 +1,5 @@
 $(".modal-body-content").html("<%= escape_javascript(render 'patients/medical_treatments/modal_form' ) %>");
-$(".modal-title").html("Add a medical treatment");
+$(".modal-title").html("Edit medical treatment");
 $(".modal-footer").html("<%= escape_javascript(render 'patients/medical_treatments/modal_form_buttons' ) %>");
 $('#new_medical_treatment_form_submiter').bind( "click", function() {
   $('#new_medical_treatment_form_submiter').html($('#new_medical_treatment_form_submiter').attr('data-disable-with'));

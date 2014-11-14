@@ -29,6 +29,8 @@ class PatientsController < ApplicationController
   end
 
   def show
+    @patient = current_user.patients.find(params[:id])
+
     if params[:q].nil? then params[:q] = {} end
     params[:q][:patient_id_eq] = @patient.id
     @q = current_user.medical_treatments.paginate(:page => params[:page], :per_page => 8).search(params[:q])
@@ -36,6 +38,7 @@ class PatientsController < ApplicationController
     @total_items = current_user.medical_treatments.all.count
     @total_items_selected = @medical_treatments.count
 
+    @document_scans = @patient.document_scans
     @postural_analyses = @patient.postural_analyses
 
   end
