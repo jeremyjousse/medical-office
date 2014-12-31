@@ -63,6 +63,8 @@ group :development do
   gem 'railroady'
   gem 'rubocop', require: false
   gem 'brakeman', require: false
+
+  gem "bundler-audit"
 end
 
 group :development, :test do
