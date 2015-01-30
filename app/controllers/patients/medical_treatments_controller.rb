@@ -41,7 +41,7 @@ class Patients::MedicalTreatmentsController < ApplicationController
       if @medical_treatment.save
         format.html { redirect_to @medical_treatment, notice: 'Medical treatment was successfully created.' }
         format.json { render action: 'show', status: :created, location: @medical_treatment }
-        format.js { redirect_to(new_payment_path(medical_treatment_id: @medical_treatment.id), format: :js)}
+        format.js { redirect_to(new_patient_medical_treatment_payment_path(patient_id: @medical_treatment.patient.id, medical_treatment_id: @medical_treatment.id), format: :js)}
       else
         format.html { render action: 'new' }
         format.json { render json: @medical_treatment.errors, status: :unprocessable_entity }

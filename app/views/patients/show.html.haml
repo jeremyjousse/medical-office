@@ -12,7 +12,6 @@
 							= link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + ' Back', patients_path, :class=>'btn btn-default btn-sm'
 							= link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_patient_path(@patient),class: "btn btn-default btn-sm"
 							= link_to 'Add Medical Treatment', new_patient_medical_treatment_path(patient_id: @patient, payment_type: nil),  {id: 'new_payment_path_js', :class=>'btn btn-default btn-sm', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', 'data-url' => new_medical_treatment_path(patient_id: @patient)}
-							-#= link_to 'Add Postural Analyse', new_patient_postural_analysis_path(patient_id: @patient),  {id: 'new_postural_analysis_path_js', :class=>'btn btn-default btn-sm', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', 'data-url' => new_patient_postural_analysis_path(patient_id: @patient)}
 							= link_to 'Add Document Scan', new_patient_document_scan_path(patient_id: @patient.id),  {id: 'new_patient_document_scan_path_js', :class=>'btn btn-default btn-sm', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', 'data-url' => new_patient_document_scan_path(patient_id: @patient)}
 					%br
 					%br
@@ -81,13 +80,14 @@
 							%table.table.table-striped.table-bordered.table-hover.table-condensed
 								%tr
 									%th
-									%th Document Scans
+									%th Document Scan
 									%th Date
 								- @document_scans.each do |document_scan|
 									%tr
 										%td
-											- # = link_to content_tag(:span, "", class: "glyphicon glyphicon-eye-open") + ' Detail', patient_document_scan_path(document_scan, locale: I18n.locale, patient_id: @patient),  {id: 'postural_analysis_path_js', :class=>'btn btn-default btn-sm', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', 'data-url' => patient_document_scan_path(document_scan, patient_id: @patient, locale: I18n.locale)}
-											= link_to content_tag(:span, "", class: "glyphicon glyphicon-eye-open") + ' Detail', document_scan.file_url
+											= link_to content_tag(:span, "", class: "glyphicon glyphicon-eye-open") + ' Detail', document_scan.file_url, class: 'btn btn-default btn-sm'
 										%td
+											= document_scan.title
 										%td
+											= document_scan.created_at
 = render 'layouts/modal'

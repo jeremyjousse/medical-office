@@ -10,5 +10,8 @@
           %div
           .col-md-12
             %fieldset
+              = f.input :title
+          .col-md-12
+            %fieldset
               add a picture
               = f.file_field :scan, :multiple => false

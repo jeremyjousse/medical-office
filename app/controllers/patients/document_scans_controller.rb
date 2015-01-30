@@ -37,15 +37,12 @@ class Patients::DocumentScansController < ApplicationController
   def show
     @patient = current_user.patients.find(params[:patient_id])
     @document_scan = @patient.document_scans.find(params[:id])
-
-    logger.info '-----' +  @document_scan.inspect
-
   end
 
   private
 
   def document_scan_params
-    params.require(:document_scan).permit(:patient_id, :scan => [])
+    params.require(:document_scan).permit(:patient_id, :title, :scan => [])
   end
 
 end

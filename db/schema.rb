@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140921114101) do
+ActiveRecord::Schema.define(version: 20150130165215) do
 
   create_table "bank_accounts", force: :cascade do |t|
     t.string   "bank_name",                 limit: 255
@@ -41,9 +41,10 @@ ActiveRecord::Schema.define(version: 20140921114101) do
   create_table "document_scans", force: :cascade do |t|
     t.integer  "patient_id"
     t.integer  "user_id"
-    t.string   "file"
+    t.string   "file",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "title"
   end
 
   add_index "document_scans", ["patient_id"], name: "index_document_scans_on_patient_id"
