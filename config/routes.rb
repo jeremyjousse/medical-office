@@ -1,5 +1,4 @@
 MedicalOffice::Application.routes.draw do
-
   root :to => 'passthrough#index'
 
   scope "/:locale" do
@@ -14,13 +13,13 @@ MedicalOffice::Application.routes.draw do
         # post 'import', to: 'patients#import', as: 'import', on: :collection
         collection { post :import }
         resources :medical_treatments, controller: 'patients/medical_treatments' do
+          resources :payments, controller: 'patients/medical_treatments/payments'
         end
         resources :postural_analyses,  controller: 'patients/postural_analyses' do
         end
         resources :document_scans,  controller: 'patients/document_scans' do
         end
       end
-
 
       resources :practitioners do
         get 'finder', on: :collection

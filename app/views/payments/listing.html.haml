@@ -35,8 +35,8 @@
 								%td #{f.text_field :payment_type_cont, :class => "form-control input-sm"}
 								%td.col-md-1
 								%td #{f.submit 'Filter', class: 'btn btn-default btn-xs'} #{link_to  content_tag(:span, "", class: "glyphicon glyphicon-remove") + ' Reset', listing_payments_path(:locale => I18n.locale,:filter => 'reset'),  :class => 'btn btn-default btn-xs'}
-							- total = {all: 0}
-							- total_day = {all: 0}
+							- total = {all: 0.0}
+							- total_day = {all: 0.0}
 							- day = nil
 							- @payments.each do |payment|
 								- if day != payment.paid_at
@@ -46,7 +46,7 @@
 												%b
 													- total_day.each do |total_day_type_sym, total_day_type|
 														Total #{total_day_type_sym.to_s} : #{number_to_currency(total_day[total_day_type_sym], locale: :fr)} -
-									- total_day = {all: 0}
+									- total_day = {all: 0.0}
 									- total_day[Payment::TYPE[payment.payment_type].to_sym] = payment.amount
 									- total_day[:all] = payment.amount
 

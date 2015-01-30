@@ -1,5 +1,4 @@
 .row
-  = link_to 'yop', '#', data: {disable_with: 'pppppppp'}
   = simple_form_for @medical_treatment, :html => { :class => 'form-horizontal', :multipart => true }, :remote => true do |f|
     = f.error_notification
     .form-inputs

@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.7'
+gem 'rails', '4.2.0'
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
@@ -33,21 +33,21 @@ gem 'font-awesome-rails'
 
 gem 'haml'
 
-gem 'simple_form', '~> 3.1.0.rc2', github: 'plataformatec/simple_form', branch: 'master'
-gem "select2-rails"
+gem 'simple_form'
+gem 'select2-rails'
 gem 'bootstrap-datepicker-rails'
 
 
 gem 'devise'
 
 gem 'will_paginate'
-gem "ransack"
+gem 'ransack'
 
 # upload file gem
 gem 'carrierwave'
 
 # ImageMagick ruby wraper
-gem "mini_magick"
+gem 'mini_magick'
 
 # jQuery-File-Upload
 gem 'jquery.fileupload-rails'
@@ -57,29 +57,36 @@ group :doc do
 end
 
 group :development do
-  gem "better_errors"
+  gem 'better_errors'
   gem 'guard-livereload', require: false
+  gem 'guard-bundler'
+  gem 'guard-rails'
   gem 'quiet_assets'
   gem 'railroady'
   gem 'rubocop', require: false
+  gem 'guard-rubocop'
   gem 'brakeman', require: false
 
-  gem "bundler-audit"
+  gem 'terminal-notifier-guard'
+
+  gem 'bundler-audit'
+
+  gem 'pry-rails'
 end
 
 group :development, :test do
 	gem 'guard'
-  gem "rspec-rails"
-  gem "factory_girl_rails"
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
   gem 'guard-rspec'
 end
 
 group :test do
-  gem "faker"
+  gem 'faker'
   gem 'spork'
-  gem "capybara"
-  gem "email_spec"
-	gem "turnip"
-  gem "database_cleaner"
+  gem 'capybara'
+  gem 'email_spec'
+	gem 'turnip'
+  gem 'database_cleaner'
   gem 'simplecov', require: false
 end

@@ -17,7 +17,7 @@ class Payment < ActiveRecord::Base
 
 
 
-  TYPE = {1 => "Check", 2 => "Credit card", 3 => "Cash"}
+  TYPE = {1 => "Check", 2 => "Credit card", 3 => "Cash", 4 => 'Bank account transfert'}
 
 
 
