@@ -18,7 +18,7 @@
             Payment : #{payment.paid_at.to_s} - #{Payment::TYPE[payment.payment_type]} - #{number_to_currency(payment.amount, locale: I18n.locale)}
             -if !payment.payment_bank_check.nil?
               (#{payment.bank_deposit_id.nil? ? "Uncached" : "Cached"} #{payment.payment_bank_check.bank_name})
-            -if !payment.payment_bank_check.nil? || payment.bank_deposit_id.nil?
+            -if payment.payment_bank_check.nil? || payment.bank_deposit_id.nil?
               .btn-group{role: 'group'}
                 %button.btn.btn-default.btn-xs{type: 'button'}
                   = link_to 'Edit', edit_patient_medical_treatment_payment_path(patient_id: payment.medical_treatment.patient.id, medical_treatment_id: payment.medical_treatment.id, id: payment.id, locale: I18n.locale),  {id: 'edit_patient_medical_treatment_payment_path_js', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', "data-dismiss" => "modal", 'data-url' => edit_patient_medical_treatment_payment_path(patient_id: payment.medical_treatment.patient.id, medical_treatment_id: payment.medical_treatment.id, id: payment.id, locale: I18n.locale)}

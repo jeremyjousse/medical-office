@@ -34,12 +34,12 @@ class PatientsController < ApplicationController
     if params[:q].nil? then params[:q] = {} end
     params[:q][:patient_id_eq] = @patient.id
     @q = current_user.medical_treatments.paginate(:page => params[:page], :per_page => 8).search(params[:q])
-    @medical_treatments = @q.result(distinct: true)
+    @medical_treatments = @q.result(distinct: true).order(created_at: :desc)
     @total_items = current_user.medical_treatments.all.count
     @total_items_selected = @medical_treatments.count
 
-    @document_scans = @patient.document_scans
-    @postural_analyses = @patient.postural_analyses
+    @document_scans = @patient.document_scans.order(created_at: :desc)
+    @postural_analyses = @patient.postural_analyses.order(created_at: :desc)
 
   end
 

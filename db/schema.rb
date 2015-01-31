@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 20150130165215) do
   create_table "document_scans", force: :cascade do |t|
     t.integer  "patient_id"
     t.integer  "user_id"
-    t.string   "file",       limit: 255
+    t.string   "file"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "title"
@@ -202,7 +202,7 @@ ActiveRecord::Schema.define(version: 20150130165215) do
 
   create_table "postural_analysis_scans", force: :cascade do |t|
     t.integer "postural_analysis_id"
-    t.string  "scan",                 limit: 255
+    t.string  "scan"
     t.integer "user_id"
   end
 
