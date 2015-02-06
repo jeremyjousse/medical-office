@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-
+ruby '2.2.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
 
@@ -61,6 +61,7 @@ group :development do
   gem 'guard-livereload', require: false
   gem 'guard-bundler'
   gem 'guard-rails'
+
   gem 'quiet_assets'
   gem 'railroady'
   gem 'rubocop', require: false
@@ -72,6 +73,8 @@ group :development do
   gem 'bundler-audit'
 
   gem 'pry-rails'
+
+  gem 'rails_best_practices'
 end
 
 group :development, :test do

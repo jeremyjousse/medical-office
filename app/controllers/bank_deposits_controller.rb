@@ -54,58 +54,37 @@ class BankDepositsController < ApplicationController
     @bank_deposit.user = current_user
     @bank_deposit.deposit_date = Date.today
 
-
-
     payment_bank_checks = {}
 
     redirect_to bank_deposits_path, notice: 'select a type.' and return unless !params[:bank_deposit][:deposit_type].nil? && params[:bank_deposit][:type] != 1
 
     @bank_deposit.deposit_type = params[:bank_deposit][:deposit_type]
 
-
     if params[:bank_deposit][:payment_bank_check_ids].kind_of?(Array) != true
       redirect_to bank_deposits_path, notice: 'Select bank check.' and return
     end
 
-
-
-
     bank_account = current_user.bank_accounts.find(params[:bank_deposit][:bank_account_id])
-
 
     if bank_account.bank_check_deposit_number.nil?
       redirect_to bank_deposits_path, notice: 'Select bank.' and return
     end
 
-
     @bank_deposit.number = bank_account.bank_check_deposit_number + 1
     @bank_deposit.bank_account_id = bank_account.id
 
-
-
-
-
-
     params[:bank_deposit][:payment_bank_check_ids].each do |payment_bank_check_id|
-
       next if payment_bank_check_id.to_i < 1
-
       payment_bank_check = current_user.payment_bank_checks.find(payment_bank_check_id)
-
       if !payment_bank_check.nil?
-
         payment_bank_checks[payment_bank_check_id] = payment_bank_check
-
         @bank_deposit.amount = @bank_deposit.amount.to_i + payment_bank_check.amount
 
       end
-
-
     end
 
     respond_to do |format|
       if @bank_deposit.save
-
         payment_bank_checks.each do |payment_bank_check_id, payment_bank_check|
 
           payment_bank_check.status = 1
@@ -115,7 +94,6 @@ class BankDepositsController < ApplicationController
           payment = current_user.payments.find(payment_bank_check.payment_id)
           payment.bank_deposit_id = @bank_deposit.id
           payment.save
-
         end
 
         bank_account.bank_check_deposit_number = bank_account.bank_check_deposit_number + 1
@@ -147,7 +125,21 @@ class BankDepositsController < ApplicationController
   # DELETE /bank_deposits/1
   # DELETE /bank_deposits/1.json
   def destroy
+    redirect_to bank_deposits_path, notice: 'Error' and return if current_user.bank_deposits.find(@bank_deposit.id).nil?
+
+    current_user.payment_bank_checks.where(bank_deposit_id: @bank_deposit.id).each do |payment_bank_check|
+      payment_bank_check.status = 0
+      payment_bank_check.bank_deposit_id = nil
+      payment_bank_check.save
+    end
+
+    current_user.payments.where(bank_deposit_id: @bank_deposit.id).each do |payment|
+      payment.bank_deposit_id = nil
+      payment.save
+    end
+
     @bank_deposit.destroy
+
     respond_to do |format|
       format.html { redirect_to bank_deposits_url }
       format.json { head :no_content }

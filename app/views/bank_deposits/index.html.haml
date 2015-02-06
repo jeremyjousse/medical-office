@@ -17,15 +17,15 @@
 					= search_form_for @q do |f|
 						%table.table.table-striped.table-bordered.table-hover.table-condensed
 							%tr
-								%th 
+								%th
 								%th Date
 								%th Type
 								%th Number
 								%th Amount
-								%th 
+								%th
 							%tr
-								%td 
-								%td 
+								%td
+								%td
 								%td #{f.text_field :deposit_type_eq, :class => "form-control input-sm"}
 								%td #{f.text_field :number_eq, :class => "form-control input-sm"}
 								%td
@@ -39,3 +39,4 @@
 									%td #{bank_deposit.number}
 									%td #{bank_deposit.amount}
 									%td
+										=link_to content_tag(:span, "", class: "glyphicon glyphicon-trash") + ' Destroy', bank_deposit , method: :delete, data: { confirm: 'Are you sure?' },class: "btn btn-danger btn-sm"
