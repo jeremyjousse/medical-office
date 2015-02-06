@@ -202,7 +202,7 @@ ActiveRecord::Schema.define(version: 20150130165215) do
 
   create_table "postural_analysis_scans", force: :cascade do |t|
     t.integer "postural_analysis_id"
-    t.string  "scan"
+    t.string  "scan",                 limit: 255
     t.integer "user_id"
   end
 
