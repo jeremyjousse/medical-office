@@ -9,8 +9,6 @@ class MedicalTreatmentsController < ApplicationController
   include ListingHelper
 
   def index
-
-    
     @search_params = put_and_get_search_params_in_session('medical_treatments',{'search' => params[:q], 'page' => params[:page], 'per_page' => params[:per_page]},params[:filter])
 
     @q = current_user.medical_treatments.order(date: :desc).paginate(:page => @search_params['page'], :per_page => @search_params['per_page']).search(@search_params['search'])

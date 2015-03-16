@@ -83,7 +83,17 @@ class ApplicationController < ActionController::Base
     search_params_hash
   end
 
+  def set_header(p_type, filename)
+    case p_type
+    when 'msword'
+      headers['Content-Type'] = 'application/vnd.ms-word; charset=UTF-8'
+      headers['Content-Disposition'] = "attachment; filename=\"#{filename}\""
+      headers['Cache-Control'] = ''
+   end
+  end
+
   private
+
     def extract_locale_from_url_then_accept_language_header
       return 'en' if request.env["HTTP_ACCEPT_LANGUAGE"].nil?
 

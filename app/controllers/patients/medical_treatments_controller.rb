@@ -1,5 +1,4 @@
 class Patients::MedicalTreatmentsController < ApplicationController
-
   before_filter :authenticate_user!
 
   before_action :set_medical_treatment, only: [:show, :edit, :update, :destroy]
@@ -16,7 +15,6 @@ class Patients::MedicalTreatmentsController < ApplicationController
     @total_items = current_user.medical_treatments.count
     @total_items_selected = @medical_treatments.count
   end
-
 
   def show
     @patient = current_user.patients.find(params[:patient_id])
@@ -73,7 +71,6 @@ class Patients::MedicalTreatmentsController < ApplicationController
     end
   end
 
-
   def destroy
     @medical_treatment.destroy
     respond_to do |format|
@@ -82,19 +79,23 @@ class Patients::MedicalTreatmentsController < ApplicationController
     end
   end
 
+  def receipt
+    respond_to do |format|
+      format.msword { set_header('msword', 'yo.doc') }
+    end
+  end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_medical_treatment
-      @medical_treatment = MedicalTreatment.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def medical_treatment_params
-      params.require(:medical_treatment).permit(:user_id, :patient_id, :date, :location_id, :medical_treatment_type_id, :price, :note)
-    end
+  def set_medical_treatment
+    @medical_treatment = MedicalTreatment.find(params[:id])
+  end
 
-    def authorize_medical_treatment_access!
-      return render_404 unless @medical_treatment.user_id == current_user.id
-    end
+  def medical_treatment_params
+    params.require(:medical_treatment).permit(:user_id, :patient_id, :date, :location_id, :medical_treatment_type_id, :price, :note)
+  end
+
+  def authorize_medical_treatment_access!
+    return render_404 unless @medical_treatment.user_id == current_user.id
+  end
 end
