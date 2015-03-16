@@ -5,22 +5,40 @@
 				.panel-heading
 					%h2 Payments
 				.panel-body
-
-					%table.table.table-striped.table-bordered.table-hover.table-condensed
-						%tr
-							%th 
-							%th Medical treatment
-							%th Paid at
-							%th Type
-							%th Amount
-							%th
-						- @payments.each do |payment|
+					.div_action.row
+						.col-md-4
+						.col-md-4.text-center
+							%span
+								= pluralize(@total_items_selected, 'Payment')+' selected / '+@total_items.to_s
+						.col-md-4.text-right
+							= link_to content_tag(:span, "", class: "glyphicon glyphicon-list-alt") + ' Print listing', listing_payments_path, :class=>'btn btn-default'
+							-#= link_to content_tag(:span, "", class: "glyphicon glyphicon-plus") + ' New Patient', new_patient_path, :class=>'btn btn-default'
+					.col-md-12.text-center
+						= will_paginate @payments, class: '', next_label: 'Next', previous_label: 'Previous'
+					= search_form_for @q do |f|
+						%table.table.table-striped.table-bordered.table-hover.table-condensed
 							%tr
-								%td #{link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-right") + ' Show', payment_path(payment),class: "btn btn-default btn-sm"}
-								%td #{payment.medical_treatment.patient.last_name + ' ' + payment.medical_treatment.patient.first_name + ' (' + payment.medical_treatment.medical_treatment_type.name + ' ' + payment.medical_treatment.date.to_s +  ')'}
-								%td #{payment.paid_at}
-								%td #{Payment::TYPE[payment.payment_type]}
-								%td #{payment.amount}
+								%th
+								%th Medical treatment
+								%th Paid at
+								%th Type
+								%th Amount
+								%th
+							%tr
 								%td
-									=link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_payment_path(payment),class: "btn btn-default btn-sm"
-									=link_to content_tag(:span, "", class: "glyphicon glyphicon-trash") + ' Destroy', payment , method: :delete, data: { confirm: 'Are you sure?' },class: "btn btn-danger btn-sm"
+								%td
+								%td #{f.text_field :paid_at_eq, :class => "form-control input-sm datepicker"}
+								%td #{f.text_field :payment_type_cont, :class => "form-control input-sm "}
+								%td
+								%td #{f.submit 'Filter', class: 'btn btn-default btn-xs'} #{link_to  content_tag(:span, "", class: "glyphicon glyphicon-remove") + ' Reset', payments_path(:locale => I18n.locale,:filter => 'reset'),  :class => 'btn btn-default btn-xs'}
+							- @payments.each do |payment|
+								%tr
+									%td #{link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-right") + ' Show', payment_path(payment),class: "btn btn-default btn-sm"}
+									%td #{payment.medical_treatment.patient.last_name + ' ' + payment.medical_treatment.patient.first_name + ' (' + payment.medical_treatment.medical_treatment_type.name + ' ' + payment.medical_treatment.date.to_s +  ')'}
+									%td #{payment.paid_at}
+									%td #{Payment::TYPE[payment.payment_type]}
+									%td #{payment.amount}
+									%td
+										=link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_payment_path(payment),class: "btn btn-default btn-sm"
+										- if payment.bank_deposit_id.nil?
+											=link_to content_tag(:span, "", class: "glyphicon glyphicon-trash") + ' Destroy', payment , method: :delete, data: { confirm: 'Are you sure?' },class: "btn btn-danger btn-sm"

@@ -1,0 +1,105 @@
+.row
+  = simple_form_for @postural_analysis, :html => { :class => 'form-horizontal', :multipart => true }, :remote => true do |f|
+    = f.error_notification
+    .form-inputs
+      .col-md-12
+        %fieldset
+          = f.input :patient_id, :as => :hidden
+          %div
+            Patient : #{@postural_analysis.patient.first_name} #{@postural_analysis.patient.last_name}
+          %div
+            .col-md-6
+              %fieldset
+                = f.input :shoe_size
+            .col-md-6
+              %fieldset
+                = f.input :sole_pattern
+          .col-md-12
+            %fieldset
+              = f.input :pain
+              = f.input :medical_history
+              = f.input :radiologic_examinations
+          %div.col-md-12
+            %legend Une légende pour voir
+            .col-md-6
+              %fieldset
+                = f.input :headache
+                = f.input :giddiness
+                = f.input :falls
+            .col-md-6
+              %fieldset
+                = f.input :lying_down_eo_mo
+                = f.input :lying_down_ec_mo
+                = f.input :lying_down_eo_mc
+          %div.col-md-12
+            %legend Une légende pour voir
+            .col-md-6
+              %fieldset
+                = f.input :jaw_centring
+                = f.input :tooth_fillings
+                = f.input :popping_jaw
+            .col-md-6
+              %fieldset
+                = f.input :jaw_opening
+                = f.input :temporal_muscles
+                = f.input :micro_current
+          %div.col-md-12
+            %legend Une légende pour voir
+            = f.input :podoscope
+            = f.input :stork_balance_test
+            = f.input :left_right_handed, as: :radio_buttons, collection: PosturalAnalysis::left_right_handeds
+          %div.col-md-12
+            %legend Une légende pour voir
+            .col-md-6
+              %fieldset
+                = f.input :barre_vertical_test
+                = f.input :ilium
+            .col-md-6
+              %fieldset
+                = f.input :scapulum
+                = f.input :plumb_line
+          .col-md-12
+            %fieldset
+              = f.input :walking
+          %div.col-md-12
+            %legend Une légende pour voir
+            .col-md-6
+              %fieldset
+                = f.input :cervical_rotation
+                = f.input :thumb_test
+                = f.input :dynamic_posture_test
+            .col-md-6
+              %fieldset
+                = f.input :romberg_test
+                = f.input :trampling
+                = f.input :extensors_test
+          %div.col-md-12
+            %legend Une légende pour voir
+            .col-md-6
+              %fieldset
+                = f.input :eye_convergence
+                = f.input :master_eye
+            .col-md-6
+              %fieldset
+                = f.input :maddox_test
+                = f.input :visual_correction
+          .col-md-12
+            %fieldset
+              = f.input :atlas
+              = f.input :jammed
+
+
+  = simple_form_for [@postural_analysis, @postural_analysis_scan], :html => { :multipart => true, :id => "fileupload"  } do |f|
+    .row
+      .fileupload-buttonbar
+        .progressbar.fileupload-progressbar.nofade
+          %div{style: "width:0%"}
+          %span.btn.btn-default.btn-xs.fileinput-button
+            %span.glyphicon.glyphicon-star
+            add a picture
+            = f.file_field :scan, :multiple => true
+    .row
+      %ul.thumbnails.files
+        - @postural_analysis_scans.each do |scan|
+          %li.span3{id: "scan_#{scan.id}"}
+            = image_tag scan.scan.thumb.url

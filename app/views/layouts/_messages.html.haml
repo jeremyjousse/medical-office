@@ -1,8 +1,7 @@
 .container
-	.row
-		.col-md-12
-			- flash.each do |name, msg|
-				.flash_container
-					%div{:class => "alert alert-#{name == :notice ? "success" : "error"}"}
-						%a.close{"data-dismiss" => "alert"} ×
-						= content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String)
+  .row
+    #flash-display
+      - flash.each do |type, msg|
+        %div{:class => get_flash_type_to_bootstrap_alert_class(type) + " fade", "data-dismiss" => "alert"}
+          %button.close &times;
+          = msg if msg.is_a?(String)

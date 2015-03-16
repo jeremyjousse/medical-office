@@ -1,0 +1,17 @@
+$(".modal-body-content").html("<%= escape_javascript(render 'patients/medical_treatments/modal_form' ) %>");
+$(".modal-title").html("Add a medical treatment");
+$(".modal-footer").html("<%= escape_javascript(render 'patients/medical_treatments/modal_form_buttons' ) %>");
+$('#new_medical_treatment_form_submiter').bind( "click", function() {
+  $('#new_medical_treatment_form_submiter').html($('#new_medical_treatment_form_submiter').attr('data-disable-with'));
+  $('#new_medical_treatment_form_submiter').attr("disabled", "disabled");
+  $('#new_medical_treatment').submit();
+});
+$( "#medical_treatment_medical_treatment_type_id" ).change(function() {
+  id = $("#medical_treatment_medical_treatment_type_id").val();
+  url = "/fr/medical_treatment_types/:id/price_finder.json";
+  url = url.replace(/:id/, id);
+  $.getJSON( url, function( data ) {
+    $("#medical_treatment_price").val(data['text']);
+  });
+});
+$(".datepicker").datepicker({"format": "yyyy-mm-dd", "weekStart": 1, "autoclose": true});

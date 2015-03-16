@@ -7,26 +7,32 @@
 				.panel-body
 					.div_action.row
 						.col-md-4
+							Show
+							= select_tag(:per_page, options_for_select([[2, 2], [10, 10], [20, 20], [50, 50], [100, 100], ['all', 10000000]], @search_params['per_page']), {class: "per_page"})
+							per page
 						.col-md-4.text-center
 							%span
 								= pluralize(@total_items_selected, 'Patient')+' selected / '+@total_items.to_s
 						.col-md-4.text-right
+							= link_to content_tag(:span, "", class: "glyphicon glyphicon-import") + ' Import Patients', new_import_patients_path, :class=>'btn btn-default'
 							= link_to content_tag(:span, "", class: "glyphicon glyphicon-plus") + ' New Patient', new_patient_path, :class=>'btn btn-default'
 					.col-md-12.text-center
 						= will_paginate @patients, class: '', next_label: 'Next', previous_label: 'Previous'
 					= search_form_for @q do |f|
 						%table.table.table-striped.table-bordered.table-hover.table-condensed
 							%tr
-								%th 
-								%th First name
-								%th Last name
-								%th City
-								%th 
+								%th
+								%th #{t(:'simple_form.labels.patient.first_name')}
+								%th #{t(:'simple_form.labels.patient.last_name')}
+								%th #{t(:'simple_form.labels.defaults.city')}
+								%th #{t(:'patient.index.number_of_treatments')}
+								%th
 							%tr
-								%td 
+								%td
 								%td #{f.text_field :first_name_cont, :class => "form-control input-sm"}
 								%td #{f.text_field :last_name_cont, :class => "form-control input-sm"}
 								%td #{f.text_field :city_cont, :class => "form-control input-sm"}
+								%td
 								%td #{f.submit 'Filter', class: 'btn btn-default btn-xs'} #{link_to  content_tag(:span, "", class: "glyphicon glyphicon-remove") + ' Reset', patients_path(:locale => I18n.locale,:filter => 'reset'),  :class => 'btn btn-default btn-xs'}
 							- @patients.each do |patient|
 								%tr
@@ -35,6 +41,17 @@
 									%td #{patient.first_name}
 									%td #{patient.last_name}
 									%td #{patient.city}
+									%td #{patient.medical_treatments.count}
 									%td
-										=link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_patient_path(patient),class: "btn btn-default btn-sm"
-										=link_to content_tag(:span, "", class: "glyphicon glyphicon-asterisk") + ' Medical Treatments', medical_treatments_path(:locale => I18n.locale, 'q[patient_id_eq]' => patient.id),class: "btn btn-default btn-sm"
+										.btn-group
+											=link_to content_tag(:span, "", class: "glyphicon glyphicon-pencil") + ' Edit', edit_patient_path(patient),class: "btn btn-default btn-sm"
+											%button.btn.btn-default.btn-sm.dropdown-toggle{"data-toggle" => "dropdown", type: "button"}
+												%span.caret
+												%span.sr-only
+													Toggle Dropdown
+											%ul.dropdown-menu{role: "menu"}
+												%li
+													=link_to content_tag(:span, "", class: "glyphicon glyphicon-asterisk") + ' Medical Treatments', medical_treatments_path(:locale => I18n.locale, 'q[patient_id_eq]' => patient.id)
+												- if patient.medical_treatments.count == 0
+													%li
+														=link_to content_tag(:span, "", class: "glyphicon glyphicon-trash") + ' Destroy', patient , method: :delete, data: { confirm: 'Are you sure?' }

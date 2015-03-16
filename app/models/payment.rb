@@ -2,7 +2,7 @@ class Payment < ActiveRecord::Base
   belongs_to :medical_treatment
   belongs_to :user
   belongs_to :bank_deposit
-  has_one :payment_bank_check, :dependent => :restrict_with_error
+  has_one :payment_bank_check, :dependent => :destroy
 
   accepts_nested_attributes_for :payment_bank_check
 
@@ -15,7 +15,9 @@ class Payment < ActiveRecord::Base
 
   after_save :change_medical_treatment_id_total_payments_amount_equal_medical_treatment_price
 
-  TYPE = {1 => "Check", 2 => "Credit card", 3 => "Cash"}
+
+
+  TYPE = {1 => "Check", 2 => "Credit card", 3 => "Cash", 4 => 'Bank account transfert'}
 
 
 
@@ -30,7 +32,7 @@ class Payment < ActiveRecord::Base
   		end
   	end
 
-  	if total_payment > self.medical_treatment.price 
+  	if total_payment > self.medical_treatment.price
   		errors.add(:amount, "Max amount exceeded")
   		return false
   	end
@@ -44,10 +46,38 @@ class Payment < ActiveRecord::Base
         total_payment = total_payment + payment.amount
     end
 
-    if total_payment == self.medical_treatment.price 
+    if total_payment == self.medical_treatment.price
       mt.status = 1
       mt.save
     end
+  end
+
+
+  def safe_destroy
+
+    if !self.bank_deposit_id.nil?
+
+      return false
+
+    end
+
+
+    medical_treatment = self.medical_treatment
+
+    self.destroy
+
+    medical_treatment.save
+
+    # check bank_deposit_id
+
+    # check medical_treatment
+
+
+
+
+
+    #
+
   end
 
 end

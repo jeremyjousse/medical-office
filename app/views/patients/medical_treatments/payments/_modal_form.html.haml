@@ -1,0 +1,44 @@
+.row
+  .col-md-12
+    %ul.list-group
+      %li.list-group-item
+        Patient : #{@medical_treatment.patient.first_name} #{@medical_treatment.patient.last_name}
+      %li.list-group-item
+        Treatment : #{@medical_treatment.medical_treatment_type.name} (#{number_to_currency(@medical_treatment.medical_treatment_type.price, locale: I18n.locale)})
+      %li.list-group-item
+        Date : #{@medical_treatment.date.to_s}
+      %li.list-group-item
+        Location : #{MedicalTreatment::LOCATIONS[@medical_treatment.location_id]}
+      %li.list-group-item
+        Note : #{@medical_treatment.note.to_s}
+    -if @medical_treatment.payments.count > 0
+      %ul.list-group
+        -@medical_treatment.payments.each do |payment|
+          %li.list-group-item
+            Payment : #{payment.paid_at.to_s} - #{Payment::TYPE[payment.payment_type]} - #{payment.amount}
+            -if !payment.payment_bank_check.nil?
+              (#{payment.bank_deposit_id.nil? ? "Uncached" : "Cached"} #{payment.payment_bank_check.bank_name})
+    = simple_form_for [@payment.medical_treatment.patient, @payment.medical_treatment, @payment], :html => { :class => 'form-horizontal', :multipart => true }, :remote => true do |f|
+      .form-inputs
+        .col-md-12
+          = f.error_notification
+          %fieldset
+            = f.input :medical_treatment_id, :as => :hidden
+            %div
+              .col-md-12
+                - if @payment.new_record?
+                  .col-md-4
+                    %fieldset
+                      = f.input :payment_type, :collection => Payment::TYPE.sort.map {|k,v| [v,k]}
+                .col-md-4
+                  %fieldset
+                    = f.input :paid_at, as: :string, :input_html =>{data: { behavior: "datepicker" }, :class => 'datepicker'}
+                .col-md-4
+                  %fieldset
+                    = f.input :amount
+              .col-md-12
+                #bank_check_well
+                - if @payment.payment_type == 1 then
+                  %div
+                    = f.fields_for :payment_bank_check do |builder|
+                      = render 'patients/medical_treatments/payments/modal_bank_check_form', :p => builder

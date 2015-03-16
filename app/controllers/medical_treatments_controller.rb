@@ -1,15 +1,21 @@
 class MedicalTreatmentsController < ApplicationController
-  
+
   before_filter :authenticate_user!
 
   before_action :set_medical_treatment, only: [:show, :edit, :update, :destroy]
-  
+
   before_filter :authorize_medical_treatment_access!, only: [:show, :edit, :update, :destroy]
 
+  include ListingHelper
+
   def index
-    @q = current_user.medical_treatments.paginate(:page => params[:page], :per_page => 8).search(params[:q])
+
+    
+    @search_params = put_and_get_search_params_in_session('medical_treatments',{'search' => params[:q], 'page' => params[:page], 'per_page' => params[:per_page]},params[:filter])
+
+    @q = current_user.medical_treatments.order(date: :desc).paginate(:page => @search_params['page'], :per_page => @search_params['per_page']).search(@search_params['search'])
     @medical_treatments = @q.result(distinct: true)
-    @total_items = current_user.medical_treatments.find(:all).count
+    @total_items = current_user.medical_treatments.count
     @total_items_selected = @medical_treatments.count
   end
 
@@ -48,7 +54,7 @@ class MedicalTreatmentsController < ApplicationController
         format.html { redirect_to @medical_treatment, notice: 'Medical treatment was successfully created.' }
         format.json { render action: 'show', status: :created, location: @medical_treatment }
         #format.js { redirect_to 'payments/new', {medical_treatment_id: @medical_treatment.id}}
-        
+
         #format.js { redirect_to(:format => :js, :params => {medical_treatment_id: @medical_treatment.id})}
         format.js { redirect_to(new_payment_path(medical_treatment_id: @medical_treatment.id), format: :js)}
       else

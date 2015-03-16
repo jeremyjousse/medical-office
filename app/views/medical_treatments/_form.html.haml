@@ -1,7 +1,7 @@
 = simple_form_for(@medical_treatment) do |f|
   = f.error_notification
   .form-inputs
-    .col-md-12.text-right      
+    .col-md-12.text-right
       .form-buttons
         = link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + 'Back', medical_treatments_path, :class => 'btn btn-default'
         = f.button :submit, :class => 'btn btn-default'
@@ -14,12 +14,16 @@
     = f.input :price
     = f.input :note
     %br
-    .well
+    .well{id: 'nested_payment_form'}
       = f.fields_for :payments do |builder|
         = render 'payment_form', :p => builder
-      = link_to_add_fields "Add Payment", f, :payments, 'reload_datepickers' unless @medical_treatment.status == 1
-    .col-md-12.text-right      
+        -#= render partial: 'payments/nested_form', locals: { p: builder }
+      - if @medical_treatment.status != 1
+        -#= link_to 'Add Payment', add_payment_to_medical_treatment_form_payments_path(locale: I18n.locale,medical_treatment: @medical_treatment), class: 'btn btn-default', remote: true
+        = link_to 'Add Medical Treatment', new_payment_path(medical_treatment_id: @medical_treatment, payment_type: nil),  {id: 'new_payment_path_js', :class=>'btn btn-default btn-sm', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', 'data-url' => new_payment_path(medical_treatment_id: @medical_treatment)}
+      -#= link_to_add_fields "Add Payment", f, :payments, 'reload_datepickers' unless @medical_treatment.status == 1
+    .col-md-12.text-right
       .form-buttons
         = link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + 'Back', medical_treatments_path, :class => 'btn btn-default'
         = f.button :submit, :class => 'btn btn-default'
-  
+= render 'layouts/modal'

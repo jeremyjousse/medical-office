@@ -1,0 +1,32 @@
+.row
+  .col-md-12
+    %ul.list-group
+      %li.list-group-item
+        Patient : #{@medical_treatment.patient.first_name} #{@medical_treatment.patient.last_name}
+      %li.list-group-item
+        Treatment : #{@medical_treatment.medical_treatment_type.name} (#{number_to_currency(@medical_treatment.medical_treatment_type.price, locale: I18n.locale)})
+      %li.list-group-item
+        Date : #{@medical_treatment.date.to_s}
+      %li.list-group-item
+        Location : #{MedicalTreatment::LOCATIONS[@medical_treatment.location_id]}
+      %li.list-group-item
+        Note : #{@medical_treatment.note.to_s}
+    -if @medical_treatment.payments.count > 0
+      %ul.list-group
+        -@medical_treatment.payments.each do |payment|
+          %li.list-group-item
+            Payment : #{payment.paid_at.to_s} - #{Payment::TYPE[payment.payment_type]} - #{number_to_currency(payment.amount, locale: I18n.locale)}
+            -if !payment.payment_bank_check.nil?
+              (#{payment.bank_deposit_id.nil? ? "Uncached" : "Cached"} #{payment.payment_bank_check.bank_name})
+            -if payment.payment_bank_check.nil? || payment.bank_deposit_id.nil?
+              .btn-group{role: 'group'}
+                %button.btn.btn-default.btn-xs{type: 'button'}
+                  = link_to 'Edit', edit_patient_medical_treatment_payment_path(patient_id: payment.medical_treatment.patient.id, medical_treatment_id: payment.medical_treatment.id, id: payment.id, locale: I18n.locale),  {id: 'edit_patient_medical_treatment_payment_path_js', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', "data-dismiss" => "modal", 'data-url' => edit_patient_medical_treatment_payment_path(patient_id: payment.medical_treatment.patient.id, medical_treatment_id: payment.medical_treatment.id, id: payment.id, locale: I18n.locale)}
+                %button.btn.btn-default.btn-xs.dropdown-toggle{type: 'button', data: {toggle: 'dropdown'}, aria: {expanded: 'false'}}
+                  %span.caret
+                %ul.dropdown-menu{role: 'menu'}
+                  %li
+                    = link_to 'Delete', patient_medical_treatment_payment_path(patient_id: payment.medical_treatment.patient.id, medical_treatment_id: payment.medical_treatment.id, id: payment.id, locale: I18n.locale),  {id: 'edit_patient_medical_treatment_payment_path_js', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', "data-dismiss" => "modal", 'data-url' => patient_medical_treatment_payment_path(patient_id: payment.medical_treatment.patient.id, medical_treatment_id: payment.medical_treatment.id, id: payment.id, locale: I18n.locale), :method => :delete, :class => "delete" , :confirm => "Are you sure ?" }
+    -if @medical_treatment.status != 1
+      = link_to 'Add payment', new_patient_medical_treatment_payment_path(medical_treatment_id: @medical_treatment.id, locale: I18n.locale),  {id: 'new_patient_medical_treatment_payment_path_js', :class=>'btn btn-default', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#ajax_modal', "data-dismiss" => "modal", 'data-url' => new_patient_medical_treatment_payment_path(medical_treatment_id: @medical_treatment.id, locale: I18n.locale)}
+      %br

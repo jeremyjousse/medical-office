@@ -6,7 +6,7 @@ class MedicalTreatment < ActiveRecord::Base
 	has_many :payments, :dependent => :destroy
 
 	accepts_nested_attributes_for :payments
-  
+
 	validates :patient_id, :presence => true
 	validates :date, :presence => true
 	validates :location_id, :presence => true
@@ -28,7 +28,7 @@ class MedicalTreatment < ActiveRecord::Base
   			total_payment = total_payment + payment.amount
   	end
 
-  	if !self.price.nil? && total_payment > self.price 
+  	if !self.price.nil? && total_payment > self.price
   		errors.add(:price, "Max amount exceeded for payments")
   		return false
   	end
@@ -41,7 +41,7 @@ class MedicalTreatment < ActiveRecord::Base
 	        total_payment = total_payment + payment.amount
 	    end
 
-	    if !self.price.nil? && total_payment == self.price 
+	    if !self.price.nil? && total_payment == self.price
 	      self.status = 1
 	      #self.save
 	    else

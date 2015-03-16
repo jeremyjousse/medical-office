@@ -1,0 +1,5 @@
+fr:
+  simple_form:
+    labels:
+      defaults:
+        city: Ville

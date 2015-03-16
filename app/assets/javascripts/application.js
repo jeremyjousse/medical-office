@@ -15,10 +15,12 @@
 //= require turbolinks
 //= require bootstrap/dropdown
 //= require bootstrap/modal
-
+//= require bootstrap/alert
+//= require jquery.fileupload
 
 //= require select2
-//= require bootstrap-datepicker
+//= require bootstrap-datepicker/core
+//= require bootstrap-datepicker/locales/bootstrap-datepicker.fr.js
 
 
 function add_fields(link, association, content, callback) {
@@ -38,3 +40,21 @@ function add_fields(link, association, content, callback) {
 function reload_datepickers(){
 	$(".datepicker").datepicker({"format": "yyyy-mm-dd", "weekStart": 1, "autoclose": true});
 }
+
+function ready() {
+  $(".alert").alert();
+  $('#apply_filter').click(function(){
+    $('#filter_form').submit();
+  });
+  $('.per_page').change(function(){
+    window.location = window.location.pathname + '?per_page=' + $(this).val();
+  });
+  window.setInterval(function(){$("#flash-display .fade").addClass("in");},200);
+  
+}
+
+$(function() {
+	ready();
+});
+
+$(document).on("page:change", ready());

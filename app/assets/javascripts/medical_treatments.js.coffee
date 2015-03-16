@@ -1,4 +1,4 @@
-$ ->
+medical_treatments = ->
 	$(".datepicker").datepicker({"format": "yyyy-mm-dd", "weekStart": 1, "autoclose": true})
 	$("#medical_treatment_patient_id").select2()
 	$(".select2").each (i, e) ->
@@ -25,3 +25,8 @@ $ ->
     $.getJSON url, (data) =>
       $("#medical_treatment_price").val(data['text'])
   $("#ajax_modal").modal
+
+$ ->
+	medical_treatments()
+
+$(document).on('page:change', medical_treatments())

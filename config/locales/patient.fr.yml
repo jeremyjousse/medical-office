@@ -1,0 +1,9 @@
+fr:
+  simple_form:
+    labels:
+      patient:
+        first_name: Prénom
+        last_name: Nom
+  patient:
+    index:
+      number_of_treatments: Nb. soins

@@ -12,5 +12,6 @@ class User < ActiveRecord::Base
   has_many :payments
   has_many :payment_bank_checks
   has_many :bank_deposits
-
+  has_many :bank_accounts
+  has_many :postural_analyses
 end
