@@ -7,7 +7,6 @@ class PatientsController < ApplicationController
   include ListingHelper
 
   def index
-
     if params[:per_page].nil?
       params[:per_page] = 10
     end

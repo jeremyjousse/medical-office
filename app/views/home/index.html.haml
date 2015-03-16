@@ -5,7 +5,7 @@
 	.col-md-6
 		- if @unpaied_medical_treatments_count > 0
 			.well.well-sm
-				#{@unpaied_medical_treatments_count.to_s} Medical Treatment unpaied
+				= link_to @unpaied_medical_treatments_count.to_s + ' Medical Treatment unpaied', medical_treatments_path(locale: I18n.locale, q: {status_eq: 0})
 
 
 - else

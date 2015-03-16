@@ -24,14 +24,16 @@
 								%th
 								%th #{t(:'simple_form.labels.patient.first_name')}
 								%th #{t(:'simple_form.labels.patient.last_name')}
-								%th #{t(:'simple_form.labels.defaults.city')}
+								%th #{t(:'simple_form.labels.defaults.phone')}
+								%th #{t(:'patient.index.diabetic')}
 								%th #{t(:'patient.index.number_of_treatments')}
 								%th
 							%tr
 								%td
 								%td #{f.text_field :first_name_cont, :class => "form-control input-sm"}
 								%td #{f.text_field :last_name_cont, :class => "form-control input-sm"}
-								%td #{f.text_field :city_cont, :class => "form-control input-sm"}
+								%td #{f.text_field :phone_or_mobile_phone_cont, :class => "form-control input-sm"}
+								%td #{f.check_box :diabetic_true, :class => "form-control input-sm"}
 								%td
 								%td #{f.submit 'Filter', class: 'btn btn-default btn-xs'} #{link_to  content_tag(:span, "", class: "glyphicon glyphicon-remove") + ' Reset', patients_path(:locale => I18n.locale,:filter => 'reset'),  :class => 'btn btn-default btn-xs'}
 							- @patients.each do |patient|
@@ -40,7 +42,8 @@
 										=link_to content_tag(:span, "", class: "glyphicon glyphicon-eye-open") + ' Detail', patient_path(patient, :locale => I18n.locale),class: "btn btn-default btn-sm"
 									%td #{patient.first_name}
 									%td #{patient.last_name}
-									%td #{patient.city}
+									%td #{patient.phone} - #{patient.mobile_phone}
+									%td #{patient.diabetic}
 									%td #{patient.medical_treatments.count}
 									%td
 										.btn-group

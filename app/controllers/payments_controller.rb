@@ -6,16 +6,10 @@ class PaymentsController < ApplicationController
 
   include ListingHelper
 
-
-  # GET /payments
-  # GET /payments.json
   def index
-    #@payments = Payment.order("created_at").where(user_id: current_user.id)
     if params[:per_page].nil?
       params[:per_page] = 10
     end
-
-
     @search_params = put_and_get_search_params_in_session('payments',{'search' => params[:q], 'page' => params[:page], 'per_page' => params[:per_page]},params[:filter])
 
 

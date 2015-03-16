@@ -4,7 +4,7 @@ class BankDepositsController < ApplicationController
 
   def index
     #@bank_deposits = BankDeposit.all
-    @q = current_user.bank_deposits.paginate(:page => params[:page], :per_page => 10).search(params[:q])
+    @q = current_user.bank_deposits.order(created_at: :desc).paginate(:page => params[:page], :per_page => 10).search(params[:q])
     @bank_deposits = @q.result(distinct: true)
     @total_items = current_user.bank_deposits.all().count
     @total_items_selected = @bank_deposits.count
@@ -21,25 +21,16 @@ class BankDepositsController < ApplicationController
 
   # GET /bank_deposits/new
   def new
-
     redirect_to bank_deposits_path, notice: 'You must chose a bank deposit type.' unless BankDeposit::DEPOSIT_TYPES.has_key?(params[:deposit_type].to_i)
-
     @bank_deposit = BankDeposit.new
-
     @bank_deposit.deposit_type = params[:deposit_type].to_i
-
     if @bank_deposit.deposit_type == 1
-      @pending_bank_checks = PaymentBankCheck.pending
-
+      @pending_bank_checks = PaymentBankCheck.pending.order('payments.paid_at')
       @checked_bank_checks = []
       @pending_bank_checks.each do |pbc|
         @checked_bank_checks << pbc.id
       end
-
-
     end
-
-
   end
 
   # GET /bank_deposits/1/edit
