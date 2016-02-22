@@ -7,8 +7,8 @@ script:
   - RAILS_ENV=test bundle exec rake db:migrate --trace
   - RAILS_ENV=test bundle exec rake db:test:prepare
   - RAILS_ENV=test bundle exec rspec spec/
-services:
-  - mysql
+env:
+  - DB=sqlite
 before_script:
   - cp config/database.travis.yml config/database.yml
   - mysql -e 'create database medical_office_test;'
