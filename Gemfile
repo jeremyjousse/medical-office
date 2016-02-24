@@ -37,7 +37,6 @@ gem 'simple_form'
 gem 'select2-rails'
 gem 'bootstrap-datepicker-rails'
 
-
 gem 'devise'
 
 gem 'will_paginate'
