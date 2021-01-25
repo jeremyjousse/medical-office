@@ -14,7 +14,7 @@
 ActiveRecord::Schema.define(version: 20150130165215) do
 
   create_table "bank_accounts", force: :cascade do |t|
-    t.string   "bank_name",                 limit: 255
+    t.string   "bank_name"
     t.integer  "bank_check_deposit_number"
     t.integer  "user_id"
     t.datetime "created_at"
@@ -34,8 +34,8 @@ ActiveRecord::Schema.define(version: 20150130165215) do
   end
 
   create_table "countries", force: :cascade do |t|
-    t.string "name", limit: 255
-    t.string "iso",  limit: 255
+    t.string "name"
+    t.string "iso"
   end
 
   create_table "document_scans", force: :cascade do |t|
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 20150130165215) do
   add_index "document_scans", ["user_id"], name: "index_document_scans_on_user_id"
 
   create_table "medical_treatment_types", force: :cascade do |t|
-    t.string   "name",       limit: 255
+    t.string   "name"
     t.decimal  "price"
     t.integer  "user_id"
     t.datetime "created_at"
@@ -73,16 +73,16 @@ ActiveRecord::Schema.define(version: 20150130165215) do
   end
 
   create_table "models", force: :cascade do |t|
-    t.string   "email",                  limit: 255, default: "", null: false
-    t.string   "encrypted_password",     limit: 255, default: "", null: false
-    t.string   "reset_password_token",   limit: 255
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                      default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip",     limit: 255
-    t.string   "last_sign_in_ip",        limit: 255
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -91,31 +91,31 @@ ActiveRecord::Schema.define(version: 20150130165215) do
   add_index "models", ["reset_password_token"], name: "index_models_on_reset_password_token", unique: true
 
   create_table "offices", force: :cascade do |t|
-    t.string   "name",        limit: 255
-    t.string   "address",     limit: 255
-    t.string   "city",        limit: 255
-    t.string   "postal_code", limit: 255
+    t.string   "name"
+    t.string   "address"
+    t.string   "city"
+    t.string   "postal_code"
     t.integer  "country_id"
-    t.string   "phone",       limit: 255
-    t.string   "website",     limit: 255
-    t.string   "email",       limit: 255
+    t.string   "phone"
+    t.string   "website"
+    t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "patients", force: :cascade do |t|
-    t.string   "first_name",                    limit: 255
-    t.string   "last_name",                     limit: 255
+    t.string   "first_name"
+    t.string   "last_name"
     t.date     "birthdate"
-    t.string   "profession",                    limit: 255
-    t.string   "phone",                         limit: 255
-    t.string   "mobile_phone",                  limit: 255
-    t.string   "email",                         limit: 255
-    t.string   "address",                       limit: 255
-    t.string   "postal_code",                   limit: 255
-    t.string   "city",                          limit: 255
+    t.string   "profession"
+    t.string   "phone"
+    t.string   "mobile_phone"
+    t.string   "email"
+    t.string   "address"
+    t.string   "postal_code"
+    t.string   "city"
     t.integer  "country_id"
-    t.string   "national_insurance_number",     limit: 255
+    t.string   "national_insurance_number"
     t.integer  "family_doctor_id"
     t.integer  "physical_therapists_id"
     t.integer  "osteopath_id"
@@ -131,9 +131,9 @@ ActiveRecord::Schema.define(version: 20150130165215) do
   end
 
   create_table "payment_bank_checks", force: :cascade do |t|
-    t.string   "account_owner",   limit: 255
-    t.string   "bank_name",       limit: 255
-    t.string   "check_number",    limit: 255
+    t.string   "account_owner"
+    t.string   "bank_name"
+    t.string   "check_number"
     t.decimal  "amount"
     t.integer  "status"
     t.integer  "bank_deposit_id"
@@ -162,47 +162,47 @@ ActiveRecord::Schema.define(version: 20150130165215) do
     t.integer  "shoe_size"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "sole_pattern",            limit: 255
+    t.string   "sole_pattern"
     t.text     "pain"
     t.text     "medical_history"
     t.text     "radiologic_examinations"
-    t.string   "headache",                limit: 255
-    t.string   "giddiness",               limit: 255
-    t.string   "falls",                   limit: 255
-    t.string   "lying_down_eo_mo",        limit: 255
-    t.string   "lying_down_ec_mo",        limit: 255
-    t.string   "lying_down_eo_mc",        limit: 255
-    t.string   "jaw_centring",            limit: 255
-    t.string   "tooth_fillings",          limit: 255
-    t.string   "popping_jaw",             limit: 255
-    t.string   "jaw_opening",             limit: 255
-    t.string   "temporal_muscles",        limit: 255
-    t.string   "micro_current",           limit: 255
-    t.string   "podoscope",               limit: 255
-    t.string   "stork_balance_test",      limit: 255
+    t.string   "headache"
+    t.string   "giddiness"
+    t.string   "falls"
+    t.string   "lying_down_eo_mo"
+    t.string   "lying_down_ec_mo"
+    t.string   "lying_down_eo_mc"
+    t.string   "jaw_centring"
+    t.string   "tooth_fillings"
+    t.string   "popping_jaw"
+    t.string   "jaw_opening"
+    t.string   "temporal_muscles"
+    t.string   "micro_current"
+    t.string   "podoscope"
+    t.string   "stork_balance_test"
     t.integer  "left_right_handed"
-    t.string   "barre_vertical_test",     limit: 255
-    t.string   "ilium",                   limit: 255
-    t.string   "scapulum",                limit: 255
-    t.string   "plumb_line",              limit: 255
+    t.string   "barre_vertical_test"
+    t.string   "ilium"
+    t.string   "scapulum"
+    t.string   "plumb_line"
     t.text     "walking"
-    t.string   "cervical_rotation",       limit: 255
-    t.string   "thumb_test",              limit: 255
-    t.string   "dynamic_posture_test",    limit: 255
-    t.string   "romberg_test",            limit: 255
-    t.string   "trampling",               limit: 255
-    t.string   "extensors_test",          limit: 255
-    t.string   "eye_convergence",         limit: 255
-    t.string   "master_eye",              limit: 255
-    t.string   "maddox_test",             limit: 255
-    t.string   "visual_correction",       limit: 255
-    t.string   "atlas",                   limit: 255
-    t.string   "jammed",                  limit: 255
+    t.string   "cervical_rotation"
+    t.string   "thumb_test"
+    t.string   "dynamic_posture_test"
+    t.string   "romberg_test"
+    t.string   "trampling"
+    t.string   "extensors_test"
+    t.string   "eye_convergence"
+    t.string   "master_eye"
+    t.string   "maddox_test"
+    t.string   "visual_correction"
+    t.string   "atlas"
+    t.string   "jammed"
   end
 
   create_table "postural_analysis_scans", force: :cascade do |t|
     t.integer "postural_analysis_id"
-    t.string  "scan",                 limit: 255
+    t.string  "scan"
     t.integer "user_id"
   end
 
@@ -210,14 +210,14 @@ ActiveRecord::Schema.define(version: 20150130165215) do
   add_index "postural_analysis_scans", ["user_id"], name: "index_postural_analysis_scans_on_user_id"
 
   create_table "practitioners", force: :cascade do |t|
-    t.string   "first_name",    limit: 255
-    t.string   "last_name",     limit: 255
-    t.string   "phone",         limit: 255
-    t.string   "mobile_phone",  limit: 255
-    t.string   "email",         limit: 255
-    t.string   "address",       limit: 255
-    t.string   "postal_code",   limit: 255
-    t.string   "city",          limit: 255
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "phone"
+    t.string   "mobile_phone"
+    t.string   "email"
+    t.string   "address"
+    t.string   "postal_code"
+    t.string   "city"
     t.integer  "country_id"
     t.text     "note"
     t.integer  "speciality_id"
@@ -227,16 +227,16 @@ ActiveRecord::Schema.define(version: 20150130165215) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  limit: 255, default: "", null: false
-    t.string   "encrypted_password",     limit: 255, default: "", null: false
-    t.string   "reset_password_token",   limit: 255
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                      default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip",     limit: 255
-    t.string   "last_sign_in_ip",        limit: 255
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "office_id"
