@@ -7,6 +7,9 @@
 				.panel-body
 					.div_action.row
 						.col-md-4
+							Show
+							= select_tag(:per_page, options_for_select([[50, 50], [100, 100], [1000, 1000], [5000, 5000], ['all', 10000000]], @search_params['per_page']), {class: "per_page"})
+							per page
 						.col-md-4.text-center
 							%span
 								= pluralize(@total_items_selected, 'Payment')+' selected / '+@total_items.to_s
@@ -14,6 +17,7 @@
 							= link_to content_tag(:span, "", class: "glyphicon glyphicon-chevron-left") + ' Back', payments_path, :class=>'btn btn-default'
 							= link_to content_tag(:span, "", class: "glyphicon glyphicon-print") + ' Print','#', onclick: 'window.print(); return false;', :class=>'btn btn-default'
 					.col-md-12.text-center
+						= will_paginate @payments, class: '', next_label: 'Next', previous_label: 'Previous'
 					= search_form_for @q, url: listing_payments_path do |f|
 						%table.table.table-striped.table-bordered.table-hover.table-condensed
 							%tr
@@ -76,3 +80,5 @@
 										%b
 											- total.each do |total_type_sym, total_type|
 												Total #{total_type_sym.to_s} : #{number_to_currency(total[total_type_sym], locale: :fr)} -
+					.col-md-12.text-center
+						= will_paginate @payments, class: '', next_label: 'Next', previous_label: 'Previous'							

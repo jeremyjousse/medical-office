@@ -22,18 +22,15 @@ class PaymentsController < ApplicationController
   end
 
   def listing
-#UPDATE payments Set paid_at = substr(paid_at,1,10) where LENGTH(paid_at) > 10;
-    params[:per_page] = 1000000
-    params[:page] = 1
-
-    #if params[]
-
+    if params[:per_page].nil?
+      params[:per_page] = 1000
+    end
     @search_params = put_and_get_search_params_in_session('listing_payments',{'search' => params[:q], 'page' => params[:page], 'per_page' => params[:per_page]},params[:filter])
 
-    #@q = current_user.payments.includes(:medical_treatment, medical_treatment: :patient, medical_treatment: :medical_treatment_type).search(search_params[:search])
     @q = current_user.payments.includes(:medical_treatment, medical_treatment: :patient, medical_treatment: :medical_treatment_type).search(@search_params['search'])
-    @payments = current_user.payments.search(@search_params['search']).result(distinct: true).order(:paid_at, :payment_type)
+    @payments = current_user.payments.includes(medical_treatment: [:patient, :medical_treatment_type]).paginate(:page => @search_params['page'], :per_page => @search_params['per_page']).search(@search_params['search']).result(distinct: true).order(:paid_at, :payment_type)
     @total_items = current_user.payments.all().count
+    
     @total_items_selected = @payments.count
 
   end
