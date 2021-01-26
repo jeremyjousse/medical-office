@@ -1,10 +1,8 @@
-require 'spec_helper'
-  
-describe Patient do
+require 'rails_helper'
 
-  it "has a valid factory" do
+describe Patient do
+  it 'has a valid factory' do
     patient = FactoryGirl.build(:patient)
     patient.should be_valid
   end
-
 end
