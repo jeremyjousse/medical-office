@@ -1,7 +1,9 @@
 source 'https://rubygems.org'
-ruby '2.3.0'
+ruby '2.6.10'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.11.3'
+
+
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', '~> 1.3.6' # 1.4.2
@@ -42,6 +44,7 @@ gem 'devise'
 gem 'will_paginate'
 gem 'ransack'
 
+
 # upload file gem
 gem 'carrierwave'
 
@@ -56,6 +59,10 @@ group :doc do
 end
 
 group :development do
+
+  # dev server
+  gem 'puma'
+
   gem 'better_errors'
   gem 'guard-livereload', require: false
   gem 'guard-bundler'
