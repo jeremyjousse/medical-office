@@ -12,6 +12,21 @@
 `bundle config set --local bundler 1.17.3`  
 `bundle _1.17.3_ install`
 
+`DEV_KEY=$(bundle exec rake secret) && TEST_KEY=$(bundle exec rake secret)`
+
+```bash
+cat > config/secrets.yml << EOF
+development:
+  secret_key_base: $DEV_KEY
+
+test:
+  secret_key_base: $TEST_KEY
+
+production:
+  secret_key_base: <%= ENV["SECRET_KEY_BASE"] %>
+EOF
+```
+
 `bundle exec rake assets:precompile RAILS_ENV=development`
 `bundle exec rails server`
 
