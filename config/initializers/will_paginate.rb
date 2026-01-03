@@ -18,15 +18,21 @@ module WillPaginate
       end
 
       def page_number(page)
-        tag :li, link(page, page, :rel => rel_value(page)), :class => ('active' if page == current_page)
+        aria_label = @template.will_paginate_translate(:page_aria_label, :page => page.to_i) { "Page #{page}" }
+        if page == current_page
+          tag :li, tag(:em, page, :class => 'current', :"aria-label" => aria_label, :"aria-current" => 'page'), :class => 'active'
+        else
+          tag :li, link(page, page, :rel => rel_value(page), :"aria-label" => aria_label)
+        end
       end
 
       def gap
-        tag :li, link('&hellip;'.html_safe, '#'), :class => 'disabled'
+        text = @template.will_paginate_translate(:page_gap) { '&hellip;' }
+        tag :li, link(text.html_safe, '#'), :class => 'disabled'
       end
 
-      def previous_or_next_page(page, text, classname)
-        tag :li, link(text, page || '#'),
+      def previous_or_next_page(page, text, classname, aria_label)
+        tag :li, link(text, page || '#', :'aria-label' => aria_label),
             :class => [(classname[0..3] if  @options[:page_links]), (classname if @options[:page_links]), ('disabled' unless page)].join(' ')
       end
     end

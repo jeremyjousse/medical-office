@@ -1,10 +1,11 @@
 source 'https://rubygems.org'
-ruby '2.3.0'
+ruby '2.6.10'
+gem 'ffi', '~> 1.16.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.11.3'
 
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3', '~> 1.3.6' # 1.4.2
+gem 'sqlite3', '~> 1.3.13'
 
 # Use SCSS for stylesheets
 gem 'sass-rails'
@@ -31,7 +32,8 @@ gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
 gem 'font-awesome-rails'
 
-gem 'haml'
+gem 'haml', '~> 5.2'
+gem 'tilt', '2.0.11'
 
 gem 'simple_form'
 gem 'select2-rails'

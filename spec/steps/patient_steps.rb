@@ -1,5 +1,5 @@
 require 'spec_helper'
-include Devise::TestHelpers
+
 steps_for :patient do
   def build_valid_patient
     @patient = FactoryGirl.build(:patient)
