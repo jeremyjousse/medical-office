@@ -208,6 +208,21 @@ impl AppState {
         Ok(build_status(self.db_file_path(), user, office, users_count))
     }
 
+    pub async fn require_pool(&self) -> Result<SqlitePool, String> {
+        self.pool
+            .read()
+            .await
+            .clone()
+            .ok_or_else(|| "Database is not initialized.".to_string())
+    }
+
+    pub async fn require_active_context(&self) -> Result<(SqlitePool, User, Office), String> {
+        let pool = self.require_pool().await?;
+        let preferred_user_id = *self.active_user_id.read().await;
+        let (user, office) = resolve_active_user(&pool, preferred_user_id).await?;
+        Ok((pool, user, office))
+    }
+
     async fn open_existing_db(
         &self,
         db_path: &Path,
@@ -469,12 +484,19 @@ async fn count_users(pool: &SqlitePool) -> Result<i64, String> {
         .map_err(|e| format!("Failed to count users: {e}"))
 }
 
+pub fn is_office_incomplete(office: &Office) -> bool {
+    let is_blank = |s: &Option<String>| s.as_deref().map(|v| v.trim().is_empty()).unwrap_or(true);
+    is_blank(&office.name)
+        || is_blank(&office.address)
+        || is_blank(&office.postal_code)
+        || is_blank(&office.city)
+        || office.country_id.is_none()
+        || is_blank(&office.phone)
+        || is_blank(&office.email)
+}
+
 fn build_status(db_path: PathBuf, user: User, office: Office, users_count: i64) -> DbStatus {
-    let needs_office_setup = office
-        .name
-        .as_deref()
-        .map(|s| s.trim().is_empty())
-        .unwrap_or(true);
+    let needs_office_setup = is_office_incomplete(&office);
 
     DbStatus {
         initialized: true,
