@@ -208,6 +208,24 @@ pub fn amounts_equal(a: f64, b: f64) -> bool {
     to_cents(a) == to_cents(b)
 }
 
+pub const DEFAULT_PER_PAGE: i64 = 8;
+
+pub fn normalize_pagination(page: Option<i64>, per_page: Option<i64>) -> (i64, i64, i64) {
+    let per_page = per_page.unwrap_or(DEFAULT_PER_PAGE).clamp(1, 100);
+    let page = page.unwrap_or(1).max(1);
+    let offset = (page - 1) * per_page;
+    (page, per_page, offset)
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PaginatedResult<T> {
+    pub items: Vec<T>,
+    pub page: i64,
+    pub per_page: i64,
+    pub filtered_total: i64,
+    pub total: i64,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, sqlx::FromRow)]
 pub struct User {
     pub id: i64,

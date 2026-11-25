@@ -1,5 +1,6 @@
 pub mod commands;
 pub mod db;
+pub mod error;
 pub mod models;
 pub mod seed;
 
@@ -31,6 +32,23 @@ pub fn run() {
             commands::db_setup::export_sqlite_db,
             commands::db_setup::list_users,
             commands::db_setup::switch_user,
+            commands::office::get_home_summary,
+            commands::office::list_countries,
+            commands::office::get_office,
+            commands::office::update_office,
+            commands::practitioners::list_practitioners,
+            commands::practitioners::get_practitioner,
+            commands::practitioners::create_practitioner,
+            commands::practitioners::update_practitioner,
+            commands::treatment_types::list_treatment_types,
+            commands::treatment_types::get_treatment_type,
+            commands::treatment_types::create_treatment_type,
+            commands::treatment_types::update_treatment_type,
+            commands::treatment_types::delete_treatment_type,
+            commands::bank_accounts::list_bank_accounts,
+            commands::bank_accounts::get_bank_account,
+            commands::bank_accounts::create_bank_account,
+            commands::bank_accounts::update_bank_account,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
