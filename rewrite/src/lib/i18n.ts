@@ -40,6 +40,12 @@ const en = {
   clearSelection: 'Clear',
   actions: 'Actions',
   close: 'Close',
+  yes: 'Yes',
+  no: 'No',
+  showCountPrefix: 'Show',
+  perPageSuffix: 'per page',
+  allOption: 'All',
+  toRange: 'to',
 
   // Setup DB
   setupTitle: 'Database Setup',
@@ -138,6 +144,86 @@ const en = {
   bankAccountCreatedSuccess: 'Bank account was successfully created.',
   bankAccountUpdatedSuccess: 'Bank account was successfully updated.',
 
+  // Patients
+  patientsTitle: 'My Patients',
+  patientSingular: 'Patient',
+  patientPlural: 'Patients',
+  patientDetailTitle: 'Patient Detail',
+  patientNewTitle: 'New Patient',
+  patientEditTitle: 'Edit Patient',
+  patientImportTitle: 'Import Patients',
+  patientNewBtn: 'New Patient',
+  patientImportBtn: 'Import Patients',
+  patientFirstName: 'First name',
+  patientLastName: 'Last name',
+  patientBirthdate: 'Birthday',
+  patientProfession: 'Profession',
+  patientPhone: 'Phone',
+  patientMobilePhone: 'Mobile phone',
+  patientEmail: 'Email',
+  patientAddress: 'Address',
+  patientPostalCode: 'Postal code',
+  patientCity: 'City',
+  patientCountry: 'Country',
+  patientNationalInsuranceNumber: 'National insurance number',
+  patientFamilyDoctor: 'Family doctor',
+  patientPhysicalTherapist: 'Physical therapist',
+  patientOsteopath: 'Osteopath',
+  patientLegalGuardian: 'Legal guardian',
+  patientNote: 'Note',
+  patientDiabetic: 'Diabetic',
+  patientUniversalHealthcare: 'Universal healthcare coverage',
+  patientLongDurationDisease: 'Long duration disease',
+  patientDiabeteNetwork: 'Diabetes network',
+  patientTreatmentsCount: 'Nb. treatments',
+  patientAddTreatment: 'Add Medical Treatment',
+  patientAddDocumentScan: 'Add Document Scan',
+  patientDocumentScanDeferred: 'Document scan upload will be available in the next lot.',
+  patientCreatedSuccess: 'Patient was successfully created.',
+  patientUpdatedSuccess: 'Patient was successfully updated.',
+  patientDeletedSuccess: 'Patient was successfully deleted.',
+  patientDeleteConfirmTitle: 'Delete patient?',
+  patientDeleteConfirmBody: 'Are you sure you want to delete "{name}"? This action cannot be undone.',
+  patientImportSubtitle: 'Select a Google Contacts CSV export (UTF-16LE with BOM). Existing patients with the same last name, first name, and phone are skipped automatically.',
+  patientImportChooseFile: 'Choose Google Contacts CSV',
+  patientImportSelectedFile: 'Selected file',
+  patientImportSubmit: 'Import',
+  patientImportSummary: 'Imported {imported} patient(s), skipped {skipped} of {total} row(s).',
+  patientImportSuccess: '{count} patient(s) imported successfully.',
+  patientSearchPlaceholder: 'Search patient by name...',
+
+  // Medical Treatments
+  treatmentsTitle: 'Medical Treatments',
+  treatmentSingular: 'Medical Treatment',
+  treatmentPlural: 'Medical Treatments',
+  treatmentDetailTitle: 'Medical Treatment Detail',
+  treatmentNewTitle: 'New Medical Treatment',
+  treatmentEditTitle: 'Edit Medical Treatment',
+  treatmentNewBtn: 'New Medical Treatment',
+  treatmentPatient: 'Patient',
+  treatmentType: 'Treatment type',
+  treatmentDate: 'Date',
+  treatmentLocation: 'Location',
+  treatmentPrice: 'Price',
+  treatmentNote: 'Note',
+  treatmentStatus: 'Status',
+  treatmentAllTypes: 'All types',
+  treatmentAllLocations: 'All locations',
+  treatmentAllStatuses: 'All statuses',
+  treatmentLocationOffice: 'Office',
+  treatmentLocationHome: 'Home',
+  treatmentStatusUnpaid: 'unpaid',
+  treatmentStatusPaid: 'paid',
+  treatmentCreatedSuccess: 'Medical treatment was successfully created.',
+  treatmentUpdatedSuccess: 'Medical treatment was successfully updated.',
+  treatmentDeletedSuccess: 'Medical treatment was successfully deleted.',
+  treatmentDeleteConfirmTitle: 'Delete medical treatment?',
+  treatmentDeleteConfirmBody: 'Are you sure you want to delete this medical treatment from {date}? This action cannot be undone.',
+  treatmentPaymentsHeading: 'Payments',
+  treatmentPaymentPaidAt: 'Paid at',
+  treatmentPaymentType: 'Type',
+  treatmentPaymentAmount: 'Amount',
+
   // Deferred routes
   deferredTitle: 'Module Scheduled in Next Lot',
   deferredDesc: 'The "{module}" module is outside the current scope and will be implemented in an upcoming lot.',
@@ -155,6 +241,14 @@ const en = {
   err_invalid_integer: 'Please enter a valid non-negative integer.',
   err_referenced_by_treatments:
     'Cannot delete medical treatment type because it is referenced by existing medical treatments.',
+  err_invalid_practitioner: 'Please select a valid practitioner.',
+  err_invalid_patient: 'Please select a valid patient.',
+  err_invalid_date: 'Please enter a valid date (YYYY-MM-DD).',
+  err_invalid_location: 'Please select a valid location.',
+  err_invalid_treatment_type: 'Please select a valid medical treatment type.',
+  err_payments_exceed_price: 'Total payments cannot exceed treatment price.',
+  err_patient_has_treatments: 'Cannot delete patient because they have existing medical treatments.',
+  err_treatment_has_payments: 'Cannot delete medical treatment because it has existing payments.',
 } as const;
 
 export type TranslationKey = keyof typeof en;
@@ -199,6 +293,12 @@ const fr: Record<TranslationKey, string> = {
   clearSelection: 'Effacer',
   actions: 'Actions',
   close: 'Fermer',
+  yes: 'Oui',
+  no: 'Non',
+  showCountPrefix: 'Afficher',
+  perPageSuffix: 'par page',
+  allOption: 'Tous',
+  toRange: 'à',
 
   // Setup DB
   setupTitle: 'Configuration de la base de données',
@@ -297,6 +397,86 @@ const fr: Record<TranslationKey, string> = {
   bankAccountCreatedSuccess: 'Le compte bancaire a été créé avec succès.',
   bankAccountUpdatedSuccess: 'Le compte bancaire a été mis à jour avec succès.',
 
+  // Patients
+  patientsTitle: 'Mes patients',
+  patientSingular: 'Patient',
+  patientPlural: 'Patients',
+  patientDetailTitle: 'Détail du patient',
+  patientNewTitle: 'Nouveau patient',
+  patientEditTitle: 'Modifier le patient',
+  patientImportTitle: 'Importer des patients',
+  patientNewBtn: 'Nouveau patient',
+  patientImportBtn: 'Importer des patients',
+  patientFirstName: 'Prénom',
+  patientLastName: 'Nom',
+  patientBirthdate: 'Date de naissance',
+  patientProfession: 'Profession',
+  patientPhone: 'Téléphone',
+  patientMobilePhone: 'Téléphone portable',
+  patientEmail: 'E-mail',
+  patientAddress: 'Adresse',
+  patientPostalCode: 'Code postal',
+  patientCity: 'Ville',
+  patientCountry: 'Pays',
+  patientNationalInsuranceNumber: 'Numéro de sécurité sociale',
+  patientFamilyDoctor: 'Médecin traitant',
+  patientPhysicalTherapist: 'Kinésithérapeute',
+  patientOsteopath: 'Ostéopathe',
+  patientLegalGuardian: 'Représentant légal',
+  patientNote: 'Note',
+  patientDiabetic: 'Diabétique',
+  patientUniversalHealthcare: 'CMU / CSS',
+  patientLongDurationDisease: 'ALD',
+  patientDiabeteNetwork: 'Réseau diabète',
+  patientTreatmentsCount: 'Nb. soins',
+  patientAddTreatment: 'Ajouter un soin médical',
+  patientAddDocumentScan: 'Ajouter un document scanné',
+  patientDocumentScanDeferred: 'L’import de documents scannés sera disponible dans le prochain lot.',
+  patientCreatedSuccess: 'Le patient a été créé avec succès.',
+  patientUpdatedSuccess: 'Le patient a été mis à jour avec succès.',
+  patientDeletedSuccess: 'Le patient a été supprimé avec succès.',
+  patientDeleteConfirmTitle: 'Supprimer le patient ?',
+  patientDeleteConfirmBody: 'Voulez-vous vraiment supprimer « {name} » ? Cette action est irréversible.',
+  patientImportSubtitle: 'Sélectionnez un fichier CSV Google Contacts (UTF-16LE avec BOM). Les patients existants ayant les mêmes nom, prénom et téléphone sont ignorés automatiquement.',
+  patientImportChooseFile: 'Choisir un CSV Google Contacts',
+  patientImportSelectedFile: 'Fichier sélectionné',
+  patientImportSubmit: 'Importer',
+  patientImportSummary: '{imported} patient(s) importé(s), {skipped} ignoré(s) sur {total} ligne(s).',
+  patientImportSuccess: '{count} patient(s) importé(s) avec succès.',
+  patientSearchPlaceholder: 'Rechercher un patient par nom...',
+
+  // Medical Treatments
+  treatmentsTitle: 'Soins médicaux',
+  treatmentSingular: 'Soin médical',
+  treatmentPlural: 'Soins médicaux',
+  treatmentDetailTitle: 'Détail du soin médical',
+  treatmentNewTitle: 'Nouveau soin médical',
+  treatmentEditTitle: 'Modifier le soin médical',
+  treatmentNewBtn: 'Nouveau soin médical',
+  treatmentPatient: 'Patient',
+  treatmentType: 'Type de soin',
+  treatmentDate: 'Date',
+  treatmentLocation: 'Lieu',
+  treatmentPrice: 'Tarif',
+  treatmentNote: 'Note',
+  treatmentStatus: 'Statut',
+  treatmentAllTypes: 'Tous les types',
+  treatmentAllLocations: 'Tous les lieux',
+  treatmentAllStatuses: 'Tous les statuts',
+  treatmentLocationOffice: 'Cabinet',
+  treatmentLocationHome: 'Domicile',
+  treatmentStatusUnpaid: 'Impayé',
+  treatmentStatusPaid: 'Payé',
+  treatmentCreatedSuccess: 'Le soin médical a été créé avec succès.',
+  treatmentUpdatedSuccess: 'Le soin médical a été mis à jour avec succès.',
+  treatmentDeletedSuccess: 'Le soin médical a été supprimé avec succès.',
+  treatmentDeleteConfirmTitle: 'Supprimer le soin médical ?',
+  treatmentDeleteConfirmBody: 'Voulez-vous vraiment supprimer ce soin médical du {date} ? Cette action est irréversible.',
+  treatmentPaymentsHeading: 'Paiements',
+  treatmentPaymentPaidAt: 'Payé le',
+  treatmentPaymentType: 'Type',
+  treatmentPaymentAmount: 'Montant',
+
   // Deferred routes
   deferredTitle: 'Module prévu dans le lot suivant',
   deferredDesc: 'Le module « {module} » est hors périmètre actuel et sera implémenté dans un prochain lot.',
@@ -314,6 +494,14 @@ const fr: Record<TranslationKey, string> = {
   err_invalid_integer: 'Veuillez saisir un entier positif ou nul valide.',
   err_referenced_by_treatments:
     'Impossible de supprimer ce type de soin car il est utilisé par des soins médicaux existants.',
+  err_invalid_practitioner: 'Veuillez sélectionner un praticien valide.',
+  err_invalid_patient: 'Veuillez sélectionner un patient valide.',
+  err_invalid_date: 'Veuillez saisir une date valide (AAAA-MM-JJ).',
+  err_invalid_location: 'Veuillez sélectionner un lieu valide.',
+  err_invalid_treatment_type: 'Veuillez sélectionner un type de soin valide.',
+  err_payments_exceed_price: 'Le total des paiements ne peut pas dépasser le tarif du soin.',
+  err_patient_has_treatments: 'Impossible de supprimer ce patient car il possède des soins médicaux.',
+  err_treatment_has_payments: 'Impossible de supprimer ce soin médical car il possède des paiements.',
 };
 
 const dictionaries: Record<Locale, Record<TranslationKey, string>> = { en, fr };
@@ -359,4 +547,40 @@ export function translateErrorCode(locale: Locale, code: string, fallback: strin
     return dictionaries[locale][key];
   }
   return fallback;
+}
+
+export function locationLabel(locale: Locale, locationId: number | null | undefined): string {
+  switch (locationId) {
+    case 1:
+      return t(locale, 'treatmentLocationOffice');
+    case 2:
+      return t(locale, 'treatmentLocationHome');
+    default:
+      return '—';
+  }
+}
+
+export function locationOptions(locale: Locale): { value: number; label: string }[] {
+  return [
+    { value: 1, label: t(locale, 'treatmentLocationOffice') },
+    { value: 2, label: t(locale, 'treatmentLocationHome') },
+  ];
+}
+
+export function treatmentStatusLabel(locale: Locale, status: number | null | undefined): string {
+  switch (status) {
+    case 1:
+      return t(locale, 'treatmentStatusPaid');
+    case 0:
+      return t(locale, 'treatmentStatusUnpaid');
+    default:
+      return '—';
+  }
+}
+
+export function treatmentStatusOptions(locale: Locale): { value: number; label: string }[] {
+  return [
+    { value: 0, label: t(locale, 'treatmentStatusUnpaid') },
+    { value: 1, label: t(locale, 'treatmentStatusPaid') },
+  ];
 }

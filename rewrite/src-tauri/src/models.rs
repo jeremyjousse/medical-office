@@ -209,12 +209,53 @@ pub fn amounts_equal(a: f64, b: f64) -> bool {
 }
 
 pub const DEFAULT_PER_PAGE: i64 = 8;
+pub const MAX_LISTING_PER_PAGE: i64 = 10_000_000;
 
 pub fn normalize_pagination(page: Option<i64>, per_page: Option<i64>) -> (i64, i64, i64) {
     let per_page = per_page.unwrap_or(DEFAULT_PER_PAGE).clamp(1, 100);
     let page = page.unwrap_or(1).max(1);
     let offset = (page - 1) * per_page;
     (page, per_page, offset)
+}
+
+pub fn normalize_listing_pagination(
+    page: Option<i64>,
+    per_page: Option<i64>,
+    default_per_page: i64,
+) -> (i64, i64, i64) {
+    let per_page = per_page
+        .unwrap_or(default_per_page)
+        .clamp(1, MAX_LISTING_PER_PAGE);
+    let page = page.unwrap_or(1).max(1);
+    let offset = (page - 1) * per_page;
+    (page, per_page, offset)
+}
+
+/// Word capitalization matching Rails `Patient#set_first_name_and_last_name_uppercase` (`gsub(/\b(\w)/)`).
+pub fn titlecase_words(raw: &str) -> String {
+    let mut out = String::with_capacity(raw.len());
+    let mut at_word_start = true;
+    for ch in raw.chars() {
+        if ch.is_alphanumeric() {
+            if at_word_start {
+                for upper in ch.to_uppercase() {
+                    out.push(upper);
+                }
+                at_word_start = false;
+            } else {
+                out.push(ch);
+            }
+        } else {
+            out.push(ch);
+            at_word_start = true;
+        }
+    }
+    out
+}
+
+/// HTML entity escaping matching Ruby `CGI::escapeHTML`.
+pub fn escape_html_rails(raw: &str) -> String {
+    html_escape::encode_double_quoted_attribute(raw).replace('\'', "&#39;")
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -427,6 +468,33 @@ mod tests {
         assert!(amounts_equal(0.1 + 0.2, 0.3));
         assert!(!amounts_equal(49.99, 50.00));
         assert_eq!(from_cents(5025), 50.25);
+    }
+
+    #[test]
+    fn titlecases_words_and_escapes_html_rails_style() {
+        assert_eq!(titlecase_words("jean-pierre"), "Jean-Pierre");
+        assert_eq!(titlecase_words("10 rue de la paix"), "10 Rue De La Paix");
+        assert_eq!(titlecase_words("école d'art"), "École D'Art");
+        assert_eq!(titlecase_words("McDonald"), "McDonald");
+        assert_eq!(titlecase_words(""), "");
+
+        assert_eq!(
+            escape_html_rails(r#"A & B <tag> "q" 's' 1980/05/12"#),
+            "A &amp; B &lt;tag&gt; &quot;q&quot; &#39;s&#39; 1980/05/12"
+        );
+    }
+
+    #[test]
+    fn normalizes_listing_pagination_including_all() {
+        assert_eq!(normalize_listing_pagination(None, None, 10), (1, 10, 0));
+        assert_eq!(
+            normalize_listing_pagination(Some(3), Some(20), 10),
+            (3, 20, 40)
+        );
+        assert_eq!(
+            normalize_listing_pagination(Some(1), Some(10_000_000), 10),
+            (1, 10_000_000, 0)
+        );
     }
 
     #[tokio::test]

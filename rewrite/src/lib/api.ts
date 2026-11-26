@@ -140,6 +140,152 @@ export interface BankAccountInput {
   bank_check_deposit_number: number | null;
 }
 
+export interface PatientView {
+  id: number;
+  first_name: string | null;
+  last_name: string | null;
+  birthdate: string | null;
+  profession: string | null;
+  phone: string | null;
+  mobile_phone: string | null;
+  email: string | null;
+  address: string | null;
+  postal_code: string | null;
+  city: string | null;
+  country_id: number | null;
+  country_name: string | null;
+  national_insurance_number: string | null;
+  family_doctor_id: number | null;
+  family_doctor_label: string | null;
+  physical_therapists_id: number | null;
+  physical_therapists_label: string | null;
+  osteopath_id: number | null;
+  osteopath_label: string | null;
+  legal_guardian_id: number | null;
+  note: string | null;
+  diabetic: boolean | null;
+  universal_healthcare_coverage: boolean | null;
+  long_duration_disease: boolean | null;
+  diabete_network_id: number | null;
+  user_id: number | null;
+  created_at: string | null;
+  updated_at: string | null;
+  treatments_count: number;
+}
+
+export interface PatientChoice {
+  id: number;
+  first_name: string | null;
+  last_name: string | null;
+  city: string | null;
+  label: string;
+}
+
+export interface PractitionerOption {
+  id: number;
+  first_name: string | null;
+  last_name: string | null;
+  city: string | null;
+  speciality_id: number | null;
+}
+
+export interface PatientFilter {
+  page?: number;
+  per_page?: number;
+  first_name?: string;
+  last_name?: string;
+  phone?: string;
+  diabetic?: boolean;
+}
+
+export interface PatientInput {
+  first_name: string | null;
+  last_name: string;
+  birthdate: string | null;
+  profession: string | null;
+  phone: string | null;
+  mobile_phone: string | null;
+  email: string | null;
+  address: string | null;
+  postal_code: string | null;
+  city: string;
+  country_id: number | null;
+  national_insurance_number: string | null;
+  family_doctor_id: number | null;
+  physical_therapists_id: number | null;
+  osteopath_id: number | null;
+  legal_guardian_id: number | null;
+  note: string | null;
+  diabetic: boolean;
+  universal_healthcare_coverage: boolean;
+  long_duration_disease: boolean;
+  diabete_network_id: number | null;
+}
+
+export interface ImportPatientsResult {
+  imported_count: number;
+  skipped_count: number;
+  total_rows: number;
+}
+
+export interface Payment {
+  id: number;
+  medical_treatment_id: number | null;
+  paid_at: string | null;
+  payment_type: number | null;
+  amount: number | null;
+  user_id: number | null;
+  bank_deposit_id: number | null;
+  created_at: string | null;
+  updated_at: string | null;
+}
+
+export interface MedicalTreatmentView {
+  id: number;
+  user_id: number | null;
+  patient_id: number | null;
+  patient_first_name: string | null;
+  patient_last_name: string | null;
+  patient_city: string | null;
+  date: string | null;
+  location_id: number | null;
+  medical_treatment_type_id: number | null;
+  treatment_type_name: string | null;
+  treatment_type_price: number | null;
+  price: number | null;
+  note: string | null;
+  status: number | null;
+  payments_count: number;
+  payments_total: number;
+  created_at: string | null;
+  updated_at: string | null;
+}
+
+export interface MedicalTreatmentDetail {
+  treatment: MedicalTreatmentView;
+  payments: Payment[];
+}
+
+export interface TreatmentFilter {
+  page?: number;
+  per_page?: number;
+  patient_id?: number | null;
+  medical_treatment_type_id?: number | null;
+  date_gteq?: string;
+  date_lteq?: string;
+  location_id?: number | null;
+  status?: number | null;
+}
+
+export interface MedicalTreatmentInput {
+  patient_id: number | null;
+  date: string;
+  location_id: number | null;
+  medical_treatment_type_id: number | null;
+  price: number | null;
+  note: string | null;
+}
+
 export interface PaginatedResult<T> {
   items: T[];
   page: number;
@@ -227,6 +373,14 @@ export async function pickSaveSqliteFile(): Promise<string | null> {
   return selected ?? null;
 }
 
+export async function pickCsvFile(): Promise<string | null> {
+  const selected = await open({
+    multiple: false,
+    filters: [{ name: 'CSV', extensions: ['csv', 'txt'] }],
+  });
+  return typeof selected === 'string' ? selected : null;
+}
+
 // Home & Office & Countries
 export const getHomeSummary = () => invoke<HomeSummary>('get_home_summary');
 export const listCountries = () => invoke<Country[]>('list_countries');
@@ -262,3 +416,32 @@ export const createBankAccount = (input: BankAccountInput) =>
   invoke<BankAccount>('create_bank_account', { input });
 export const updateBankAccount = (id: number, input: BankAccountInput) =>
   invoke<BankAccount>('update_bank_account', { id, input });
+
+// Patients
+export const listPatients = (filter: PatientFilter) =>
+  invoke<PaginatedResult<PatientView>>('list_patients', { filter });
+export const getPatient = (id: number) => invoke<PatientView>('get_patient', { id });
+export const createPatient = (input: PatientInput) => invoke<PatientView>('create_patient', { input });
+export const updatePatient = (id: number, input: PatientInput) =>
+  invoke<PatientView>('update_patient', { id, input });
+export const deletePatient = (id: number) => invoke<void>('delete_patient', { id });
+export const finderPatients = (query: string, limit?: number) =>
+  invoke<PatientChoice[]>('finder_patients', { query, limit });
+export const listPractitionerOptions = () =>
+  invoke<PractitionerOption[]>('list_practitioner_options');
+export const importPatientsCsv = (path: string) =>
+  invoke<ImportPatientsResult>('import_patients_csv', { path });
+
+// Medical Treatments
+export const listTreatments = (filter: TreatmentFilter) =>
+  invoke<PaginatedResult<MedicalTreatmentView>>('list_treatments', { filter });
+export const getTreatment = (id: number) => invoke<MedicalTreatmentDetail>('get_treatment', { id });
+export const createTreatment = (input: MedicalTreatmentInput) =>
+  invoke<MedicalTreatmentView>('create_treatment', { input });
+export const updateTreatment = (id: number, input: MedicalTreatmentInput) =>
+  invoke<MedicalTreatmentView>('update_treatment', { id, input });
+export const deleteTreatment = (id: number) => invoke<void>('delete_treatment', { id });
+export const priceFinder = (medicalTreatmentTypeId: number) =>
+  invoke<number | null>('price_finder', { medicalTreatmentTypeId });
+export const listTreatmentTypeOptions = () =>
+  invoke<MedicalTreatmentType[]>('list_treatment_type_options');
