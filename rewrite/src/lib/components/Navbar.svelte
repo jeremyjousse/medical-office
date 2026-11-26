@@ -99,7 +99,7 @@
   }
 </script>
 
-<header class="navbar bg-base-100 border-b border-base-300 px-4 shadow-xs">
+<header class="navbar bg-base-100 border-b border-base-300 px-4 shadow-xs no-print">
   <div class="navbar-start gap-2">
     <a
       href="#/"
@@ -257,9 +257,7 @@
         </a>
         <a
           href="#/payments"
-          class={navLinkClass(
-            appState.route.view === 'deferred' && appState.route.module === 'payments',
-          )}
+          class={navLinkClass(appState.route.view === 'payments')}
           onclick={(e) => {
             e.preventDefault();
             appState.navigate('/payments');
@@ -269,9 +267,7 @@
         </a>
         <a
           href="#/bank-deposits"
-          class={navLinkClass(
-            appState.route.view === 'deferred' && appState.route.module === 'bank-deposits',
-          )}
+          class={navLinkClass(appState.route.view === 'bank-deposits')}
           onclick={(e) => {
             e.preventDefault();
             appState.navigate('/bank-deposits');

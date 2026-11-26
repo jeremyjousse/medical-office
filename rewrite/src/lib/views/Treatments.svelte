@@ -20,7 +20,7 @@
     treatmentStatusLabel,
     treatmentStatusOptions,
   } from '../i18n';
-  import { appState, defaultTreatmentFilters } from '../state.svelte';
+  import { appState, defaultTreatmentFilters, PER_PAGE_OPTIONS } from '../state.svelte';
 
   interface Props {
     mode: 'index' | 'new' | 'edit';
@@ -29,15 +29,6 @@
   }
 
   let { mode, id, query = {} }: Props = $props();
-
-  const PER_PAGE_OPTIONS = [
-    { value: 2, label: '2' },
-    { value: 10, label: '10' },
-    { value: 20, label: '20' },
-    { value: 50, label: '50' },
-    { value: 100, label: '100' },
-    { value: 10000000, labelKey: 'allOption' as const },
-  ];
 
   let listing = $state<PaginatedResult<MedicalTreatmentView> | null>(null);
   let treatmentTypes = $state<MedicalTreatmentType[]>([]);

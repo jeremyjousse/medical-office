@@ -18,6 +18,8 @@ export interface FlashMessage {
 
 export type ResourceMode = 'index' | 'new' | 'show' | 'edit';
 export type PatientRouteMode = ResourceMode | 'import';
+export type PaymentRouteMode = ResourceMode | 'listing';
+export type BankDepositRouteMode = 'index' | 'new' | 'show';
 
 export interface PatientFiltersState {
   first_name: string;
@@ -38,6 +40,38 @@ export interface TreatmentFiltersState {
   page: number;
   per_page: number;
 }
+
+export interface PaymentFiltersState {
+  paid_at: string;
+  payment_type: number | null;
+  page: number;
+  per_page: number;
+}
+
+export interface PaymentListingFiltersState {
+  paid_at_gteq: string;
+  paid_at_lteq: string;
+  payment_type: number | null;
+}
+
+export interface BankDepositFiltersState {
+  deposit_type: number | null;
+  number: number | null;
+  page: number;
+}
+
+export const PER_PAGE_OPTIONS: readonly {
+  value: number;
+  label?: string;
+  labelKey?: 'allOption';
+}[] = [
+  { value: 2, label: '2' },
+  { value: 10, label: '10' },
+  { value: 20, label: '20' },
+  { value: 50, label: '50' },
+  { value: 100, label: '100' },
+  { value: 10000000, labelKey: 'allOption' },
+];
 
 export function defaultPatientFilters(): PatientFiltersState {
   return {
@@ -63,6 +97,31 @@ export function defaultTreatmentFilters(): TreatmentFiltersState {
   };
 }
 
+export function defaultPaymentFilters(): PaymentFiltersState {
+  return {
+    paid_at: '',
+    payment_type: null,
+    page: 1,
+    per_page: 10,
+  };
+}
+
+export function defaultPaymentListingFilters(): PaymentListingFiltersState {
+  return {
+    paid_at_gteq: '',
+    paid_at_lteq: '',
+    payment_type: null,
+  };
+}
+
+export function defaultBankDepositFilters(): BankDepositFiltersState {
+  return {
+    deposit_type: null,
+    number: null,
+    page: 1,
+  };
+}
+
 export type ParsedRoute =
   | { view: 'home' }
   | { view: 'setup' }
@@ -78,9 +137,15 @@ export type ParsedRoute =
       query?: Record<string, string>;
     }
   | {
-      view: 'deferred';
-      module: 'payments' | 'bank-deposits';
-      query: Record<string, string>;
+      view: 'payments';
+      mode: PaymentRouteMode;
+      id?: number;
+      query?: Record<string, string>;
+    }
+  | {
+      view: 'bank-deposits';
+      mode: BankDepositRouteMode;
+      id?: number;
     };
 
 const LOCALE_STORAGE_KEY = 'medical-office.locale';
@@ -148,8 +213,26 @@ export function parseHashRoute(hash: string): ParsedRoute {
     return { view: head, mode: 'index' };
   }
 
-  if (head === 'payments' || head === 'bank-deposits') {
-    return { view: 'deferred', module: head, query };
+  if (head === 'payments') {
+    if (!second) return { view: 'payments', mode: 'index', query };
+    if (second === 'listing') return { view: 'payments', mode: 'listing', query };
+    if (second === 'new') return { view: 'payments', mode: 'new', query };
+    const id = Number(second);
+    if (Number.isInteger(id) && id > 0) {
+      if (third === 'edit') return { view: 'payments', mode: 'edit', id };
+      return { view: 'payments', mode: 'show', id };
+    }
+    return { view: 'payments', mode: 'index', query };
+  }
+
+  if (head === 'bank-deposits') {
+    if (!second) return { view: 'bank-deposits', mode: 'index' };
+    if (second === 'new') return { view: 'bank-deposits', mode: 'new' };
+    const id = Number(second);
+    if (Number.isInteger(id) && id > 0) {
+      return { view: 'bank-deposits', mode: 'show', id };
+    }
+    return { view: 'bank-deposits', mode: 'index' };
   }
 
   return { view: 'home' };
@@ -164,6 +247,9 @@ class AppState {
   initializing = $state<boolean>(true);
   patientFilters = $state<PatientFiltersState>(defaultPatientFilters());
   treatmentFilters = $state<TreatmentFiltersState>(defaultTreatmentFilters());
+  paymentFilters = $state<PaymentFiltersState>(defaultPaymentFilters());
+  paymentListingFilters = $state<PaymentListingFiltersState>(defaultPaymentListingFilters());
+  bankDepositFilters = $state<BankDepositFiltersState>(defaultBankDepositFilters());
   private nextFlashId = 1;
 
   currentUser = $derived<User | null>(this.dbStatus?.active_user ?? null);
@@ -223,6 +309,9 @@ class AppState {
     if (prevUserId !== nextUserId || prevDbPath !== nextDbPath) {
       this.patientFilters = defaultPatientFilters();
       this.treatmentFilters = defaultTreatmentFilters();
+      this.paymentFilters = defaultPaymentFilters();
+      this.paymentListingFilters = defaultPaymentListingFilters();
+      this.bankDepositFilters = defaultBankDepositFilters();
     }
     if (status.initialized && status.users_count > 1) {
       try {

@@ -223,11 +223,81 @@ const en = {
   treatmentPaymentPaidAt: 'Paid at',
   treatmentPaymentType: 'Type',
   treatmentPaymentAmount: 'Amount',
+  treatmentAddPayment: 'Add payment',
 
-  // Deferred routes
-  deferredTitle: 'Module Scheduled in Next Lot',
-  deferredDesc: 'The "{module}" module is outside the current scope and will be implemented in an upcoming lot.',
-  deferredFilterInfo: 'Active filter parameter: {filter}',
+  // Payments
+  paymentsTitle: 'Payments',
+  paymentSingular: 'Payment',
+  paymentPlural: 'Payments',
+  paymentDetailTitle: 'Payment Detail',
+  paymentNewTitle: 'New Payment',
+  paymentEditTitle: 'Edit Payment',
+  paymentNewBtn: 'New Payment',
+  paymentPrintListingBtn: 'Print listing',
+  paymentMedicalTreatment: 'Medical treatment',
+  paymentPaidAt: 'Paid at',
+  paymentType: 'Type',
+  paymentAmount: 'Amount',
+  paymentBankDeposit: 'Bank deposit',
+  paymentAllTypes: 'All types',
+  paymentType1: 'Check',
+  paymentType2: 'Credit card',
+  paymentType3: 'Cash',
+  paymentType4: 'Bank account transfer',
+  paymentCheckSection: 'Bank Check Details',
+  paymentCheckOwner: 'Account owner',
+  paymentCheckBankName: 'Bank name',
+  paymentCheckNumber: 'Check number',
+  paymentCheckStatus: 'Check status',
+  paymentCheckStatusNeg1: 'Rejected',
+  paymentCheckStatus0: 'Uncashed',
+  paymentCheckStatus1: 'Cashed',
+  paymentCreatedSuccess: 'Payment was successfully created.',
+  paymentUpdatedSuccess: 'Payment was successfully updated.',
+  paymentDeletedSuccess: 'Payment was successfully deleted.',
+  paymentDeleteConfirmTitle: 'Delete payment?',
+  paymentDeleteConfirmBody: 'Are you sure you want to delete this payment? This action cannot be undone.',
+  paymentDepositedReadOnlyNotice:
+    'This payment is included in a bank deposit; payment type, amount, and medical treatment cannot be modified.',
+
+  // Payment Listing
+  paymentListingTitle: 'Payment listing',
+  print: 'Print',
+  paymentListingDayTotal: 'Day total',
+  paymentListingGrandTotal: 'Grand total',
+  paymentListingAll: 'All',
+
+  // Bank Deposits
+  bankDepositsTitle: 'My Bank Deposits',
+  bankDepositSingular: 'Bank Deposit',
+  bankDepositPlural: 'Bank Deposits',
+  bankDepositNewTitle: 'New Bank Deposit',
+  bankDepositDetailTitle: 'Bank Deposit Slip',
+  bankDepositNewBtn: 'New Bank Deposit',
+  bankDepositDate: 'Date',
+  bankDepositType: 'Type',
+  bankDepositNumber: 'Number',
+  bankDepositAmount: 'Amount',
+  bankDepositBankAccount: 'Bank account',
+  bankDepositAllTypes: 'All types',
+  bankDepositType1: 'Check',
+  bankDepositType2: 'Cash',
+  bankDepositPendingChecks: 'Pending checks',
+  bankDepositNoPendingChecks: 'No pending checks available for deposit.',
+  bankDepositSelectAll: 'Select all',
+  bankDepositDeselectAll: 'Deselect all',
+  bankDepositSelectedSummary: '{count} check(s) selected — Total: {total}',
+  bankDepositNoAccountsWarning: 'Please create a bank account in Settings before creating a bank deposit.',
+  bankDepositCreatedSuccess: 'Bank deposit was successfully created.',
+  bankDepositDeletedSuccess: 'Bank deposit was successfully deleted.',
+  bankDepositDeleteConfirmTitle: 'Delete bank deposit?',
+  bankDepositDeleteConfirmBody:
+    'Are you sure you want to delete deposit #{number}? Linked checks will return to uncashed status.',
+  bankDepositSlipAccountNo: 'Account no.:',
+  bankDepositSlipDatePrefix: '{city}, {date}',
+  bankDepositSlipNumberLabel: 'Check deposit no. {number}',
+  bankDepositSlipCheckCount: 'No. of checks: {count}',
+  bankDepositSlipTotal: 'Total {total}',
 
   // Validation codes
   err_required: 'This field is required.',
@@ -249,6 +319,14 @@ const en = {
   err_payments_exceed_price: 'Total payments cannot exceed treatment price.',
   err_patient_has_treatments: 'Cannot delete patient because they have existing medical treatments.',
   err_treatment_has_payments: 'Cannot delete medical treatment because it has existing payments.',
+  err_payment_in_bank_deposit: 'Cannot modify or delete a payment included in a bank deposit.',
+  err_invalid_payment_type: 'Please select a valid payment type.',
+  err_invalid_amount: 'Please enter a valid positive amount.',
+  err_invalid_treatment: 'Please select a valid medical treatment.',
+  err_invalid_bank_account: 'Please select a valid bank account.',
+  err_invalid_deposit_type: 'Only check deposits are supported.',
+  err_no_checks_selected: 'Please select at least one pending check.',
+  err_invalid_bank_check: 'One or more selected checks are invalid or already cashed.',
 } as const;
 
 export type TranslationKey = keyof typeof en;
@@ -476,11 +554,82 @@ const fr: Record<TranslationKey, string> = {
   treatmentPaymentPaidAt: 'Payé le',
   treatmentPaymentType: 'Type',
   treatmentPaymentAmount: 'Montant',
+  treatmentAddPayment: 'Ajouter un paiement',
 
-  // Deferred routes
-  deferredTitle: 'Module prévu dans le lot suivant',
-  deferredDesc: 'Le module « {module} » est hors périmètre actuel et sera implémenté dans un prochain lot.',
-  deferredFilterInfo: 'Paramètre de filtre actif : {filter}',
+  // Payments
+  paymentsTitle: 'Paiements',
+  paymentSingular: 'Paiement',
+  paymentPlural: 'Paiements',
+  paymentDetailTitle: 'Détail du paiement',
+  paymentNewTitle: 'Nouveau paiement',
+  paymentEditTitle: 'Modifier le paiement',
+  paymentNewBtn: 'Nouveau paiement',
+  paymentPrintListingBtn: 'Imprimer le listing',
+  paymentMedicalTreatment: 'Soin médical',
+  paymentPaidAt: 'Payé le',
+  paymentType: 'Type',
+  paymentAmount: 'Montant',
+  paymentBankDeposit: 'Remise en banque',
+  paymentAllTypes: 'Tous les types',
+  paymentType1: 'Chèque',
+  paymentType2: 'Carte bancaire',
+  paymentType3: 'Espèces',
+  paymentType4: 'Virement bancaire',
+  paymentCheckSection: 'Détails du chèque',
+  paymentCheckOwner: 'Titulaire du compte',
+  paymentCheckBankName: 'Banque',
+  paymentCheckNumber: 'Numéro de chèque',
+  paymentCheckStatus: 'Statut du chèque',
+  paymentCheckStatusNeg1: 'Rejeté',
+  paymentCheckStatus0: 'Non encaissé',
+  paymentCheckStatus1: 'Encaissé',
+  paymentCreatedSuccess: 'Le paiement a été créé avec succès.',
+  paymentUpdatedSuccess: 'Le paiement a été mis à jour avec succès.',
+  paymentDeletedSuccess: 'Le paiement a été supprimé avec succès.',
+  paymentDeleteConfirmTitle: 'Supprimer le paiement ?',
+  paymentDeleteConfirmBody: 'Voulez-vous vraiment supprimer ce paiement ? Cette action est irréversible.',
+  paymentDepositedReadOnlyNotice:
+    'Ce paiement est inclus dans une remise en banque ; le type, le montant et le soin médical ne peuvent pas être modifiés.',
+
+  // Payment Listing
+  paymentListingTitle: 'Listing des paiements',
+  print: 'Imprimer',
+  paymentListingDayTotal: 'Total du jour',
+  paymentListingGrandTotal: 'Total général',
+  paymentListingAll: 'Tous',
+
+  // Bank Deposits
+  bankDepositsTitle: 'Mes remises en banque',
+  bankDepositSingular: 'Remise en banque',
+  bankDepositPlural: 'Remises en banque',
+  bankDepositNewTitle: 'Nouvelle remise en banque',
+  bankDepositDetailTitle: 'Bordereau de remise en banque',
+  bankDepositNewBtn: 'Nouvelle remise en banque',
+  bankDepositDate: 'Date',
+  bankDepositType: 'Type',
+  bankDepositNumber: 'Numéro',
+  bankDepositAmount: 'Montant',
+  bankDepositBankAccount: 'Compte bancaire',
+  bankDepositAllTypes: 'Tous les types',
+  bankDepositType1: 'Chèque',
+  bankDepositType2: 'Espèces',
+  bankDepositPendingChecks: 'Chèques en attente',
+  bankDepositNoPendingChecks: 'Aucun chèque en attente à remettre en banque.',
+  bankDepositSelectAll: 'Tout sélectionner',
+  bankDepositDeselectAll: 'Tout désélectionner',
+  bankDepositSelectedSummary: '{count} chèque(s) sélectionné(s) — Total : {total}',
+  bankDepositNoAccountsWarning:
+    'Veuillez créer un compte bancaire dans les Paramètres avant de créer une remise en banque.',
+  bankDepositCreatedSuccess: 'La remise en banque a été créée avec succès.',
+  bankDepositDeletedSuccess: 'La remise en banque a été supprimée avec succès.',
+  bankDepositDeleteConfirmTitle: 'Supprimer la remise en banque ?',
+  bankDepositDeleteConfirmBody:
+    'Voulez-vous vraiment supprimer la remise n° {number} ? Les chèques associés repasseront au statut non encaissé.',
+  bankDepositSlipAccountNo: 'Compte n° :',
+  bankDepositSlipDatePrefix: '{city} le {date}',
+  bankDepositSlipNumberLabel: 'Remise de chèque n° {number}',
+  bankDepositSlipCheckCount: 'Nb. chèques {count}',
+  bankDepositSlipTotal: 'Total {total}',
 
   // Validation codes
   err_required: 'Ce champ est obligatoire.',
@@ -502,6 +651,15 @@ const fr: Record<TranslationKey, string> = {
   err_payments_exceed_price: 'Le total des paiements ne peut pas dépasser le tarif du soin.',
   err_patient_has_treatments: 'Impossible de supprimer ce patient car il possède des soins médicaux.',
   err_treatment_has_payments: 'Impossible de supprimer ce soin médical car il possède des paiements.',
+  err_payment_in_bank_deposit:
+    'Impossible de modifier ou supprimer un paiement inclus dans une remise en banque.',
+  err_invalid_payment_type: 'Veuillez sélectionner un type de paiement valide.',
+  err_invalid_amount: 'Veuillez saisir un montant strictement positif valide.',
+  err_invalid_treatment: 'Veuillez sélectionner un soin médical valide.',
+  err_invalid_bank_account: 'Veuillez sélectionner un compte bancaire valide.',
+  err_invalid_deposit_type: 'Seules les remises de chèques sont prises en charge.',
+  err_no_checks_selected: 'Veuillez sélectionner au moins un chèque en attente.',
+  err_invalid_bank_check: 'Un ou plusieurs chèques sélectionnés sont invalides ou déjà encaissés.',
 };
 
 const dictionaries: Record<Locale, Record<TranslationKey, string>> = { en, fr };
@@ -583,4 +741,94 @@ export function treatmentStatusOptions(locale: Locale): { value: number; label: 
     { value: 0, label: t(locale, 'treatmentStatusUnpaid') },
     { value: 1, label: t(locale, 'treatmentStatusPaid') },
   ];
+}
+
+export function paymentTypeLabel(locale: Locale, paymentType: number | null | undefined): string {
+  switch (paymentType) {
+    case 1:
+      return t(locale, 'paymentType1');
+    case 2:
+      return t(locale, 'paymentType2');
+    case 3:
+      return t(locale, 'paymentType3');
+    case 4:
+      return t(locale, 'paymentType4');
+    default:
+      return '—';
+  }
+}
+
+export function paymentTypeOptions(locale: Locale): { value: number; label: string }[] {
+  return [
+    { value: 1, label: t(locale, 'paymentType1') },
+    { value: 2, label: t(locale, 'paymentType2') },
+    { value: 3, label: t(locale, 'paymentType3') },
+    { value: 4, label: t(locale, 'paymentType4') },
+  ];
+}
+
+export function paymentCheckStatusLabel(
+  locale: Locale,
+  status: number | null | undefined,
+): string {
+  switch (status) {
+    case -1:
+      return t(locale, 'paymentCheckStatusNeg1');
+    case 0:
+      return t(locale, 'paymentCheckStatus0');
+    case 1:
+      return t(locale, 'paymentCheckStatus1');
+    default:
+      return '—';
+  }
+}
+
+export function bankDepositTypeLabel(
+  locale: Locale,
+  depositType: number | null | undefined,
+): string {
+  switch (depositType) {
+    case 1:
+      return t(locale, 'bankDepositType1');
+    case 2:
+      return t(locale, 'bankDepositType2');
+    default:
+      return '—';
+  }
+}
+
+export function bankDepositTypeOptions(locale: Locale): { value: number; label: string }[] {
+  return [
+    { value: 1, label: t(locale, 'bankDepositType1') },
+    { value: 2, label: t(locale, 'bankDepositType2') },
+  ];
+}
+
+const eurFormatterFr = new Intl.NumberFormat('fr-FR', {
+  style: 'currency',
+  currency: 'EUR',
+});
+
+export function formatEur(amount: number | null | undefined): string {
+  if (amount === null || amount === undefined || !Number.isFinite(amount)) {
+    return '—';
+  }
+  return eurFormatterFr.format(amount);
+}
+
+export function formatSlipDate(raw: string | null | undefined, locale: Locale): string {
+  if (!raw) return '';
+  const datePart = raw.trim().slice(0, 10);
+  const parts = datePart.split('-').map(Number);
+  if (parts.length !== 3 || parts.some((n) => !Number.isFinite(n))) {
+    return raw;
+  }
+  const [y, m, d] = parts;
+  const dt = new Date(Date.UTC(y, m - 1, d));
+  return new Intl.DateTimeFormat(locale === 'fr' ? 'fr-FR' : 'en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(dt);
 }

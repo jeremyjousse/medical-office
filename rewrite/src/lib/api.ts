@@ -240,6 +240,136 @@ export interface Payment {
   updated_at: string | null;
 }
 
+export interface PaymentBankCheck {
+  id: number;
+  account_owner: string | null;
+  bank_name: string | null;
+  check_number: string | null;
+  amount: number | null;
+  status: number | null;
+  bank_deposit_id: number | null;
+  payment_id: number | null;
+  user_id: number | null;
+  created_at: string | null;
+  updated_at: string | null;
+}
+
+export interface PaymentView extends Payment {
+  patient_id: number | null;
+  patient_first_name: string | null;
+  patient_last_name: string | null;
+  treatment_type_name: string | null;
+  treatment_date: string | null;
+  treatment_price: number | null;
+  payment_bank_check: PaymentBankCheck | null;
+}
+
+export interface PaymentFilter {
+  page?: number;
+  per_page?: number;
+  paid_at?: string;
+  payment_type?: number | null;
+}
+
+export interface PaymentListingFilter {
+  paid_at_gteq?: string;
+  paid_at_lteq?: string;
+  payment_type?: number | null;
+}
+
+export interface PaymentTypeTotal {
+  payment_type: number;
+  amount: number;
+}
+
+export interface PaymentListingDayGroup {
+  date: string;
+  payments: PaymentView[];
+  total_amount: number;
+  totals_by_type: PaymentTypeTotal[];
+}
+
+export interface PaymentListingResult {
+  days: PaymentListingDayGroup[];
+  grand_total_amount: number;
+  grand_totals_by_type: PaymentTypeTotal[];
+  filtered_total: number;
+  total: number;
+}
+
+export interface PaymentBankCheckInput {
+  account_owner: string;
+  bank_name: string;
+  check_number: string;
+}
+
+export interface PaymentInput {
+  medical_treatment_id: number | null;
+  paid_at: string;
+  payment_type: number | null;
+  amount: number | null;
+  payment_bank_check: PaymentBankCheckInput | null;
+}
+
+export interface MedicalTreatmentOption {
+  id: number;
+  patient_id: number | null;
+  patient_first_name: string | null;
+  patient_last_name: string | null;
+  treatment_type_name: string | null;
+  date: string | null;
+  price: number | null;
+  status: number | null;
+}
+
+export interface BankDepositView {
+  id: number;
+  deposit_type: number | null;
+  number: number | null;
+  amount: number | null;
+  user_id: number | null;
+  deposit_date: string | null;
+  bank_account_id: number | null;
+  bank_account_name: string | null;
+  bank_account_number: number | null;
+  checks_count: number;
+  created_at: string | null;
+  updated_at: string | null;
+}
+
+export interface BankCheckDepositRow {
+  id: number;
+  account_owner: string | null;
+  bank_name: string | null;
+  check_number: string | null;
+  amount: number | null;
+  status: number | null;
+  bank_deposit_id: number | null;
+  payment_id: number | null;
+  paid_at: string | null;
+  patient_first_name: string | null;
+  patient_last_name: string | null;
+}
+
+export interface BankDepositDetail {
+  deposit: BankDepositView;
+  office: Office;
+  checks: BankCheckDepositRow[];
+}
+
+export interface BankDepositFilter {
+  page?: number;
+  per_page?: number;
+  deposit_type?: number | null;
+  number?: number | null;
+}
+
+export interface BankDepositInput {
+  deposit_type: number | null;
+  bank_account_id: number | null;
+  payment_bank_check_ids: number[];
+}
+
 export interface MedicalTreatmentView {
   id: number;
   user_id: number | null;
@@ -445,3 +575,30 @@ export const priceFinder = (medicalTreatmentTypeId: number) =>
   invoke<number | null>('price_finder', { medicalTreatmentTypeId });
 export const listTreatmentTypeOptions = () =>
   invoke<MedicalTreatmentType[]>('list_treatment_type_options');
+
+// Payments
+export const listPayments = (filter: PaymentFilter) =>
+  invoke<PaginatedResult<PaymentView>>('list_payments', { filter });
+export const listPaymentListing = (filter: PaymentListingFilter) =>
+  invoke<PaymentListingResult>('list_payment_listing', { filter });
+export const getPayment = (id: number) => invoke<PaymentView>('get_payment', { id });
+export const createPayment = (input: PaymentInput) =>
+  invoke<PaymentView>('create_payment', { input });
+export const updatePayment = (id: number, input: PaymentInput) =>
+  invoke<PaymentView>('update_payment', { id, input });
+export const deletePayment = (id: number) => invoke<void>('delete_payment', { id });
+export const listTreatmentOptionsForPayment = () =>
+  invoke<MedicalTreatmentOption[]>('list_treatment_options_for_payment');
+
+// Bank Deposits
+export const listBankDeposits = (filter: BankDepositFilter) =>
+  invoke<PaginatedResult<BankDepositView>>('list_bank_deposits', { filter });
+export const getBankDeposit = (id: number) =>
+  invoke<BankDepositDetail>('get_bank_deposit', { id });
+export const listPendingBankChecks = () =>
+  invoke<BankCheckDepositRow[]>('list_pending_bank_checks');
+export const listBankAccountOptions = () =>
+  invoke<BankAccount[]>('list_bank_account_options');
+export const createBankDeposit = (input: BankDepositInput) =>
+  invoke<BankDepositDetail>('create_bank_deposit', { input });
+export const deleteBankDeposit = (id: number) => invoke<void>('delete_bank_deposit', { id });
