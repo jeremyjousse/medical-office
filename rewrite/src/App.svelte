@@ -6,9 +6,15 @@
   import BankAccounts from './lib/views/BankAccounts.svelte';
   import Home from './lib/views/Home.svelte';
   import OfficeEdit from './lib/views/OfficeEdit.svelte';
+  import PatientForm from './lib/views/PatientForm.svelte';
+  import PatientImport from './lib/views/PatientImport.svelte';
+  import PatientShow from './lib/views/PatientShow.svelte';
+  import PatientsList from './lib/views/PatientsList.svelte';
   import Practitioners from './lib/views/Practitioners.svelte';
   import SetupDb from './lib/views/SetupDb.svelte';
+  import TreatmentShow from './lib/views/TreatmentShow.svelte';
   import TreatmentTypes from './lib/views/TreatmentTypes.svelte';
+  import Treatments from './lib/views/Treatments.svelte';
 
   onMount(() => {
     const onHashChange = () => {
@@ -19,14 +25,8 @@
     return () => window.removeEventListener('hashchange', onHashChange);
   });
 
-  function deferredModuleLabel(
-    mod: 'patients' | 'medical-treatments' | 'payments' | 'bank-deposits',
-  ): string {
+  function deferredModuleLabel(mod: 'payments' | 'bank-deposits'): string {
     switch (mod) {
-      case 'patients':
-        return appState.tr('navPatients');
-      case 'medical-treatments':
-        return appState.tr('navMedicalTreatments');
       case 'payments':
         return appState.tr('navPayments');
       case 'bank-deposits':
@@ -50,8 +50,28 @@
       <Home />
     {:else if appState.route.view === 'office-edit'}
       <OfficeEdit />
+    {:else if appState.route.view === 'patients'}
+      {#if appState.route.mode === 'index'}
+        <PatientsList />
+      {:else if appState.route.mode === 'import'}
+        <PatientImport />
+      {:else if appState.route.mode === 'show' && appState.route.id}
+        <PatientShow id={appState.route.id} />
+      {:else if appState.route.mode === 'new' || appState.route.mode === 'edit'}
+        <PatientForm mode={appState.route.mode} id={appState.route.id} />
+      {/if}
     {:else if appState.route.view === 'practitioners'}
       <Practitioners mode={appState.route.mode} id={appState.route.id} />
+    {:else if appState.route.view === 'medical-treatments'}
+      {#if appState.route.mode === 'show' && appState.route.id}
+        <TreatmentShow id={appState.route.id} />
+      {:else if appState.route.mode !== 'show'}
+        <Treatments
+          mode={appState.route.mode}
+          id={appState.route.id}
+          query={appState.route.query}
+        />
+      {/if}
     {:else if appState.route.view === 'treatment-types'}
       <TreatmentTypes mode={appState.route.mode} id={appState.route.id} />
     {:else if appState.route.view === 'bank-accounts'}

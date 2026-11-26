@@ -9,8 +9,11 @@
     cancelLabel?: string;
     confirmVariant?: 'primary' | 'error';
     loading?: boolean;
+    boxClass?: string;
+    hideActions?: boolean;
     children?: Snippet;
-    onConfirm: () => void;
+    footer?: Snippet;
+    onConfirm?: () => void;
     onCancel: () => void;
   }
 
@@ -21,7 +24,10 @@
     cancelLabel,
     confirmVariant = 'primary',
     loading = false,
+    boxClass = '',
+    hideActions = false,
     children,
+    footer,
     onConfirm,
     onCancel,
   }: Props = $props();
@@ -54,26 +60,32 @@
     if (e.target === dialogEl && !loading) onCancel();
   }}
 >
-  <div class="modal-box">
+  <div class={`modal-box ${boxClass}`}>
     <h3 class="font-bold text-lg">{title}</h3>
     <div class="py-4 text-sm text-base-content/80">
       {@render children?.()}
     </div>
-    <div class="modal-action">
-      <button type="button" class="btn btn-ghost" disabled={loading} onclick={onCancel}>
-        {cancelLabel ?? appState.tr('cancel')}
-      </button>
-      <button
-        type="button"
-        class={confirmVariant === 'error' ? 'btn btn-error' : 'btn btn-primary'}
-        disabled={loading}
-        onclick={onConfirm}
-      >
-        {#if loading}
-          <span class="loading loading-spinner loading-xs"></span>
-        {/if}
-        {confirmLabel ?? appState.tr('confirm')}
-      </button>
-    </div>
+    {#if footer}
+      <div class="modal-action">
+        {@render footer()}
+      </div>
+    {:else if !hideActions}
+      <div class="modal-action">
+        <button type="button" class="btn btn-ghost" disabled={loading} onclick={onCancel}>
+          {cancelLabel ?? appState.tr('cancel')}
+        </button>
+        <button
+          type="button"
+          class={confirmVariant === 'error' ? 'btn btn-error' : 'btn btn-primary'}
+          disabled={loading}
+          onclick={() => onConfirm?.()}
+        >
+          {#if loading}
+            <span class="loading loading-spinner loading-xs"></span>
+          {/if}
+          {confirmLabel ?? appState.tr('confirm')}
+        </button>
+      </div>
+    {/if}
   </div>
 </dialog>

@@ -17,17 +17,69 @@ export interface FlashMessage {
 }
 
 export type ResourceMode = 'index' | 'new' | 'show' | 'edit';
+export type PatientRouteMode = ResourceMode | 'import';
+
+export interface PatientFiltersState {
+  first_name: string;
+  last_name: string;
+  phone: string;
+  diabetic: boolean;
+  page: number;
+  per_page: number;
+}
+
+export interface TreatmentFiltersState {
+  patient_id: number | null;
+  medical_treatment_type_id: number | null;
+  date_gteq: string;
+  date_lteq: string;
+  location_id: number | null;
+  status: number | null;
+  page: number;
+  per_page: number;
+}
+
+export function defaultPatientFilters(): PatientFiltersState {
+  return {
+    first_name: '',
+    last_name: '',
+    phone: '',
+    diabetic: false,
+    page: 1,
+    per_page: 10,
+  };
+}
+
+export function defaultTreatmentFilters(): TreatmentFiltersState {
+  return {
+    patient_id: null,
+    medical_treatment_type_id: null,
+    date_gteq: '',
+    date_lteq: '',
+    location_id: null,
+    status: null,
+    page: 1,
+    per_page: 10,
+  };
+}
 
 export type ParsedRoute =
   | { view: 'home' }
   | { view: 'setup' }
   | { view: 'office-edit' }
+  | { view: 'patients'; mode: PatientRouteMode; id?: number; query?: Record<string, string> }
   | { view: 'practitioners'; mode: ResourceMode; id?: number }
   | { view: 'treatment-types'; mode: ResourceMode; id?: number }
   | { view: 'bank-accounts'; mode: ResourceMode; id?: number }
   | {
+      view: 'medical-treatments';
+      mode: ResourceMode;
+      id?: number;
+      query?: Record<string, string>;
+    }
+  | {
       view: 'deferred';
-      module: 'patients' | 'medical-treatments' | 'payments' | 'bank-deposits';
+      module: 'payments' | 'bank-deposits';
       query: Record<string, string>;
     };
 
@@ -62,6 +114,29 @@ export function parseHashRoute(hash: string): ParsedRoute {
   if (head === 'setup') return { view: 'setup' };
   if (head === 'office' && second === 'edit') return { view: 'office-edit' };
 
+  if (head === 'patients') {
+    if (!second) return { view: 'patients', mode: 'index', query };
+    if (second === 'new') return { view: 'patients', mode: 'new' };
+    if (second === 'import' || second === 'new_import') return { view: 'patients', mode: 'import' };
+    const id = Number(second);
+    if (Number.isInteger(id) && id > 0) {
+      if (third === 'edit') return { view: 'patients', mode: 'edit', id };
+      return { view: 'patients', mode: 'show', id };
+    }
+    return { view: 'patients', mode: 'index', query };
+  }
+
+  if (head === 'medical-treatments') {
+    if (!second) return { view: 'medical-treatments', mode: 'index', query };
+    if (second === 'new') return { view: 'medical-treatments', mode: 'new', query };
+    const id = Number(second);
+    if (Number.isInteger(id) && id > 0) {
+      if (third === 'edit') return { view: 'medical-treatments', mode: 'edit', id };
+      return { view: 'medical-treatments', mode: 'show', id };
+    }
+    return { view: 'medical-treatments', mode: 'index', query };
+  }
+
   if (head === 'practitioners' || head === 'treatment-types' || head === 'bank-accounts') {
     if (!second) return { view: head, mode: 'index' };
     if (second === 'new') return { view: head, mode: 'new' };
@@ -73,12 +148,7 @@ export function parseHashRoute(hash: string): ParsedRoute {
     return { view: head, mode: 'index' };
   }
 
-  if (
-    head === 'patients' ||
-    head === 'medical-treatments' ||
-    head === 'payments' ||
-    head === 'bank-deposits'
-  ) {
+  if (head === 'payments' || head === 'bank-deposits') {
     return { view: 'deferred', module: head, query };
   }
 
@@ -92,6 +162,8 @@ class AppState {
   flashes = $state<FlashMessage[]>([]);
   hash = $state<string>(typeof window !== 'undefined' ? window.location.hash || '#/' : '#/');
   initializing = $state<boolean>(true);
+  patientFilters = $state<PatientFiltersState>(defaultPatientFilters());
+  treatmentFilters = $state<TreatmentFiltersState>(defaultTreatmentFilters());
   private nextFlashId = 1;
 
   currentUser = $derived<User | null>(this.dbStatus?.active_user ?? null);
@@ -143,7 +215,15 @@ class AppState {
   }
 
   async applyDbStatus(status: DbStatus) {
+    const prevUserId = this.dbStatus?.active_user?.id ?? null;
+    const prevDbPath = this.dbStatus?.db_path ?? null;
     this.dbStatus = status;
+    const nextUserId = status.active_user?.id ?? null;
+    const nextDbPath = status.db_path ?? null;
+    if (prevUserId !== nextUserId || prevDbPath !== nextDbPath) {
+      this.patientFilters = defaultPatientFilters();
+      this.treatmentFilters = defaultTreatmentFilters();
+    }
     if (status.initialized && status.users_count > 1) {
       try {
         this.users = await listUsers();

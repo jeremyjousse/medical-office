@@ -49,6 +49,21 @@ pub fn run() {
             commands::bank_accounts::get_bank_account,
             commands::bank_accounts::create_bank_account,
             commands::bank_accounts::update_bank_account,
+            commands::patients::list_patients,
+            commands::patients::get_patient,
+            commands::patients::create_patient,
+            commands::patients::update_patient,
+            commands::patients::delete_patient,
+            commands::patients::finder_patients,
+            commands::patients::list_practitioner_options,
+            commands::patients::import_patients_csv,
+            commands::treatments::list_treatments,
+            commands::treatments::get_treatment,
+            commands::treatments::create_treatment,
+            commands::treatments::update_treatment,
+            commands::treatments::delete_treatment,
+            commands::treatments::price_finder,
+            commands::treatments::list_treatment_type_options,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

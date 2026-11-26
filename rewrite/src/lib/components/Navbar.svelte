@@ -227,9 +227,7 @@
         </a>
         <a
           href="#/patients"
-          class={navLinkClass(
-            appState.route.view === 'deferred' && appState.route.module === 'patients',
-          )}
+          class={navLinkClass(appState.route.view === 'patients')}
           onclick={(e) => {
             e.preventDefault();
             appState.navigate('/patients');
@@ -249,10 +247,7 @@
         </a>
         <a
           href="#/medical-treatments"
-          class={navLinkClass(
-            appState.route.view === 'deferred' &&
-              appState.route.module === 'medical-treatments',
-          )}
+          class={navLinkClass(appState.route.view === 'medical-treatments')}
           onclick={(e) => {
             e.preventDefault();
             appState.navigate('/medical-treatments');
