@@ -1,7 +1,15 @@
 <script lang="ts">
-  import { ArrowLeft, Pencil } from 'lucide-svelte';
-  import { getTreatment, parseApiError, type MedicalTreatmentDetail } from '../api';
-  import { locationLabel, treatmentStatusLabel } from '../i18n';
+  import { ArrowLeft, Eye, Pencil, Plus, Trash2 } from 'lucide-svelte';
+  import {
+    deletePayment,
+    getTreatment,
+    parseApiError,
+    type MedicalTreatmentDetail,
+    type Payment,
+  } from '../api';
+  import Modal from '../components/Modal.svelte';
+  import PaymentForm from '../components/PaymentForm.svelte';
+  import { formatEur, locationLabel, paymentTypeLabel, treatmentStatusLabel } from '../i18n';
   import { appState } from '../state.svelte';
 
   interface Props {
@@ -12,6 +20,18 @@
 
   let detail = $state<MedicalTreatmentDetail | null>(null);
   let loading = $state(false);
+  let paymentModalOpen = $state(false);
+  let editingPaymentId = $state<number | undefined>(undefined);
+  let deleteTarget = $state<Payment | null>(null);
+  let deleting = $state(false);
+
+  async function refreshDetail(targetId: number) {
+    try {
+      detail = await getTreatment(targetId);
+    } catch (err) {
+      appState.addFlash('error', parseApiError(err, appState.locale).message);
+    }
+  }
 
   $effect(() => {
     const activeUserId = appState.currentUser?.id;
@@ -20,6 +40,10 @@
 
     let cancelled = false;
     loading = true;
+    paymentModalOpen = false;
+    editingPaymentId = undefined;
+    deleteTarget = null;
+
     getTreatment(currentId)
       .then((res) => {
         if (!cancelled) detail = res;
@@ -43,15 +67,69 @@
     const name = [tr.patient_first_name, tr.patient_last_name].filter(Boolean).join(' ').trim();
     return tr.patient_city ? `${name} (${tr.patient_city})` : name || '—';
   }
+
+  function treatmentSummaryLabel(d: MedicalTreatmentDetail): string {
+    const tr = d.treatment;
+    const name = [tr.patient_last_name, tr.patient_first_name].filter(Boolean).join(' ').trim();
+    const tInfo = [tr.treatment_type_name, tr.date ? tr.date.slice(0, 10) : '']
+      .filter(Boolean)
+      .join(' ');
+    return name ? `${name} (${tInfo})` : tInfo;
+  }
+
+  function openAddPaymentModal() {
+    editingPaymentId = undefined;
+    paymentModalOpen = true;
+  }
+
+  function openEditPaymentModal(payId: number) {
+    editingPaymentId = payId;
+    paymentModalOpen = true;
+  }
+
+  async function handlePaymentSaved() {
+    const wasEdit = editingPaymentId !== undefined;
+    paymentModalOpen = false;
+    editingPaymentId = undefined;
+    appState.addFlash(
+      'success',
+      appState.tr(wasEdit ? 'paymentUpdatedSuccess' : 'paymentCreatedSuccess'),
+    );
+    await refreshDetail(id);
+  }
+
+  async function confirmDeletePayment() {
+    if (!deleteTarget) return;
+    deleting = true;
+    try {
+      await deletePayment(deleteTarget.id);
+      deleteTarget = null;
+      appState.addFlash('success', appState.tr('paymentDeletedSuccess'));
+      await refreshDetail(id);
+    } catch (err) {
+      deleteTarget = null;
+      appState.addFlash('error', parseApiError(err, appState.locale).message);
+    } finally {
+      deleting = false;
+    }
+  }
 </script>
 
 <div class="max-w-3xl mx-auto px-4 py-6">
   <div class="card bg-base-100 border border-base-300 shadow-xs">
     <div class="card-body">
-      <div class="flex items-center justify-between border-b border-base-200 pb-3 mb-4">
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-base-200 pb-3 mb-4">
         <h1 class="text-xl font-bold">{appState.tr('treatmentDetailTitle')}</h1>
-        <div class="flex items-center gap-2">
+        <div class="flex flex-wrap items-center gap-2">
           {#if detail}
+            <button
+              type="button"
+              class="btn btn-sm btn-primary"
+              onclick={openAddPaymentModal}
+            >
+              <Plus class="w-4 h-4" />
+              {appState.tr('treatmentAddPayment')}
+            </button>
             <button
               type="button"
               class="btn btn-sm btn-outline"
@@ -114,9 +192,7 @@
               </tr>
               <tr>
                 <th class="bg-base-200/50">{appState.tr('treatmentPrice')}</th>
-                <td>
-                  {tr.price !== null && tr.price !== undefined ? tr.price.toFixed(2) : '—'}
-                </td>
+                <td class="font-mono">{formatEur(tr.price)}</td>
               </tr>
               <tr>
                 <th class="bg-base-200/50">{appState.tr('treatmentNote')}</th>
@@ -141,20 +217,51 @@
               <table class="table table-zebra table-sm border border-base-200">
                 <thead>
                   <tr>
+                    <th></th>
                     <th>{appState.tr('treatmentPaymentPaidAt')}</th>
                     <th>{appState.tr('treatmentPaymentType')}</th>
-                    <th>{appState.tr('treatmentPaymentAmount')}</th>
+                    <th class="text-right">{appState.tr('treatmentPaymentAmount')}</th>
+                    <th>{appState.tr('actions')}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {#each detail.payments as pay (pay.id)}
                     <tr>
-                      <td>{pay.paid_at ?? ''}</td>
-                      <td>{pay.payment_type ?? '—'}</td>
                       <td>
-                        {pay.amount !== null && pay.amount !== undefined
-                          ? pay.amount.toFixed(2)
-                          : '—'}
+                        <button
+                          type="button"
+                          class="btn btn-xs btn-outline"
+                          onclick={() => appState.navigate(`/payments/${pay.id}`)}
+                        >
+                          <Eye class="w-3.5 h-3.5" />
+                          {appState.tr('show')}
+                        </button>
+                      </td>
+                      <td>{pay.paid_at ? pay.paid_at.slice(0, 10) : ''}</td>
+                      <td>{paymentTypeLabel(appState.locale, pay.payment_type)}</td>
+                      <td class="text-right font-mono">{formatEur(pay.amount)}</td>
+                      <td class="whitespace-nowrap">
+                        <div class="flex items-center gap-1">
+                          <button
+                            type="button"
+                            class="btn btn-xs btn-ghost"
+                            onclick={() => openEditPaymentModal(pay.id)}
+                          >
+                            <Pencil class="w-3.5 h-3.5" />
+                            {appState.tr('edit')}
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-xs btn-error btn-outline"
+                            disabled={pay.bank_deposit_id !== null}
+                            onclick={() => {
+                              if (pay.bank_deposit_id === null) deleteTarget = pay;
+                            }}
+                          >
+                            <Trash2 class="w-3.5 h-3.5" />
+                            {appState.tr('destroy')}
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   {/each}
@@ -167,3 +274,41 @@
     </div>
   </div>
 </div>
+
+<Modal
+  open={paymentModalOpen}
+  title={editingPaymentId ? appState.tr('paymentEditTitle') : appState.tr('paymentNewTitle')}
+  boxClass="max-w-2xl"
+  hideActions
+  onCancel={() => {
+    paymentModalOpen = false;
+    editingPaymentId = undefined;
+  }}
+>
+  {#if paymentModalOpen && detail}
+    <PaymentForm
+      paymentId={editingPaymentId}
+      fixedMedicalTreatmentId={detail.treatment.id}
+      fixedTreatmentLabel={treatmentSummaryLabel(detail)}
+      defaultAmount={detail.treatment.price}
+      defaultAccountOwner={detail.treatment.patient_last_name}
+      onSaved={handlePaymentSaved}
+      onCancel={() => {
+        paymentModalOpen = false;
+        editingPaymentId = undefined;
+      }}
+    />
+  {/if}
+</Modal>
+
+<Modal
+  open={deleteTarget !== null}
+  title={appState.tr('paymentDeleteConfirmTitle')}
+  confirmLabel={appState.tr('destroy')}
+  confirmVariant="error"
+  loading={deleting}
+  onConfirm={confirmDeletePayment}
+  onCancel={() => (deleteTarget = null)}
+>
+  <p>{appState.tr('paymentDeleteConfirmBody')}</p>
+</Modal>

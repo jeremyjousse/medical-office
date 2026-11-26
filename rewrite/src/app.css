@@ -1,2 +1,30 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+@media print {
+  header.navbar,
+  .no-print,
+  [role="status"] {
+    display: none !important;
+  }
+
+  body,
+  .min-h-screen {
+    background: #ffffff !important;
+    min-height: 0 !important;
+  }
+
+  .card {
+    border: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+  }
+
+  .card-body {
+    padding: 0 !important;
+  }
+
+  .overflow-x-auto {
+    overflow: visible !important;
+  }
+}

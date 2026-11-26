@@ -20,16 +20,7 @@
   } from '../api';
   import Modal from '../components/Modal.svelte';
   import Pagination from '../components/Pagination.svelte';
-  import { appState, defaultPatientFilters } from '../state.svelte';
-
-  const PER_PAGE_OPTIONS = [
-    { value: 2, label: '2' },
-    { value: 10, label: '10' },
-    { value: 20, label: '20' },
-    { value: 50, label: '50' },
-    { value: 100, label: '100' },
-    { value: 10000000, labelKey: 'allOption' as const },
-  ];
+  import { appState, defaultPatientFilters, PER_PAGE_OPTIONS } from '../state.svelte';
 
   let listing = $state<PaginatedResult<PatientView> | null>(null);
   let loading = $state(false);
