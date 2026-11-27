@@ -178,7 +178,6 @@ const en = {
   patientTreatmentsCount: 'Nb. treatments',
   patientAddTreatment: 'Add Medical Treatment',
   patientAddDocumentScan: 'Add Document Scan',
-  patientDocumentScanDeferred: 'Document scan upload will be available in the next lot.',
   patientCreatedSuccess: 'Patient was successfully created.',
   patientUpdatedSuccess: 'Patient was successfully updated.',
   patientDeletedSuccess: 'Patient was successfully deleted.',
@@ -191,6 +190,25 @@ const en = {
   patientImportSummary: 'Imported {imported} patient(s), skipped {skipped} of {total} row(s).',
   patientImportSuccess: '{count} patient(s) imported successfully.',
   patientSearchPlaceholder: 'Search patient by name...',
+
+  // Document Scans
+  documentScansTitle: 'Document Scans',
+  documentScanColumn: 'Document Scan',
+  documentScanDate: 'Date',
+  documentScanNewTitle: 'Add Document Scan',
+  documentScanDetailTitle: 'Document Scan',
+  documentScanPatient: 'Patient',
+  documentScanTitle: 'Title',
+  documentScanFile: 'File',
+  documentScanChooseFile: 'Choose file (JPG, PNG, GIF, PDF)',
+  documentScanSelectedFile: 'Selected file',
+  documentScanAddBtn: 'Add',
+  documentScanFileRequired: 'Please select a file to upload.',
+  documentScanCreatedSuccess: 'Document scan was successfully created.',
+  documentScanMissingFile:
+    'The scan file is not present on disk (legacy database record or moved file).',
+  documentScanOpenViewer: 'Open in macOS Viewer',
+  documentScanNoRecords: 'No document scans.',
 
   // Medical Treatments
   treatmentsTitle: 'Medical Treatments',
@@ -509,7 +527,6 @@ const fr: Record<TranslationKey, string> = {
   patientTreatmentsCount: 'Nb. soins',
   patientAddTreatment: 'Ajouter un soin médical',
   patientAddDocumentScan: 'Ajouter un document scanné',
-  patientDocumentScanDeferred: 'L’import de documents scannés sera disponible dans le prochain lot.',
   patientCreatedSuccess: 'Le patient a été créé avec succès.',
   patientUpdatedSuccess: 'Le patient a été mis à jour avec succès.',
   patientDeletedSuccess: 'Le patient a été supprimé avec succès.',
@@ -522,6 +539,25 @@ const fr: Record<TranslationKey, string> = {
   patientImportSummary: '{imported} patient(s) importé(s), {skipped} ignoré(s) sur {total} ligne(s).',
   patientImportSuccess: '{count} patient(s) importé(s) avec succès.',
   patientSearchPlaceholder: 'Rechercher un patient par nom...',
+
+  // Document Scans
+  documentScansTitle: 'Documents scannés',
+  documentScanColumn: 'Document scanné',
+  documentScanDate: 'Date',
+  documentScanNewTitle: 'Ajouter un document scanné',
+  documentScanDetailTitle: 'Document scanné',
+  documentScanPatient: 'Patient',
+  documentScanTitle: 'Titre',
+  documentScanFile: 'Fichier',
+  documentScanChooseFile: 'Choisir un fichier (JPG, PNG, GIF, PDF)',
+  documentScanSelectedFile: 'Fichier sélectionné',
+  documentScanAddBtn: 'Ajouter',
+  documentScanFileRequired: 'Veuillez sélectionner un fichier à importer.',
+  documentScanCreatedSuccess: 'Le document scanné a été ajouté avec succès.',
+  documentScanMissingFile:
+    'Le fichier de ce document scanné est absent du disque (enregistrement importé ou fichier déplacé).',
+  documentScanOpenViewer: 'Ouvrir dans l’aperçu macOS',
+  documentScanNoRecords: 'Aucun document scanné.',
 
   // Medical Treatments
   treatmentsTitle: 'Soins médicaux',

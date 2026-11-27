@@ -1,6 +1,7 @@
 pub mod bank_accounts;
 pub mod bank_deposits;
 pub mod db_setup;
+pub mod document_scans;
 pub mod office;
 pub mod patients;
 pub mod payments;

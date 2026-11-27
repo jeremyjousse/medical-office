@@ -1,4 +1,4 @@
-import { invoke } from '@tauri-apps/api/core';
+import { convertFileSrc, invoke } from '@tauri-apps/api/core';
 import { open, save } from '@tauri-apps/plugin-dialog';
 import { translateErrorCode, type Locale } from './i18n';
 
@@ -416,6 +416,27 @@ export interface MedicalTreatmentInput {
   note: string | null;
 }
 
+export interface DocumentScanView {
+  id: number;
+  patient_id: number | null;
+  user_id: number | null;
+  file: string | null;
+  title: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+  file_path: string | null;
+  thumb_path: string | null;
+  file_exists: boolean;
+  thumb_exists: boolean;
+  is_pdf: boolean;
+}
+
+export interface CreateDocumentScanInput {
+  patient_id: number;
+  title: string | null;
+  source_path: string;
+}
+
 export interface PaginatedResult<T> {
   items: T[];
   page: number;
@@ -511,6 +532,18 @@ export async function pickCsvFile(): Promise<string | null> {
   return typeof selected === 'string' ? selected : null;
 }
 
+export async function pickDocumentScanFile(): Promise<string | null> {
+  const selected = await open({
+    multiple: false,
+    filters: [{ name: 'Document Scan', extensions: ['jpg', 'jpeg', 'gif', 'png', 'pdf'] }],
+  });
+  return typeof selected === 'string' ? selected : null;
+}
+
+export function scanAssetUrl(filePath: string): string {
+  return convertFileSrc(filePath);
+}
+
 // Home & Office & Countries
 export const getHomeSummary = () => invoke<HomeSummary>('get_home_summary');
 export const listCountries = () => invoke<Country[]>('list_countries');
@@ -602,3 +635,13 @@ export const listBankAccountOptions = () =>
 export const createBankDeposit = (input: BankDepositInput) =>
   invoke<BankDepositDetail>('create_bank_deposit', { input });
 export const deleteBankDeposit = (id: number) => invoke<void>('delete_bank_deposit', { id });
+
+// Document Scans
+export const listDocumentScans = (patientId: number) =>
+  invoke<DocumentScanView[]>('list_document_scans', { patientId });
+export const getDocumentScan = (id: number) =>
+  invoke<DocumentScanView>('get_document_scan', { id });
+export const createDocumentScan = (input: CreateDocumentScanInput) =>
+  invoke<DocumentScanView>('create_document_scan', { input });
+export const openDocumentScanInViewer = (id: number) =>
+  invoke<void>('open_document_scan_in_viewer', { id });

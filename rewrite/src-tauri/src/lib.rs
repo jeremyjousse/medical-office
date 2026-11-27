@@ -77,6 +77,10 @@ pub fn run() {
             commands::bank_deposits::list_bank_account_options,
             commands::bank_deposits::create_bank_deposit,
             commands::bank_deposits::delete_bank_deposit,
+            commands::document_scans::list_document_scans,
+            commands::document_scans::get_document_scan,
+            commands::document_scans::create_document_scan,
+            commands::document_scans::open_document_scan_in_viewer,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
